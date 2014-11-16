@@ -1,205 +1,224 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<f:view contentType="text/html" locale="es">
+    <f:view contentType="text/html" locale="es">
 
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title><ui:insert name="title">Trabajo freelance en línea</ui:insert></title>
-		<h:outputStylesheet library="css" name="normalize.css" />
-		<h:outputStylesheet library="css" name="responsiveslides.css" />
-		<h:outputStylesheet library="css" name="estilos.css" />
-		<h:outputScript library="js" name="validador.js" />
-		<h:outputScript library="js" name="responsiveslides.min.js" />
-	</h:head>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <title><ui:insert name="title">Trabajo freelance en línea</ui:insert></title>
+            <h:outputStylesheet library="css" name="normalize.css" />
+            <h:outputStylesheet library="css" name="responsiveslides.css" />
+            <h:outputStylesheet library="css" name="estilos.css" />
+            <h:outputScript library="js" name="validador.js" />
+            <h:outputScript library="js" name="responsiveslides.min.js" />
+        </h:head>
 
-	<h:body>
-		<div class="contenido">
-			<div class="header">
-				<div id="logo">
-					<p:graphicImage styleClass="imgHeader" library="images"
-						name="logo.png" />
-				</div>
-				<h1>Comunidad Freelance</h1>
-				<div class="nav">
-					<h:form id="formMenu">
-						<ul class="menu">
-							<li><p:commandLink onclick="PF('dlg').show();"
-									styleClass="linkHeader" value="INGRESAR" /></li>
-							<li><p:commandLink
-									styleClass="linkHeader" value="REGISTRARSE" /></li>
-						</ul>
-					</h:form>
-				</div>
-			</div>
-			<div id="slider-top">
-				<ul class="rslides">
-					<li><p:graphicImage styleClass="imgSlider" library="photos"
-							name="diseno_grafico.jpg" alt="Slider 1" /></li>
-					<li><p:graphicImage styleClass="imgSlider" library="photos"
-							name="aplicaciones_moviles.jpg" alt="Slider 2" /></li>
-					<li><p:graphicImage styleClass="imgSlider" library="photos"
-							name="web.jpg" alt="Slider 3" /></li>
-					<li><p:graphicImage styleClass="imgSlider" library="photos"
-							name="foto.jpg" alt="Slider 4" /></li>
-					<li><p:graphicImage styleClass="imgSlider" library="photos"
-							name="ingeniero.gif" alt="Slider 5" /></li>
-				</ul>
-			</div>
+        <h:body>
+            <div class="contenido">
+                <div class="header">
+                    <div id="logo">
+                        <p:graphicImage styleClass="imgHeader" library="images"
+                                        name="logo.png" />
+                    </div>
+                    <h1>Comunidad Freelance</h1>
+                    <div class="nav">
+                        <h:form id="formMenu">
+                            <ul class="menu">
+                                <li><p:commandLink onclick="PF('dlg').show();"
+                                                   styleClass="linkHeader" value="INGRESAR" /></li>
+                                <li><p:commandLink
+                                        styleClass="linkHeader" value="REGISTRARSE" /></li>
+                            </ul>
+                        </h:form>
+                    </div>
+                </div>
+                <div id="slider-top">
+                    <ul class="rslides">
+                        <li><p:graphicImage styleClass="imgSlider" library="photos"
+                                            name="diseno_grafico.jpg" alt="Slider 1" /></li>
+                        <li><p:graphicImage styleClass="imgSlider" library="photos"
+                                            name="aplicaciones_moviles.jpg" alt="Slider 2" /></li>
+                        <li><p:graphicImage styleClass="imgSlider" library="photos"
+                                            name="web.jpg" alt="Slider 3" /></li>
+                        <li><p:graphicImage styleClass="imgSlider" library="photos"
+                                            name="foto.jpg" alt="Slider 4" /></li>
+                        <li><p:graphicImage styleClass="imgSlider" library="photos"
+                                            name="ingeniero.gif" alt="Slider 5" /></li>
+                    </ul>
+                </div>
 
-			<div class="mensaje-slide">
-				<h2>Encuentra el profesional que necesitas</h2>
-				<p>Contrata el servicio que requieras, descubre a talentosos
-					profesionales.</p>
-				<a class="buscar" href="">Buscar freelance</a>
-			</div>
+                <div class="mensaje-slide">
+                    <h2>Encuentra el profesional que necesitas</h2>
+                    <p>Contrata el servicio que requieras, descubre a talentosos
+                        profesionales.</p>
+                    <a class="buscar" href="">Buscar freelance</a>
+                </div>
 
-			<div class="oferta">
-				<h2 class="oferta-titulo">Ofertas recientes</h2>
-				<p class="oferta-descripcion">Encuentra en esta sección las
-					ofertas ingresadas reciéntemente.</p>
-				<div class="oferta-item">
-					<div class="imagen-item">
-						<p:graphicImage styleClass="oferta-image" library="photos"
-							name="oferta1.jpg" />
-					</div>
-					<h4 class="titulo-item">Desarrollo de página web</h4>
-					<p>Se requiere una página web para la empresa ABC S.A.</p>
-				</div>
-				<div class="oferta-item">
-					<div class="imagen-item">
-						<p:graphicImage styleClass="oferta-image" library="photos"
-							name="oferta2.jpg" />
-					</div>
-					<h4 class="titulo-item">Business Intelligence</h4>
-					<p>Implementar una solución de Inteligencia de Negocios para
-						nuestra empresa.</p>
-				</div>
-				<div class="oferta-item">
-					<div class="imagen-item">
-						<p:graphicImage styleClass="oferta-image" library="photos"
-							name="diseno.jpg" />
-					</div>
-					<h4 class="titulo-item">Creación de banner</h4>
-					<p>Requerimos el diseño de un banner para la publicidad
-						principal de una de nuestras agencias.</p>
-				</div>
-				<div class="oferta-item">
-					<div class="imagen-item">
-						<p:graphicImage styleClass="oferta-image" library="photos"
-							name="oferta1.jpg" />
-					</div>
-					<h4 class="titulo-item">Desarrollo de página web</h4>
-					<p>Se requiere una página web para la empresa ABC S.A.</p>
-				</div>
-				<div class="oferta-item">
-					<div class="imagen-item">
-						<p:graphicImage styleClass="oferta-image" library="photos"
-							name="oferta2.jpg" />
-					</div>
-					<h4 class="titulo-item">Business Intelligence</h4>
-					<p>Implementar una solución de Inteligencia de Negocios para
-						nuestra empresa.</p>
-				</div>
-				<div class="oferta-item">
-					<div class="imagen-item">
-						<p:graphicImage styleClass="oferta-image" library="photos"
-							name="diseno.jpg" />
-					</div>
-					<h4 class="titulo-item">Creación de banner</h4>
-					<p>Requerimos el diseño de un banner para la publicidad
-						principal de una de nuestras agencias.</p>
-				</div>
-			</div>
+                <div class="oferta">
+                    <h2 class="oferta-titulo">Ofertas recientes</h2>
+                    <p class="oferta-descripcion">Encuentra en esta sección las
+                        ofertas ingresadas reciéntemente.</p>
+                    <div class="oferta-item">
+                        <div class="imagen-item">
+                            <p:graphicImage styleClass="oferta-image" library="photos"
+                                            name="oferta1.jpg" />
+                        </div>
+                        <h4 class="titulo-item">Desarrollo de página web</h4>
+                        <p>Se requiere una página web para la empresa ABC S.A.</p>
+                    </div>
+                    <div class="oferta-item">
+                        <div class="imagen-item">
+                            <p:graphicImage styleClass="oferta-image" library="photos"
+                                            name="oferta2.jpg" />
+                        </div>
+                        <h4 class="titulo-item">Business Intelligence</h4>
+                        <p>Implementar una solución de Inteligencia de Negocios para
+                            nuestra empresa.</p>
+                    </div>
+                    <div class="oferta-item">
+                        <div class="imagen-item">
+                            <p:graphicImage styleClass="oferta-image" library="photos"
+                                            name="diseno.jpg" />
+                        </div>
+                        <h4 class="titulo-item">Creación de banner</h4>
+                        <p>Requerimos el diseño de un banner para la publicidad
+                            principal de una de nuestras agencias.</p>
+                    </div>
+                    <div class="oferta-item">
+                        <div class="imagen-item">
+                            <p:graphicImage styleClass="oferta-image" library="photos"
+                                            name="oferta1.jpg" />
+                        </div>
+                        <h4 class="titulo-item">Desarrollo de página web</h4>
+                        <p>Se requiere una página web para la empresa ABC S.A.</p>
+                    </div>
+                    <div class="oferta-item">
+                        <div class="imagen-item">
+                            <p:graphicImage styleClass="oferta-image" library="photos"
+                                            name="oferta2.jpg" />
+                        </div>
+                        <h4 class="titulo-item">Business Intelligence</h4>
+                        <p>Implementar una solución de Inteligencia de Negocios para
+                            nuestra empresa.</p>
+                    </div>
+                    <div class="oferta-item">
+                        <div class="imagen-item">
+                            <p:graphicImage styleClass="oferta-image" library="photos"
+                                            name="diseno.jpg" />
+                        </div>
+                        <h4 class="titulo-item">Creación de banner</h4>
+                        <p>Requerimos el diseño de un banner para la publicidad
+                            principal de una de nuestras agencias.</p>
+                    </div>
+                </div>
 
-			<div class="freelance-destacados">
-				<h2 class="freelance-titulo">Freelancers destacados</h2>
-				<p class="freelance-descripcion">Top 9 de los freelancers más
-					rankeados.</p>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Andrés Cepeda</h5>
-				</div>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Pedro Ortiz</h5>
-				</div>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Carlos Paredes</h5>
-				</div>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Juan Silva</h5>
-				</div>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Marcos Mondaíni</h5>
-				</div>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Pedro Quiñónez</h5>
-				</div>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Ismael Rivera</h5>
-				</div>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Hector Lavoe</h5>
-				</div>
-				<div class="freelance-item">
-					<div class="contenedor-image">
-						<p:graphicImage styleClass="freelance-image" library="images"
-							name="avatar.jpg" />
-					</div>
-					<h5 class="freelance-nombre">Arturo Acosta</h5>
-				</div>
-			</div>
-		</div>
-		<div class="footer">
-			<p>Powered by Luis Rizzo y Luis Córdova</p>
-			<p>Copyright - Todos los derechos reservados 2014</p>
-		</div>
+                <div class="freelance-destacados">
+                    <h2 class="freelance-titulo">Freelancers destacados</h2>
+                    <p class="freelance-descripcion">Top 9 de los freelancers más
+                        rankeados.</p>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Andrés Cepeda</h5>
+                    </div>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Pedro Ortiz</h5>
+                    </div>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Carlos Paredes</h5>
+                    </div>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Juan Silva</h5>
+                    </div>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Marcos Mondaíni</h5>
+                    </div>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Pedro Quiñónez</h5>
+                    </div>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Ismael Rivera</h5>
+                    </div>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Hector Lavoe</h5>
+                    </div>
+                    <div class="freelance-item">
+                        <div class="contenedor-image">
+                            <p:graphicImage styleClass="freelance-image" library="images"
+                                            name="avatar.jpg" />
+                        </div>
+                        <h5 class="freelance-nombre">Arturo Acosta</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <p>Powered by Luis Rizzo y Luis Córdova</p>
+                <p>Copyright - Todos los derechos reservados 2014</p>
+            </div>
 
-		<p:dialog styleClass="Login-dialogo" id="dlgLogin" widgetVar="dlg"
-			header="Ingresa a la mejor comunidad de Freelancers!!!"
-			width="480" resizable="false" showEffect="clip" hideEffect="clip">
-			
-		</p:dialog>
+            <p:dialog styleClass="Login-dialogo" id="dlgLogin" widgetVar="dlg"
+                      header="Ingresa a la mejor comunidad de Freelancers!!!"
+                      width="480" resizable="false" showEffect="clip" hideEffect="clip">
+                <h:form id="formLogin">
+                    <p:growl id="messages" showDetail="false" life="5000"
+                             autoUpdate="true" />
+                    <p class="Profile-description">Ingresa tus credenciales para acceder al sistema</p>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Usuario:" />
+                        <p:inputText value="#{indexController.username}" required="true"
+                                     requiredMessage="El usuario es requerido!"
+                                     styleClass="Login-input" />
+                        <h:outputLabel value="Clave:" />
+                        <p:password styleClass="Login-input" feedback="true"
+                                    value="#{indexController.password}" promptLabel="Ingrese su clave"
+                                    required="true" requiredMessage="La clave es requerida!"
+                                    weakLabel="Seguridad baja" goodLabel="Seguridad buena"
+                                    strongLabel="Seguridad fuerte" />
+                        <p:columnGroup />
+                        <p:commandButton action="#{indexBean.login}" value="Login"
+                                         styleClass="Footer-button" update=":formLogin, :formMenu" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
 
-		<script>
-			$('#slider-top .rslides').responsiveSlides();
-		</script>
+            <script>
+                $('#slider-top .rslides').responsiveSlides();
+            </script>
 
-	</h:body>
-</f:view>
+        </h:body>
+    </f:view>
 </html>

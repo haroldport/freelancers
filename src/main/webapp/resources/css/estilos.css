@@ -187,3 +187,14 @@ h1{
 .freelance-descripcion{
 	margin-bottom: 3em !important;
 }
+
+.Login-dialogo{
+    font-size: 1em;
+}
+
+.Login-input{
+	border-radius: 0px 15px 0px 15px;
+        margin-bottom: 1em !important;
+        margin-left: 1em !important;
+	margin-top: .5em !important;	
+}

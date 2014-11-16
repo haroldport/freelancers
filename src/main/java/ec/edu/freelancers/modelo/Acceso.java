@@ -38,29 +38,18 @@ public class Acceso implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "ID_ACCESO")
     private Integer idAcceso;
     @Column(name = "ID_ESTADO")
     private Integer idEstado;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "ETIQUETA")
     private String etiqueta;
-    @Size(max = 255)
     @Column(name = "DESCRIPCION")
     private String descripcion;
-    @Size(max = 255)
     @Column(name = "URL")
     private String url;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ORDEN")
-    private int orden;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    private Integer orden;
     @Column(name = "TIPO")
     private String tipo;
     @OneToMany(mappedBy = "idAccesoPadre")
@@ -125,11 +114,11 @@ public class Acceso implements Serializable {
         this.url = url;
     }
 
-    public int getOrden() {
+    public Integer getOrden() {
         return orden;
     }
 
-    public void setOrden(int orden) {
+    public void setOrden(Integer orden) {
         this.orden = orden;
     }
 
