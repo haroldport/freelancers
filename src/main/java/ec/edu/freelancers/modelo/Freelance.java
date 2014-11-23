@@ -114,9 +114,6 @@ public class Freelance implements Serializable {
     @JoinColumn(name = "ID_PAIS", referencedColumnName = "ID_CATALOGO_DETALLE")
     @ManyToOne
     private CatalogoDetalle idPais;
-    @JoinColumn(name = "ID_NACIONALIDAD", referencedColumnName = "ID_CATALOGO_DETALLE")
-    @ManyToOne
-    private CatalogoDetalle idNacionalidad;
     @JoinColumn(name = "ID_IMAGEN", referencedColumnName = "ID_IMAGEN")
     @ManyToOne
     private Imagen idImagen;
@@ -339,14 +336,6 @@ public class Freelance implements Serializable {
 
     public void setIdPais(CatalogoDetalle idPais) {
         this.idPais = idPais;
-    }
-
-    public CatalogoDetalle getIdNacionalidad() {
-        return idNacionalidad;
-    }
-
-    public void setIdNacionalidad(CatalogoDetalle idNacionalidad) {
-        this.idNacionalidad = idNacionalidad;
     }
 
     public Imagen getIdImagen() {

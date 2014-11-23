@@ -68,6 +68,12 @@ public class LogSistema implements Serializable {
         this.observacion = observacion;
     }
 
+    public LogSistema(Date fecha, String observacion, Usuario idUsuario) {
+        this.fecha = fecha;
+        this.observacion = observacion;
+        this.idUsuario = idUsuario;
+    }
+
     public Integer getIdLogSistema() {
         return idLogSistema;
     }

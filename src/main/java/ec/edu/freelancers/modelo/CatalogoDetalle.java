@@ -84,9 +84,7 @@ public class CatalogoDetalle implements Serializable {
     @OneToMany(mappedBy = "idProvincia")
     private List<Freelance> freelanceList1;
     @OneToMany(mappedBy = "idPais")
-    private List<Freelance> freelanceList2;
-    @OneToMany(mappedBy = "idNacionalidad")
-    private List<Freelance> freelanceList3;
+    private List<Freelance> freelanceList2;    
     @OneToMany(mappedBy = "idEstadoCivil")
     private List<Freelance> freelanceList4;
     @OneToMany(mappedBy = "idCanton")
@@ -268,15 +266,6 @@ public class CatalogoDetalle implements Serializable {
 
     public void setFreelanceList2(List<Freelance> freelanceList2) {
         this.freelanceList2 = freelanceList2;
-    }
-
-    @XmlTransient
-    public List<Freelance> getFreelanceList3() {
-        return freelanceList3;
-    }
-
-    public void setFreelanceList3(List<Freelance> freelanceList3) {
-        this.freelanceList3 = freelanceList3;
     }
 
     @XmlTransient

@@ -14,7 +14,7 @@ import javax.persistence.Query;
 /**
  * Dao que contiene los servicios de la entidad Usuario.
  *
- * @author Ketty Tamayo.
+ * @author Luis Rizzo.
  * @version $Revision: 1.0
  *
  */
@@ -42,7 +42,7 @@ public class UsuarioDao extends Generico<Usuario> {
      */
     public Usuario obtenerUsuarioPorUsernameYClave(String username, String clave) {
         try {
-            String sql = "SELECT u FROM Usuario u WHERE u.username = :username AND u.estado.idEstado = 1 "
+            String sql = "SELECT u FROM Usuario u WHERE u.username = :username AND u.idEstado.idEstado = 1 "
             		+ "AND u.clave = :clave";
             Query query = getEntityManager().createQuery(sql);
             query.setParameter("username", username);
@@ -62,7 +62,7 @@ public class UsuarioDao extends Generico<Usuario> {
      */
     @SuppressWarnings("unchecked")
 	public List<Usuario> listarUsuarios() {
-        String sql = "SELECT u FROM Usuario u WHERE u.estado.idEstado = 1 ORDER BY u.username";
+        String sql = "SELECT u FROM Usuario u WHERE u.idEstado.idEstado = 1 ORDER BY u.username";
         return this.getEntityManager().createQuery(sql).getResultList();
     }
     
@@ -73,7 +73,7 @@ public class UsuarioDao extends Generico<Usuario> {
      */
     public Usuario obtenerUsuarioPorUsername(String username) {
         try {
-            String sql = "SELECT u FROM Usuario u WHERE u.username = :username AND u.estado.idEstado = 1 ";
+            String sql = "SELECT u FROM Usuario u WHERE u.username = :username AND u.idEstado.idEstado = 1 ";
             Query query = getEntityManager().createQuery(sql);
             query.setParameter("username", username);
             Usuario usuario = query.getResultList() != null && !query.getResultList().isEmpty() ? (Usuario) query.getResultList().get(0) : null;
