@@ -30,8 +30,8 @@
                             <ul class="menu">
                                 <li><p:commandLink onclick="PF('dlg').show();"
                                                    styleClass="linkHeader" value="INGRESAR" /></li>
-                                <li><p:commandLink
-                                        styleClass="linkHeader" value="REGISTRARSE" /></li>
+                                <li><p:commandLink onclick="PF('dlg1').show();" action="#{indexController.setearRadio}"
+                                                   styleClass="linkHeader" update=":formMenu, :formRegistro" value="REGISTRARSE" /></li>
                             </ul>
                         </h:form>
                     </div>
@@ -198,11 +198,11 @@
                              autoUpdate="true" />
                     <p class="Profile-description">Ingresa tus credenciales para acceder al sistema</p>
                     <h:panelGrid columns="2">
-                        <h:outputLabel value="Usuario:" />
+                        <h:outputLabel styleClass="label" value="Usuario:" />
                         <p:inputText value="#{indexController.username}" required="true"
                                      requiredMessage="El usuario es requerido!"
                                      styleClass="Login-input" />
-                        <h:outputLabel value="Clave:" />
+                        <h:outputLabel styleClass="label" value="Clave:" />
                         <p:password styleClass="Login-input" feedback="true"
                                     value="#{indexController.password}" promptLabel="Ingrese su clave"
                                     required="true" requiredMessage="La clave es requerida!"
@@ -212,6 +212,136 @@
                         <p:commandButton action="#{indexBean.login}" value="Login"
                                          styleClass="Footer-button" update=":formLogin, :formMenu" />
                     </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog styleClass="Login-dialogo" id="dlgRegistro" widgetVar="dlg1"
+                      header="Regístrate e ingresa a una comunidad de infinitas oportunidades" width="800"
+                      resizable="false" showEffect="clip" hideEffect="clip">
+                <h:form id="formRegistro">
+                    <p class="Profile-description">Selecciona el tipo de usuario con el cual deseas registrarte:</p>
+                    <h:panelGrid columns="2" style="margin-bottom:10px !important" cellpadding="5">
+                        <p:outputLabel for="tipoUsuario" value="Tipo de usuario:" />
+                        <p:selectOneRadio id="tipoUsuario" value="#{indexController.tipoUsuario}">
+                            <p:ajax event="change" update=":formRegistro" />
+                            <f:selectItem itemLabel="Freelance" itemValue="1" />
+                            <f:selectItem itemLabel="Persona demandante" itemValue="2" />
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                    <p:outputPanel id="pnlEmpresa" rendered="#{indexController.tipoUsuario eq '2'}">
+                        <h:panelGrid columns="4">					
+                            <h:outputLabel styleClass="label" value="Tipo de persona:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="tipoPersona" style="width: 220px;"
+                                                 value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.idTipoPersona}"
+                                                 required="true"
+                                                 requiredMessage="El campo Tipo de persona es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{indexController.personaDemandanteController.tiposPersona}"
+                                                   var="tipo" itemValue="#{tipo.idCatalogoDetalle}"
+                                                   itemLabel="#{tipo.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Tipo de documento:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="tipo" style="width: 220px;"
+                                                 value="#{indexBean.clienteBean.nuevoCliente.catalogoDetalle.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Tipo de documento es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{indexBean.clienteBean.tiposDocumento}"
+                                                   var="tipo" itemValue="#{tipo.idCatalogoDetalle}"
+                                                   itemLabel="#{tipo.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="No. Documento: " />
+                            <p:outputPanel>
+                                <p:inputText id="num" styleClass="Login-input" size="30"
+                                             value="#{indexBean.clienteBean.nuevoCliente.numeroDocumento}"
+                                             required="true"
+                                             requiredMessage="El campo No. Documento es requerido!"
+                                             onkeypress="return aceptarNumeros(event);" maxlength="15" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Nombres: " />
+                            <p:outputPanel>
+                                <p:inputText id="nombre" styleClass="Login-input" size="30"
+                                             value="#{indexBean.clienteBean.nuevoCliente.nombres}"
+                                             required="true" requiredMessage="El campo Nombres es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Ciudad:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="ciudad" style="width: 220px;"
+                                                 value="#{indexBean.clienteBean.nuevoCliente.ciudad.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Ciudad es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{indexBean.clienteBean.ciudades}"
+                                                   var="ciudad" itemValue="#{ciudad.idCatalogoDetalle}"
+                                                   itemLabel="#{ciudad.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Dirección: " />
+                            <p:outputPanel>
+                                <p:inputText id="direccion" styleClass="Login-input" size="30"
+                                             value="#{indexBean.clienteBean.nuevoCliente.direccion}"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Email: " />
+                            <p:outputPanel>
+                                <p:inputText id="email" styleClass="Login-input" size="30"
+                                             value="#{indexBean.clienteBean.nuevoCliente.email}"
+                                             required="true" validatorMessage="Ingrese un correo válido"
+                                             requiredMessage="El campo Email es requerido!">
+                                    <f:validateRegex
+                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Teléfono: " />
+                            <p:outputPanel>
+                                <p:inputText id="telefono" styleClass="Login-input" size="30"
+                                             value="#{indexBean.clienteBean.nuevoCliente.telefono}"
+                                             required="true" requiredMessage="El campo Teléfono es requerido!" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Celular: " />
+                            <p:outputPanel>
+                                <p:inputText id="celular" styleClass="Login-input" size="30"
+                                             value="#{indexBean.clienteBean.nuevoCliente.celular}"
+                                             onkeypress="return aceptarNumeros(event);" maxlength="10" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Username: " />
+                            <p:outputPanel>
+                                <p:inputText id="username" styleClass="Login-input" size="30"
+                                             value="#{indexBean.clienteBean.nuevoCliente.usuario.username}"
+                                             required="true" requiredMessage="El campo Username es requerido!" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Password:" />
+                            <p:outputPanel>
+                                <p:password styleClass="Login-input" feedback="true" size="30"
+                                            value="#{indexBean.clienteBean.nuevoCliente.usuario.clave}" promptLabel="Ingrese su clave"
+                                            required="true" requiredMessage="La clave es requerida!"
+                                            weakLabel="Seguridad baja" goodLabel="Seguridad buena"
+                                            strongLabel="Seguridad fuerte" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:columnGroup />
+                            <p:commandButton action="#{indexBean.registrar}"
+                                             update=":formRegistro, :formMenu"
+                                             oncomplete="verificarRegistro(xhr, status, args)"
+                                             value="Registrarse" styleClass="Footer-button" />
+                        </h:panelGrid>
+                    </p:outputPanel>
+                    <p:outputPanel id="pnlFreelance" rendered="#{indexController.tipoUsuario eq '1'}">
+                        <h:outputText value="Formulario de freelance" />
+                    </p:outputPanel>
                 </h:form>
             </p:dialog>
 
