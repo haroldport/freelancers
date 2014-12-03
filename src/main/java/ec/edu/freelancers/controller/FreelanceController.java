@@ -9,8 +9,12 @@ import ec.edu.freelancers.modelo.Imagen;
 import ec.edu.freelancers.modelo.Rol;
 import ec.edu.freelancers.modelo.Usuario;
 import ec.edu.freelancers.servicio.CatalogoDetalleServicio;
+import ec.edu.freelancers.servicio.FileServicio;
+import ec.edu.freelancers.servicio.FreelanceServicio;
 import ec.edu.freelancers.servicio.RolServicio;
+import ec.edu.freelancers.utilitario.Crypt;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +39,10 @@ public class FreelanceController implements Serializable {
     private CatalogoDetalleServicio catalogoDetalleServicio;
     @EJB
     private RolServicio rolServicio;
+    @EJB
+    private FreelanceServicio freelanceServicio;
+    @EJB
+    private FileServicio fileServicio;
     
     private Freelance nuevoFreelance;
     private Estado estadoActivo;
@@ -45,6 +53,7 @@ public class FreelanceController implements Serializable {
     private List<CatalogoDetalle> provincias;
     private List<CatalogoDetalle> cantones;
     private Rol rolFreelance;
+    private Imagen imagenPorDefecto;
     
     private static final Logger LOGGER = Logger.getLogger(FreelanceController.class.getName());
     
@@ -55,13 +64,16 @@ public class FreelanceController implements Serializable {
             estadoActivo = estadoServicio.buscarPorNemonico(EstadoEnum.ACTIVO.getNemonico());
             estadoInactivo = estadoServicio.buscarPorNemonico(EstadoEnum.INACTIVO.getNemonico());
             tiposDocumento = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.TIPO_DOCUMENTO.getNemonico());
+            estadosCiviles = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.ESTADO_CIVIL.getNemonico());
+            paises = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.PAISES.getNemonico());
             rolFreelance = rolServicio.obtenerPorNemonico("RFR");
+            imagenPorDefecto = fileServicio.obtenerFile(1);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
-    private void initValores() {
+    public void initValores() {
         nuevoFreelance = new Freelance();
         nuevoFreelance.setIdTipoDocumento(new CatalogoDetalle());
         nuevoFreelance.setIdEstadoCivil(new CatalogoDetalle());
@@ -70,6 +82,46 @@ public class FreelanceController implements Serializable {
         nuevoFreelance.setIdCanton(new CatalogoDetalle());
         nuevoFreelance.setIdUsuario(new Usuario());
         nuevoFreelance.setIdImagen(new Imagen());
+        provincias = new ArrayList<>();
+        cantones = new ArrayList<>();
+    }
+    
+    public void obtenerProvincias(){
+        provincias = new ArrayList<>();
+        cantones = new ArrayList<>();
+        provincias = catalogoDetalleServicio.obtenerPorCatalogoNemonicoYPadre(CatalogoEnum.PROVINCIAS.getNemonico(), 
+                nuevoFreelance.getIdPais().getIdCatalogoDetalle());
+        if(provincias == null){
+            provincias = catalogoDetalleServicio.obtenerPorCatDetNemonico("OTRA");
+        }
+    }
+    
+    public void obtenerCantones(){
+        cantones = new ArrayList<>();
+        cantones = catalogoDetalleServicio.obtenerPorCatalogoNemonicoYPadre(CatalogoEnum.CANTONES.getNemonico(), 
+                nuevoFreelance.getIdProvincia().getIdCatalogoDetalle());
+        if(cantones == null){
+            cantones = catalogoDetalleServicio.obtenerPorCatDetNemonico("OTRO");
+        }
+    }
+    
+    public void guardar() {
+        try {
+            nuevoFreelance.setNombres(nuevoFreelance.getNombres().toUpperCase());
+            nuevoFreelance.setApellidos(nuevoFreelance.getApellidos().toUpperCase());
+            nuevoFreelance.setCallePrincipal(nuevoFreelance.getCallePrincipal().toUpperCase());
+            nuevoFreelance.setCalleSecundaria(nuevoFreelance.getCalleSecundaria().toUpperCase());
+            nuevoFreelance.setReferencia(nuevoFreelance.getReferencia().toUpperCase());
+            nuevoFreelance.setIdEstado(estadoActivo);
+            nuevoFreelance.setIdImagen(imagenPorDefecto);
+            nuevoFreelance.getIdUsuario().setClave(Crypt.encryptMD5(nuevoFreelance.getIdUsuario().getClave()));
+            nuevoFreelance.getIdUsuario().setIdRol(rolFreelance);
+            nuevoFreelance.getIdUsuario().setIdEstado(estadoActivo);
+            freelanceServicio.crear(nuevoFreelance);
+            initValores();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, null, e);
+        }
     }
 
     public Freelance getNuevoFreelance() {
@@ -143,4 +195,13 @@ public class FreelanceController implements Serializable {
     public void setRolFreelance(Rol rolFreelance) {
         this.rolFreelance = rolFreelance;
     }
+
+    public Imagen getImagenPorDefecto() {
+        return imagenPorDefecto;
+    }
+
+    public void setImagenPorDefecto(Imagen imagenPorDefecto) {
+        this.imagenPorDefecto = imagenPorDefecto;
+    }
+    
 }

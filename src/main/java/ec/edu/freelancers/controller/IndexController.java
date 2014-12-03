@@ -51,6 +51,8 @@ public class IndexController implements Serializable {
 
     public void setearRadio() {
         tipoUsuario = "0";
+        personaDemandanteController.initValores();
+        freelanceController.initValores();
     }
 
     public void registrar() {
@@ -59,15 +61,23 @@ public class IndexController implements Serializable {
         boolean registro = false;
         Date fechaCreacion = new Date();
         try {
-            if(tipoUsuario.equals("2")){
-                String nombrePersona = personaDemandanteController.getNuevaPersonaDemandante().getNombre();
-                personaDemandanteController.guardar();
-                logSistema = new LogSistema(fechaCreacion, "Creación de persona demandante: " + nombrePersona, usuarioRegistro);
-                logSistemaServicio.crear(logSistema);
-                registro = true;
-            }else if(tipoUsuario.equals("1")){
-                
-            }            
+            switch (tipoUsuario) {
+                case "2":
+                    String nombrePersona = personaDemandanteController.getNuevaPersonaDemandante().getNombre();
+                    personaDemandanteController.guardar();
+                    logSistema = new LogSistema(fechaCreacion, "Creación de persona demandante: " + nombrePersona, usuarioRegistro);
+                    logSistemaServicio.crear(logSistema);
+                    registro = true;
+                    break;
+                case "1":
+                    String nombreFreelance = freelanceController.getNuevoFreelance().getNombres() + " " + 
+                            freelanceController.getNuevoFreelance().getApellidos();
+                    freelanceController.guardar();
+                    logSistema = new LogSistema(fechaCreacion, "Creación de freelance: " + nombreFreelance, usuarioRegistro);
+                    logSistemaServicio.crear(logSistema);
+                    registro = true;
+                    break;
+            }
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Confirmación!! Registro realizado con éxito", "");
         } catch (Exception e) {

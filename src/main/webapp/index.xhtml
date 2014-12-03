@@ -192,7 +192,7 @@
 
             <p:dialog styleClass="Login-dialogo" id="dlgLogin" widgetVar="dlg"
                       header="Ingresa a la mejor comunidad de Freelancers!!!"
-                      width="480" resizable="false" showEffect="clip" hideEffect="clip">
+                      width="320" resizable="false" showEffect="clip" hideEffect="clip">
                 <h:form id="formLogin">
                     <p:growl id="messages" showDetail="false" life="5000"
                              autoUpdate="true" />
@@ -216,11 +216,11 @@
             </p:dialog>
 
             <p:dialog styleClass="Login-dialogo" id="dlgRegistro" widgetVar="dlg1"
-                      header="Regístrate e ingresa a una comunidad de infinitas oportunidades" width="800"
+                      header="Regístrate e ingresa a una comunidad de infinitas oportunidades" width="1000"
                       resizable="false" showEffect="clip" hideEffect="clip" position="center top">
                 <h:form id="formRegistro">
                     <p class="Profile-description">Selecciona el tipo de usuario con el cual deseas registrarte:</p>                    
-                    <h:panelGrid columns="2" style="margin-bottom:10px !important" cellpadding="5">
+                    <h:panelGrid columns="2" style="margin-bottom:5px !important">
                         <p:outputLabel for="tipoUsuario" value="Tipo de usuario:" />
                         <p:selectOneRadio id="tipoUsuario" value="#{indexController.tipoUsuario}">
                             <p:ajax event="change" update=":formRegistro" />
@@ -229,13 +229,11 @@
                         </p:selectOneRadio>
                     </h:panelGrid>
                     <p:outputPanel id="pnlEmpresa" rendered="#{indexController.tipoUsuario eq '2'}">
-                        <br />
                         <p class="Profile-description">Datos generales:</p>
-                        <br />
-                        <h:panelGrid columns="4">					
+                        <h:panelGrid columns="6">					
                             <h:outputLabel styleClass="label" value="Tipo de persona:" />
                             <p:outputPanel>
-                                <p:selectOneMenu id="tipoPersona" style="width: 220px;"
+                                <p:selectOneMenu id="tipoPersona" style="width: 180px;"
                                                  value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.idTipoPersona.idCatalogoDetalle}"
                                                  required="true"
                                                  requiredMessage="El campo Tipo de persona es requerido!">
@@ -317,10 +315,8 @@
                                 <p:inputText id="web" styleClass="Login-input" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.paginaWeb}" />
                             </p:outputPanel>
-                        </h:panelGrid>                   
-                        <br />
+                        </h:panelGrid>
                         <p class="Profile-description">Datos para Login:</p>
-                        <br />
                         <h:panelGrid columns="4">
                             <h:outputLabel styleClass="label" value="Username: " />
                             <p:outputPanel>
@@ -343,13 +339,11 @@
                         </h:panelGrid>                        
                     </p:outputPanel>
                     <p:outputPanel id="pnlFreelance" rendered="#{indexController.tipoUsuario eq '1'}">
-                        <br />
                         <p class="Profile-description">Datos generales:</p>
-                        <br />
-                        <h:panelGrid columns="4">					
+                        <h:panelGrid columns="6">					
                             <h:outputLabel styleClass="label" value="Tipo de documento:" />
                             <p:outputPanel>
-                                <p:selectOneMenu id="tipoDocumento" style="width: 220px;"
+                                <p:selectOneMenu id="tipoDocumento" style="width: 180px;"
                                                  value="#{indexController.freelanceController.nuevoFreelance.idTipoDocumento.idCatalogoDetalle}"
                                                  required="true"
                                                  requiredMessage="El campo Tipo de documento es requerido!">
@@ -388,7 +382,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Fecha de nacimiento: " />
                             <p:outputPanel>
-                                <p:calendar id="fecha" styleClass="Login-input" size="25"
+                                <p:calendar id="fecha" styleClass="Login-input" size="23"
                                              value="#{indexController.freelanceController.nuevoFreelance.fechaNacimiento}"
                                              required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
                                              requiredMessage="El campo Fecha de nacimiento es requerido!" />
@@ -399,6 +393,49 @@
                                 <p:inputText id="edad" styleClass="Login-input" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.edad}"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="País:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="pais" style="width: 180px;"
+                                                 value="#{indexController.freelanceController.nuevoFreelance.idPais.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo País es requerido!">
+                                    <p:ajax event="change" update=":formRegistro:pnlProvincia, :formRegistro:pnlCanton" 
+                                            listener="#{indexController.freelanceController.obtenerProvincias}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{indexController.freelanceController.paises}"
+                                                   var="pais" itemValue="#{pais.idCatalogoDetalle}"
+                                                   itemLabel="#{pais.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Provincia:" />
+                            <p:outputPanel id="pnlProvincia">
+                                <p:selectOneMenu id="provincia" style="width: 180px;"
+                                                 value="#{indexController.freelanceController.nuevoFreelance.idProvincia.idCatalogoDetalle}"
+                                                 required="true" disabled="#{indexController.freelanceController.provincias.size() == 0}"
+                                                 requiredMessage="El campo Provincia es requerido!">
+                                    <p:ajax event="change" update=":formRegistro:pnlCanton" 
+                                            listener="#{indexController.freelanceController.obtenerCantones}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{indexController.freelanceController.provincias}"
+                                                   var="prov" itemValue="#{prov.idCatalogoDetalle}"
+                                                   itemLabel="#{prov.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Cantón:" />
+                            <p:outputPanel id="pnlCanton">
+                                <p:selectOneMenu id="canton" style="width: 180px;"
+                                                 value="#{indexController.freelanceController.nuevoFreelance.idCanton.idCatalogoDetalle}"
+                                                 required="true" disabled="#{indexController.freelanceController.cantones.size() == 0}"
+                                                 requiredMessage="El campo Cantón es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{indexController.freelanceController.cantones}"
+                                                   var="cant" itemValue="#{cant.idCatalogoDetalle}"
+                                                   itemLabel="#{cant.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Calle principal: " />
                             <p:outputPanel>
@@ -428,6 +465,19 @@
                                              value="#{indexController.freelanceController.nuevoFreelance.referencia}"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                             </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Estado civil:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="estCivil" style="width: 180px;"
+                                                 value="#{indexController.freelanceController.nuevoFreelance.idEstadoCivil.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Estado civil es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{indexController.freelanceController.estadosCiviles}"
+                                                   var="est" itemValue="#{est.idCatalogoDetalle}"
+                                                   itemLabel="#{est.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Teléfono: " />
                             <p:outputPanel>
                                 <p:inputText id="telefonof" styleClass="Login-input" size="30"
@@ -456,10 +506,8 @@
                                 <p:inputText id="webf" styleClass="Login-input" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.paginaWeb}" />
                             </p:outputPanel>
-                        </h:panelGrid>                   
-                        <br />
+                        </h:panelGrid>
                         <p class="Profile-description">Datos para Login:</p>
-                        <br />
                         <h:panelGrid columns="4">
                             <h:outputLabel styleClass="label" value="Username: " />
                             <p:outputPanel>

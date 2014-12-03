@@ -17,7 +17,23 @@ public enum CatalogoEnum {
     /**
      * Tipo de proceso.
      */
-    TIPO_PROCESO("TIPPR");
+    TIPO_PROCESO("TIPPR"),
+    /**
+     * Paises.
+     */
+    PAISES("PAISE"),
+    /**
+     * Provincias.
+     */
+    PROVINCIAS("PROVI"),
+    /**
+     * Cantones.
+     */
+    CANTONES("CANTO"),
+    /**
+     * Estados civiles.
+     */
+    ESTADO_CIVIL("ESTCI");
 
     private String nemonico;
 

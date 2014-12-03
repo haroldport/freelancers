@@ -57,5 +57,24 @@ public class CatalogoDetalleServicio {
     public List<CatalogoDetalle> obtenerPorCatalogoNemonico(String nemonico) {
         return catalogoDetalleDao.obtenerPorCatalogoNemonico(nemonico);
     }
+    
+    /**
+     * Obtener por nemonico del catalago y por id del padre
+     * @param nemonico
+     * @param idCatalogoDetallePadre
+     * @return 
+     */
+    public List<CatalogoDetalle> obtenerPorCatalogoNemonicoYPadre(String nemonico, Integer idCatalogoDetallePadre) {
+        return catalogoDetalleDao.obtenerPorCatalogoNemonicoYPadre(nemonico, idCatalogoDetallePadre);
+    }
+    
+    /**
+     * Obtener por cat det nemonico
+     * @param nemonico
+     * @return 
+     */
+    public List<CatalogoDetalle> obtenerPorCatDetNemonico(String nemonico) {
+        return catalogoDetalleDao.obtenerPorCatDetNemonico(nemonico);
+    }
 
 }

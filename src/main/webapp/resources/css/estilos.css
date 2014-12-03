@@ -189,12 +189,12 @@ h1{
 }
 
 .Login-dialogo{
-    font-size: 0.8em;
+    font-size: 0.7em;
     font-weight: normal !important;
 }
 
 .Login-input{
-    border-radius: 0px 15px 0px 15px;
+    /*border-radius: 0px 15px 0px 15px;*/
     margin-bottom: 1em !important;
     margin-left: 1em !important;
     margin-top: .5em !important;	
@@ -221,4 +221,13 @@ h1{
     -webkit-border-radius: 10px !important;
     border-radius: 10px !important;
     margin-left: 0.5em !important;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+    border: 0px none !important;
+    font-size: 0.7em !important;
+    margin: 1px 0 !important;
+    padding: 3px 5px !important;
+    text-align: left !important;
+    white-space: nowrap !important;
 }

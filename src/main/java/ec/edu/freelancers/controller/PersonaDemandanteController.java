@@ -60,7 +60,7 @@ public class PersonaDemandanteController implements Serializable {
         }
     }
 
-    private void initValores() {
+    public void initValores() {
         nuevaPersonaDemandante = new PersonaDemandante();
         nuevaPersonaDemandante.setIdUsuario(new Usuario());
         nuevaPersonaDemandante.setIdTipoPersona(new CatalogoDetalle());
@@ -71,7 +71,7 @@ public class PersonaDemandanteController implements Serializable {
             nuevaPersonaDemandante.setNombre(nuevaPersonaDemandante.getNombre().toUpperCase());
             nuevaPersonaDemandante.setCallePrincipal(nuevaPersonaDemandante.getCallePrincipal().toUpperCase());
             nuevaPersonaDemandante.setCalleSecundaria(nuevaPersonaDemandante.getCalleSecundaria().toUpperCase());
-            nuevaPersonaDemandante.setReferencia(nuevaPersonaDemandante.getCallePrincipal().toUpperCase());
+            nuevaPersonaDemandante.setReferencia(nuevaPersonaDemandante.getReferencia().toUpperCase());
             nuevaPersonaDemandante.setIdEstado(estadoActivo);
             nuevaPersonaDemandante.getIdUsuario().setClave(Crypt.encryptMD5(nuevaPersonaDemandante.getIdUsuario().getClave()));
             nuevaPersonaDemandante.getIdUsuario().setIdRol(rolDemandante);

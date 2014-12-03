@@ -419,7 +419,15 @@ public class Freelance implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.freelancers.modelo.Freelance[ idFreelance=" + idFreelance + " ]";
+        return "Freelance{" + "idFreelance=" + idFreelance + ", nombres=" + nombres + 
+                ", apellidos=" + apellidos + ", numeroDocumento=" + numeroDocumento + 
+                ", fechaNacimiento=" + fechaNacimiento + ", edad=" + edad + ", callePrincipal=" + 
+                callePrincipal + ", calleSecundaria=" + calleSecundaria + ", numeroCasa=" + numeroCasa + 
+                ", referencia=" + referencia + ", telefono=" + telefono + ", celular=" + celular + 
+                ", correo=" + correo + ", paginaWeb=" + paginaWeb + ", idUsuario=" + idUsuario + 
+                ", idTipoDocumento=" + idTipoDocumento + ", idProvincia=" + idProvincia + ", idPais=" + 
+                idPais + ", idImagen=" + idImagen + ", idEstado=" + idEstado + ", idEstadoCivil=" + 
+                idEstadoCivil + ", idCanton=" + idCanton + '}';
     }
     
 }
