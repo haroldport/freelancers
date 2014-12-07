@@ -58,11 +58,15 @@ h1{
     margin: 0 1em 0 0 !important;
 }
 
+.logout{
+    font-size: 1em !important;
+}
+
 .menu li .linkHeader{
     color: #3F3F3F !important;
     display: block !important;
-    font-size: 1em;
-    margin-top: 1.2em;
+    font-size: 1em !important;
+    margin-top: 1.2em !important;
     padding: 0 0.5em !important;
 }
 

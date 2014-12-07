@@ -28,10 +28,23 @@
                     <div class="nav">
                         <h:form id="formMenu">
                             <ul class="menu">
-                                <li><p:commandLink onclick="PF('dlg').show();"
-                                                   styleClass="linkHeader" value="INGRESAR" /></li>
-                                <li><p:commandLink onclick="PF('dlg1').show();" action="#{indexController.setearRadio}"
-                                                   styleClass="linkHeader" update=":formMenu, :formRegistro" value="REGISTRARSE" /></li>
+                                <li>
+                                    <p:commandLink onclick="PF('dlg').show();" rendered="#{indexController.usuario.username == null}"
+                                                   styleClass="linkHeader" value="INGRESAR" />
+                                    <p:commandLink rendered="#{indexController.usuario.username != null}" id="user"
+						   styleClass="linkHeader"
+                                                   value="Bienvenid@ #{indexController.usuario.username}!" />
+                                </li>
+                                <li>
+                                    <p:commandLink onclick="PF('dlg1').show();" action="#{indexController.setearRadio}"
+                                                   rendered="#{indexController.usuario.username == null}"
+                                                   styleClass="linkHeader" update=":formMenu, :formRegistro" value="REGISTRARSE" />
+                                    <p:outputPanel styleClass="logout" rendered="#{indexController.usuario.username != null}">
+                                        <a class="linkHeader" href="#{facesContext.externalContext.requestContextPath}/logout">
+                                            Cerrar sesión 
+                                        </a>
+                                    </p:outputPanel>
+                                </li>
                             </ul>
                         </h:form>
                     </div>
@@ -209,7 +222,7 @@
                                     weakLabel="Seguridad baja" goodLabel="Seguridad buena"
                                     strongLabel="Seguridad fuerte" />
                         <p:columnGroup />
-                        <p:commandButton action="#{indexBean.login}" value="Login"
+                        <p:commandButton action="#{indexController.login}" value="Login"
                                          styleClass="Footer-button" update=":formLogin, :formMenu" />
                     </h:panelGrid>
                 </h:form>

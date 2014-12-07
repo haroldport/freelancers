@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:security="http://www.springframework.org/schema/security"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+    
+    
+    <!-- **** SEGURIDAD: 'INTERCEPCION, NAVEGACION, PERMISOS, ETC' **** -->  
+    <security:http auto-config="true"> 
+        <security:intercept-url pattern="/index.xhtml" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:intercept-url pattern="/**/*.js" filters="none"/>
+        <security:intercept-url pattern="/**/*.css" filters="none"/>
+        <security:intercept-url pattern="/**/*.png" filters="none"/>
+        <security:intercept-url pattern="/**/*.jpeg" filters="none"/>
+        <security:intercept-url pattern="/**/*.jpg" filters="none"/>
+        <security:intercept-url pattern="/**/*.gif" filters="none"/>    
+               
+        <security:intercept-url pattern="/index.xhtml" access="ROLE_ADMINISTRADOR" />
+        <security:intercept-url pattern="/paginas/administracion/**" access="ROLE_ADMINISTRADOR" />
+        <security:intercept-url pattern="/paginas/hojaVida/**" access="ROLE_FREELANCE" />
+        <security:intercept-url pattern="/paginas/ofertas/**" access="ROLE_DEMANDANTE" />
+        
+                        
+        <security:form-login login-page="/index.xhtml" authentication-failure-url="/index.xhtml" />    
+        <security:logout logout-url="/logout" logout-success-url="/faces/index.xhtml" />
+        
+        
+            
+    </security:http>
+        
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref="myUserDetailsService">
+            <security:password-encoder hash="md5"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+    
+    <bean id="myUserDetailsService"
+          class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">        
+        <property name="dataSource" ref="dataSource"/>
+        <property name="usersByUsernameQuery" value="select username, clave, id_estado from usuario where username=?"/>
+        <property name="authoritiesByUsernameQuery" value="Select u.username, concat('ROLE_', r.nombre) as nombre 
+                        from rol as r, usuario as u where u.username in (?) 
+                        and r.id_rol = u.id_rol"/>
+    </bean>
+               
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="freelance"/>
+        <property name="lookupOnStartup" value="true"/>
+        <property name="proxyInterface" value="javax.sql.DataSource"/>
+    </bean>
+                
+</beans>
+
