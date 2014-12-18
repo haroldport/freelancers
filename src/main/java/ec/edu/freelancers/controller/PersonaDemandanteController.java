@@ -1,5 +1,6 @@
 package ec.edu.freelancers.controller;
 
+import ec.edu.freelancers.servicio.EstadoServicio;
 import ec.edu.freelancers.enumerado.CatalogoEnum;
 import ec.edu.freelancers.enumerado.EstadoEnum;
 import ec.edu.freelancers.modelo.CatalogoDetalle;

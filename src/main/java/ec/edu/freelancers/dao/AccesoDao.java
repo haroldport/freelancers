@@ -42,9 +42,9 @@ public class AccesoDao extends Generico<Acceso> {
      */
     @SuppressWarnings("unchecked")
 	public List<AccesoRol> obtenerAccesosPorRol(Rol rol, String tipo) {
-        String sql = "SELECT ar FROM AccesoRol ar WHERE ar.rol = :rol "
-        		+ "and ar.acceso.estado.idEstado = 1 and ar.acceso.tipo = :tipo "
-        		+ "ORDER BY ar.acceso.etiqueta";
+        String sql = "SELECT ar FROM AccesoRol ar WHERE ar.idRol = :rol "
+        		+ "and ar.idAcceso.idEstado = 1 and ar.idAcceso.tipo = :tipo "
+        		+ "ORDER BY ar.idAcceso.etiqueta";
         Query query = getEntityManager().createQuery(sql);
         query.setParameter("rol", rol);
         query.setParameter("tipo", tipo);
@@ -60,8 +60,8 @@ public class AccesoDao extends Generico<Acceso> {
      */
     @SuppressWarnings("unchecked")
 	public List<AccesoRol> obtenerAccesoPorRolModulo(Rol rol, Acceso acceso) {
-        String sql = "SELECT ar FROM AccesoRol ar WHERE ar.rol = :rol and ar.acceso.acceso = :acceso "
-                + "and ar.acceso.estado.idEstado = 1";
+        String sql = "SELECT ar FROM AccesoRol ar WHERE ar.idRol = :rol and ar.idAcceso = :acceso "
+                + "and ar.idAcceso.idEstado = 1";
         Query query = getEntityManager().createQuery(sql);
         query.setParameter("rol", rol);
         query.setParameter("acceso", acceso);
@@ -77,7 +77,7 @@ public class AccesoDao extends Generico<Acceso> {
 	public List<Acceso> listarAcceso(Acceso accesoId) {
         List<Acceso> lista = null;
         try {
-            String select = "SELECT a FROM Acceso a WHERE a.acceso = :accesoId order by a.descripcion";
+            String select = "SELECT a FROM Acceso a WHERE a.idAcceso = :accesoId order by a.descripcion";
             lista = em.createQuery(select).setParameter("accesoId", accesoId).getResultList();
             cargarArbolAct(lista);
         } catch (Exception e) {

@@ -32,7 +32,7 @@
                                     <p:commandLink onclick="PF('dlg').show();" rendered="#{indexController.usuario.username == null}"
                                                    styleClass="linkHeader" value="INGRESAR" />
                                     <p:commandLink rendered="#{indexController.usuario.username != null}" id="user"
-						   styleClass="linkHeader"
+                                                   styleClass="linkHeader" action="#{indexController.pantallaInicial}"
                                                    value="Bienvenid@ #{indexController.usuario.username}!" />
                                 </li>
                                 <li>
@@ -205,7 +205,7 @@
 
             <p:dialog styleClass="Login-dialogo" id="dlgLogin" widgetVar="dlg"
                       header="Ingresa a la mejor comunidad de Freelancers!!!"
-                      width="320" resizable="false" showEffect="clip" hideEffect="clip">
+                      width="400" resizable="false" showEffect="clip" hideEffect="clip">
                 <h:form id="formLogin">
                     <p:growl id="messages" showDetail="false" life="5000"
                              autoUpdate="true" />

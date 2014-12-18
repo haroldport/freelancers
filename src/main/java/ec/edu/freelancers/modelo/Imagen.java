@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Harold
+ * @author Luis Cordova
  */
 @Entity
 @Table(name = "imagen")

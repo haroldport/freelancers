@@ -193,7 +193,7 @@ h1{
 }
 
 .Login-dialogo{
-    font-size: 0.7em;
+    font-size: 1em;
     font-weight: normal !important;
 }
 
@@ -234,4 +234,51 @@ h1{
     padding: 3px 5px !important;
     text-align: left !important;
     white-space: nowrap !important;
+}
+
+.contentModules{
+    border: none !important;
+    margin: 0 auto !important;
+    width: 1000px !important;
+}
+
+.iconoMenu {
+    border: 1px solid #000;
+    box-shadow: 10px 5px 14px rgba(0,0,0,0.6);
+    -webkit-box-shadow: 10px 5px 14px rgba(0,0,0,0.6);
+    -moz-box-shadow: 10px 5px 14px rgba(0,0,0,0.6);
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    opacity: 0.5;
+    margin: 1.5em 0;
+    transition: 1s all;
+}
+
+.iconoMenu:hover {
+    opacity: 1;
+    transform: scale(1.1,1.1);
+    -webkit-transform: scale(1.1,1.1);
+    -moz-transform: scale(1.1,1.1);
+}
+
+.contentPage{
+    font-size: 1em;
+    margin: 0 auto !important;
+    text-align: center;
+    width: 1000px !important;
+}
+
+.estiloTitulo{
+    font-weight: bold;
+}
+
+.ui-panel .ui-panel-title {
+    margin: 0.1em 16px 0.2em 0 !important;
+    font-size: 1.2em !important;
+}
+
+.styleMenu{
+    margin: -2.8em auto 1em auto;
+    width: 1000px !important;
 }

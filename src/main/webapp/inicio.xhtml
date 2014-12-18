@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formModulos">
+                <p:outputPanel styleClass="contentPage">
+                    <h:outputLabel value="Administración del Sistema de Gestión de Portfolio para Freelancers"
+                                   rendered="#{indexController.usuario.idRol.nemonico eq 'RAD'}"
+                                   styleClass="estiloTitulo" />
+                    <br /><br />
+                    <h:outputLabel value="Como administrador del sistema, tendrá acceso al(los) siguiente(s) módulo(s):"
+                                   rendered="#{indexController.usuario.idRol.nemonico eq 'RAD'}" />
+                    <br /><br />
+                    <p:dataGrid var="acceso" styleClass="contentModules"
+                                value="#{indexController.listaAccesoRol}" columns="3">
+                        <center>
+                            <div class="contentModulo">
+                                <p:commandLink action="#{indexController.buscarPagina(acceso)}">
+                                    <p:graphicImage value="/resources/images/#{acceso.idAcceso.etiqueta}.png"
+                                                    styleClass="iconoMenu" width="250" height="150"
+                                                    title="#{acceso.idAcceso.descripcion}" alt="#{acceso.idAcceso.etiqueta}" /> 	
+                                </p:commandLink>
+                            </div>
+                        </center>
+                    </p:dataGrid>
+                    <br /> <br />
+                </p:outputPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

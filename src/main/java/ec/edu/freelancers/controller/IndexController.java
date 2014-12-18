@@ -1,13 +1,18 @@
 package ec.edu.freelancers.controller;
 
+import ec.edu.freelancers.modelo.Acceso;
+import ec.edu.freelancers.modelo.AccesoRol;
 import ec.edu.freelancers.modelo.LogSistema;
 import ec.edu.freelancers.modelo.Usuario;
+import ec.edu.freelancers.servicio.AccesoServicio;
 import ec.edu.freelancers.servicio.LogSistemaServicio;
 import ec.edu.freelancers.servicio.UsuarioServicio;
 import ec.edu.freelancers.utilitario.Crypt;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -17,9 +22,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.naming.AuthenticationException;
 import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.DefaultSubMenu;
+import org.primefaces.model.menu.MenuModel;
+import org.primefaces.model.menu.Submenu;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,11 +46,13 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 public class IndexController implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @EJB
     private UsuarioServicio usuarioServicio;
     @EJB
     private LogSistemaServicio logSistemaServicio;
+    @EJB
+    private AccesoServicio accesoServicio;
 
     private String username;
     private String password;
@@ -49,10 +60,12 @@ public class IndexController implements Serializable {
     private Usuario usuarioRegistro;
     private Usuario usuario;
     private LogSistema logSistema;
+    private List<AccesoRol> listaAccesoRol;
+    private MenuModel menu;
 
     @ManagedProperty(value = "#{personaDemandanteController}")
     private PersonaDemandanteController personaDemandanteController;
-    
+
     @ManagedProperty(value = "#{freelanceController}")
     private FreelanceController freelanceController;
 
@@ -67,9 +80,8 @@ public class IndexController implements Serializable {
         personaDemandanteController.initValores();
         freelanceController.initValores();
     }
-    
-    public String login(){
-    	System.out.println("Ingreso Login");
+
+    public String login() {
         FacesMessage msg;
         try {
             WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext());
@@ -92,6 +104,63 @@ public class IndexController implements Serializable {
             return "";
         }
     }
+    
+    public String inicio(){
+        return "/index.xhtml?faces-redirect=true";
+    }
+
+    public String pantallaInicial() {
+        try {
+            listaAccesoRol = new ArrayList<>();
+            this.listaAccesoRol.addAll(accesoServicio.obtenerAccesoPorRol(this.getUsuario().getIdRol(), "MODULO"));
+            return "/inicio.xhtml?faces-redirect=true";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String buscarPagina(AccesoRol accesoRol) {
+        List<AccesoRol> listaAccesoRolMenu = new ArrayList<>();
+        listaAccesoRolMenu.addAll(accesoServicio.obtenerAccesoPorRolModulo(usuario.getIdRol(), accesoRol.getIdAcceso()));
+        this.menu = new DefaultMenuModel();
+        for (AccesoRol menuDto : listaAccesoRolMenu) {
+            if (!menuDto.getIdAcceso().getTipo().equals("PAGINA")) {
+                DefaultSubMenu submenu = new DefaultSubMenu();
+                submenu.setLabel(menuDto.getIdAcceso().getEtiqueta());
+                submenu.setId("manuId" + menuDto.getIdAcceso().getIdAcceso().intValue());
+                submenu.setIcon("ui-icon-circle-plus");
+                obtenerItems(menuDto.getIdAcceso(), submenu, null);
+                menu.getElements().add(submenu);
+            }
+        }
+        return accesoRol.getIdAcceso().getUrl() + "?faces-redirect=true";
+    }
+    
+    private DefaultMenuItem obtenerItems(Acceso acceso, Submenu menuPadre, DefaultMenuItem menuItem) {
+        for (Acceso menuDto : acceso.getAccesoList()) {
+            if (menuDto.getIdAcceso() != null && menuDto.getIdEstado() == 1) {
+                if (menuDto.getTipo().equals("PAGINA")) {
+                    DefaultMenuItem menuItem1 = new DefaultMenuItem();
+                    menuItem1.setValue(menuDto.getEtiqueta());
+                    menuItem1.setUrl(menuDto.getUrl());
+                    menuItem1.setId("manuId" + menuDto.getIdAcceso().intValue());
+                    menuItem1.setAjax(false);
+                    menuPadre.getElements().add(menuItem1);
+                } else {
+                    DefaultSubMenu submenuHijo = new DefaultSubMenu();
+                    submenuHijo.setLabel(menuDto.getEtiqueta());
+                    submenuHijo.setId("manuId" + menuDto.getIdAcceso().intValue());
+                    menuPadre.getElements().add(submenuHijo);
+                    DefaultMenuItem menues = obtenerItems(menuDto, submenuHijo, menuItem);
+                    if (menues != null) {
+                        submenuHijo.getElements().add(menues);
+                    }
+                }
+            }
+        }
+        return menuItem;
+    }
 
     public void registrar() {
         RequestContext context = RequestContext.getCurrentInstance();
@@ -108,8 +177,8 @@ public class IndexController implements Serializable {
                     registro = true;
                     break;
                 case "1":
-                    String nombreFreelance = freelanceController.getNuevoFreelance().getNombres() + " " + 
-                            freelanceController.getNuevoFreelance().getApellidos();
+                    String nombreFreelance = freelanceController.getNuevoFreelance().getNombres() + " "
+                            + freelanceController.getNuevoFreelance().getApellidos();
                     freelanceController.guardar();
                     logSistema = new LogSistema(fechaCreacion, "Creación de freelance: " + nombreFreelance, usuarioRegistro);
                     logSistemaServicio.crear(logSistema);
@@ -188,5 +257,21 @@ public class IndexController implements Serializable {
     public void setFreelanceController(FreelanceController freelanceController) {
         this.freelanceController = freelanceController;
     }
+
+    public List<AccesoRol> getListaAccesoRol() {
+        return listaAccesoRol;
+    }
+
+    public void setListaAccesoRol(List<AccesoRol> listaAccesoRol) {
+        this.listaAccesoRol = listaAccesoRol;
+    }
+
+    public MenuModel getMenu() {
+        return menu;
+    }
+
+    public void setMenu(MenuModel menu) {
+        this.menu = menu;
+    }    
 
 }

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ec.edu.freelancers.modelo;
 
 import java.io.Serializable;
@@ -27,7 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Harold
+ * @author Luis Rizzo
  */
 @Entity
 @Table(name = "catalogo")

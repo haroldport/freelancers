@@ -1,4 +1,4 @@
-package ec.edu.freelancers.controller;
+package ec.edu.freelancers.servicio;
 
 import ec.edu.freelancers.dao.EstadoDao;
 import ec.edu.freelancers.modelo.Estado;

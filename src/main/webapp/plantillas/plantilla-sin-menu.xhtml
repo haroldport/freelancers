@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:view contentType="text/html" locale="es">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <title><ui:insert name="title">Trabajo freelance en línea</ui:insert></title>
+            <h:outputStylesheet library="css" name="normalize.css" />
+            <h:outputStylesheet library="css" name="estilos.css" />
+            <h:outputScript library="js" name="validador.js" />
+        </h:head>
+
+        <h:body>
+            <div class="contenido">
+                <div class="header">
+                    <div id="logo">
+                        <p:graphicImage styleClass="imgHeader" library="images"
+                                        name="logo.png" />
+                    </div>
+                    <h1>Comunidad Freelance</h1>
+                    <div class="nav">
+                        <h:form id="formMenu">
+                            <ul class="menu">
+                                <li>
+                                    <p:commandLink onclick="PF('dlg').show();" rendered="#{indexController.usuario.username == null}"
+                                                   styleClass="linkHeader" value="INGRESAR" />
+                                    <p:commandLink rendered="#{indexController.usuario.username != null}" id="user"
+                                                   styleClass="linkHeader" action="#{indexController.pantallaInicial}"
+                                                   value="Bienvenid@ #{indexController.usuario.username}!" />
+                                </li>
+                                <li>
+                                    <p:commandLink rendered="#{indexController.usuario.username != null}" id="inicio"
+                                                   styleClass="linkHeader" action="#{indexController.inicio}"
+                                                   value="Inicio" />
+                                </li>
+                                <li>
+                                    <p:commandLink onclick="PF('dlg1').show();" action="#{indexController.setearRadio}"
+                                                   rendered="#{indexController.usuario.username == null}"
+                                                   styleClass="linkHeader" update=":formMenu, :formRegistro" value="REGISTRARSE" />
+                                    <p:outputPanel styleClass="logout" rendered="#{indexController.usuario.username != null}">
+                                        <a class="linkHeader" href="#{facesContext.externalContext.requestContextPath}/logout">
+                                            Cerrar sesión 
+                                        </a>
+                                    </p:outputPanel>
+                                </li>
+                            </ul>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div id="content">
+                <ui:insert name="content" />
+            </div>
+            <div class="footer">
+                <p>Powered by Luis Rizzo y Luis Córdova</p>
+                <p>Copyright - Todos los derechos reservados 2014</p>
+            </div>
+
+        </h:body>
+
+    </f:view>
+</html>

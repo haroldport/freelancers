@@ -1,0 +1,136 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-con-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formUsuario">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" header="Administración de usuarios" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                    <center>
+                        <div class="footerTabla">
+                            <p:outputPanel id="panelTabla">
+                                <p:dataTable value="#{usuarioController.listaUsuarios}"
+                                             var="usuario" rendered="#{usuarioController.listaUsuarios.size() > 0}"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             paginatorPosition="bottom" rows="5" paginator="true"
+                                             rowsPerPageTemplate="5,10,15,20,25,30"
+                                             tableStyle="table-layout:auto;width:100%;" id="tbUsuarios">
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Rol">
+                                        <h:outputText value="#{usuario.idRol.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Username">
+                                        <h:outputText value="#{usuario.username}" />
+                                    </p:column>
+
+                                    <p:column headerText="Editar" styleClass="classBtn">
+                                        <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                         update=":formNe" process="@this"
+                                                         onclick="PF('dlg').show();"
+                                                         action="#{usuarioController.editarUsuario(usuario)}" />
+                                        <p:tooltip for="cbEditar"
+                                                   value="Editar #{usuario.username}"
+                                                   showEffect="fade" hideEffect="fade" />
+                                    </p:column>
+
+                                    <p:column headerText="Eliminar"
+                                              styleClass="classBtn">
+                                        <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                         update=":formUsuario" process="@this"
+                                                         actionListener="#{usuarioController.seleccionarUsuario(usuario)}"
+                                                         oncomplete="dlgEliminar.show()" />
+                                        <p:tooltip for="cbEliminar"
+                                                   value="Eliminar #{usuario.username}"
+                                                   showEffect="fade" hideEffect="fade" />
+                                    </p:column>
+                                </p:dataTable>
+                                <br />
+                                <p:commandButton value="Nuevo usuario" update=":formNe" onclick="PF('dlg').show();" 
+                                                 process="@this" action="#{usuarioController.setearValores}" />
+                            </p:outputPanel>
+                        </div>
+                    </center>
+                </p:panel>
+                <br />
+
+                <p:confirmDialog id="cdEliminar" styleClass="cajaEspecial"
+                                 message="Desea eliminar el usuario: #{usuarioController.eliminarUsuario.username}?"
+                                 header="Eliminar #{usuarioController.eliminarUsuario.username}"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formUsuario"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{usuarioController.eliminar()}" />
+                    <p:commandButton value="No" update=":formUsuario"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
+            </h:form>
+            <p:dialog id="dlgUsuario" widgetVar="dlg"
+                      header="Gestión de usuarios"
+                      width="400" resizable="false" showEffect="clip" hideEffect="clip">
+                <h:form id="formNe">
+                    <center>
+                        <p:outputPanel>
+                            <br />
+                            <h:outputLabel value="#{usuarioController.editarUsuario ? 'Editar usuario' : 'Crear usuario'}"
+                                           style="font-size: 1em; font-weight: bold" />
+                            <br /><br />
+                            <h:panelGrid columns="2" cellpadding="20" cellspacing="20">
+                                <h:outputLabel class="label" value="Roles:" />
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="rol" style="width: 200px;"
+                                                     value="#{usuarioController.nuevoUsuario.idRol.idRol}"
+                                                     required="true"
+                                                     requiredMessage="El campo Rol es requerido!">
+                                        <f:selectItem itemValue=""
+                                                      itemLabel="-- Seleccione un Rol --" />
+                                        <f:selectItems value="#{usuarioController.listaRoles}"
+                                                       var="rol" itemValue="#{rol.idRol}"
+                                                       itemLabel="#{rol.nombre}" />
+                                    </p:selectOneMenu>
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+
+                                <h:outputLabel class="label" value="Username:" />
+                                <p:outputPanel>
+                                    <p:inputText id="user" styleClass="lblbtn" size="35"
+                                                 value="#{usuarioController.nuevoUsuario.username}" required="true"
+                                                 requiredMessage="El campo username es requerido!" />
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+
+                                <h:outputLabel class="label" value="Clave:" rendered="#{!usuarioController.editarUsuario}" />
+                                <p:outputPanel rendered="#{!usuarioController.editarUsuario}">
+                                    <p:password id="clave" styleClass="lblbtn" size="35"
+                                                value="#{usuarioController.nuevoUsuario.clave}" required="true"
+                                                requiredMessage="El campo Cédula es requerido!" />
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+                            </h:panelGrid>
+                            <br />
+                            <p:commandButton value="Editar" oncomplete="dlg.hide()"
+                                             action="#{usuarioController.editarUsuario()}"
+                                             rendered="#{usuarioController.editarUsuario}"
+                                             update=":formUsuario:tab" process="@all" styleClass="btnClic" />
+                            <p:commandButton value="Guardar" oncomplete="dlg.hide()"
+                                             action="#{usuarioController.guardar()}" update=":formUsuario:tab"
+                                             process="@all" styleClass="btnClic"
+                                             rendered="#{!usuarioController.editarUsuario}" />
+                            <p:commandButton value="Cancelar" process="@this" onclick="dlg.hide()"
+                                             action="#{usuarioController.iniciar()}" update=":formUsuario:tab"
+                                             styleClass="btnClic" />
+                            <br /><br /><br />
+                        </p:outputPanel>
+                    </center>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

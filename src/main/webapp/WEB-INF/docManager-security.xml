@@ -20,9 +20,9 @@
         <security:intercept-url pattern="/**/*.gif" filters="none"/>    
                
         <security:intercept-url pattern="/index.xhtml" access="ROLE_ADMINISTRADOR" />
-        <security:intercept-url pattern="/paginas/administracion/**" access="ROLE_ADMINISTRADOR" />
-        <security:intercept-url pattern="/paginas/hojaVida/**" access="ROLE_FREELANCE" />
-        <security:intercept-url pattern="/paginas/ofertas/**" access="ROLE_DEMANDANTE" />
+        <security:intercept-url pattern="/pages/seguridad/**" access="ROLE_ADMINISTRADOR" />
+        <security:intercept-url pattern="/pages/hojaVida/**" access="ROLE_FREELANCE" />
+        <security:intercept-url pattern="/pages/ofertas/**" access="ROLE_DEMANDANTE" />
         
                         
         <security:form-login login-page="/index.xhtml" authentication-failure-url="/index.xhtml" />    
@@ -41,10 +41,10 @@
     <bean id="myUserDetailsService"
           class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">        
         <property name="dataSource" ref="dataSource"/>
-        <property name="usersByUsernameQuery" value="select username, clave, id_estado from usuario where username=?"/>
+        <property name="usersByUsernameQuery" value="select username, clave, id_estado from usuario where username=? and id_estado = 1"/>
         <property name="authoritiesByUsernameQuery" value="Select u.username, concat('ROLE_', r.nombre) as nombre 
                         from rol as r, usuario as u where u.username in (?) 
-                        and r.id_rol = u.id_rol"/>
+                        and r.id_rol = u.id_rol and u.id_estado = 1"/>
     </bean>
                
     <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
