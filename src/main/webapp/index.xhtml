@@ -31,19 +31,60 @@
                                 <li>
                                     <p:commandLink onclick="PF('dlg').show();" rendered="#{indexController.usuario.username == null}"
                                                    styleClass="linkHeader" value="INGRESAR" />
-                                    <p:commandLink rendered="#{indexController.usuario.username != null}" id="user"
-                                                   styleClass="linkHeader" action="#{indexController.pantallaInicial}"
-                                                   value="Bienvenid@ #{indexController.usuario.username}!" />
+                                    <h:outputLabel value="Bienvenid@ #{indexController.usuario.username}!" id="menuUsuario"
+                                                   rendered="#{indexController.usuario.username != null}" />
+                                    <p:overlayPanel id="menuPanel" for="menuUsuario" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mousedown"
+                                                    dismissable="false" showCloseIcon="true" style="width: 520px; margin-right: 100px">
+                                        <h:panelGrid columns="5">
+                                            <p:commandLink id="home" styleClass="linkHeader" action="#{indexController.inicio}">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="home.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Home" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                            <p:commandLink id="inicial" styleClass="linkHeader" action="#{indexController.pantallaInicial}">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="modulo.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Módulos disponibles" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                            <p:columnGroup rendered="#{indexController.usuario.idRol.nemonico ne 'RFR'}" />
+                                            <p:commandLink id="perfil" styleClass="linkHeader"
+                                                           rendered="#{indexController.usuario.idRol.nemonico eq 'RFR'}">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="perfil.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Perfil" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                            <p:commandLink id="clave" styleClass="linkHeader" onclick="PF('dlgClave').show();">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="clave.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Cambiar clave" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                            <p:commandLink id="cerrar" styleClass="linkHeader" action="#{indexController.logout}">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="cerrar.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Cerrar sesión" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                        </h:panelGrid>
+                                    </p:overlayPanel>
                                 </li>
                                 <li>
                                     <p:commandLink onclick="PF('dlg1').show();" action="#{indexController.setearRadio}"
                                                    rendered="#{indexController.usuario.username == null}"
                                                    styleClass="linkHeader" update=":formMenu, :formRegistro" value="REGISTRARSE" />
-                                    <p:outputPanel styleClass="logout" rendered="#{indexController.usuario.username != null}">
-                                        <a class="linkHeader" href="#{facesContext.externalContext.requestContextPath}/logout">
-                                            Cerrar sesión 
-                                        </a>
-                                    </p:outputPanel>
                                 </li>
                             </ul>
                         </h:form>
@@ -396,9 +437,9 @@
                             <h:outputLabel styleClass="label" value="Fecha de nacimiento: " />
                             <p:outputPanel>
                                 <p:calendar id="fecha" styleClass="Login-input" size="23"
-                                             value="#{indexController.freelanceController.nuevoFreelance.fechaNacimiento}"
-                                             required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
-                                             requiredMessage="El campo Fecha de nacimiento es requerido!" />
+                                            value="#{indexController.freelanceController.nuevoFreelance.fechaNacimiento}"
+                                            required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
+                                            requiredMessage="El campo Fecha de nacimiento es requerido!" />
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Edad: " />
@@ -553,6 +594,39 @@
                 </h:form>
             </p:dialog>
 
+            <p:dialog id="dlgPass" widgetVar="dlgClave" header="Cambiar contraseña"
+                      width="600" resizable="false" showEffect="explode"
+                      hideEffect="bounce" position="center top">
+                <h:form id="formClave">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Contraseña anterior: " />
+                        <p:password size="35" value="#{indexController.claveAnterior}"
+                                    feedback="true" promptLabel="Ingrese la contraseña anterior"
+                                    required="true" requiredMessage="La contraseña anterior es requerida!"
+                                    weakLabel="Seguridad baja" goodLabel="Seguridad buena"
+                                    strongLabel="Seguridad fuerte" />
+                        <h:outputText value="Contraseña nueva: " />
+                        <p:password size="35" value="#{indexController.claveActual}"
+                                    feedback="true" promptLabel="Ingrese la contraseña actual"
+                                    required="true" requiredMessage="La contraseña actual es requerida!"
+                                    weakLabel="Seguridad baja" goodLabel="Seguridad buena"
+                                    strongLabel="Seguridad fuerte" />
+                        <h:outputText value="Repita contraseña: " />
+                        <p:password size="35" value="#{indexController.claveActualRepetida}"
+                                    feedback="true" promptLabel="Repita la contraseña actual"
+                                    required="true"
+                                    requiredMessage="Repetir la contraseña actual es requerido!"
+                                    weakLabel="Seguridad baja" goodLabel="Seguridad buena"
+                                    strongLabel="Seguridad fuerte" />
+                        <p:columnGroup />
+                        <p:commandButton value="Cambiar contraseña"
+                                         action="#{indexController.cambiarClave}"
+                                         oncomplete="handleLoginRequest(xhr, status, args)"
+                                         styleClass="btnClic" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
             <script>
                 $('#slider-top .rslides').responsiveSlides();
                 function verificarRegistro(xhr, status, args) {
@@ -562,6 +636,15 @@
                         }, 100);
                     } else {
                         dlg1.hide();
+                    }
+                }
+                function handleLoginRequest(xhr, status, args) {
+                    if (args.validationFailed || !args.clave) {
+                        dlgClave.jq.effect("shake", {
+                            times: 5
+                        }, 100);
+                    } else {
+                        dlgClave.hide();
                     }
                 }
             </script>

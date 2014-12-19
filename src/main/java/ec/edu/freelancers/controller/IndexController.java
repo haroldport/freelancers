@@ -62,6 +62,9 @@ public class IndexController implements Serializable {
     private LogSistema logSistema;
     private List<AccesoRol> listaAccesoRol;
     private MenuModel menu;
+    private String claveAnterior;
+    private String claveActual;
+    private String claveActualRepetida;
 
     @ManagedProperty(value = "#{personaDemandanteController}")
     private PersonaDemandanteController personaDemandanteController;
@@ -104,8 +107,8 @@ public class IndexController implements Serializable {
             return "";
         }
     }
-    
-    public String inicio(){
+
+    public String inicio() {
         return "/index.xhtml?faces-redirect=true";
     }
 
@@ -136,7 +139,7 @@ public class IndexController implements Serializable {
         }
         return accesoRol.getIdAcceso().getUrl() + "?faces-redirect=true";
     }
-    
+
     private DefaultMenuItem obtenerItems(Acceso acceso, Submenu menuPadre, DefaultMenuItem menuItem) {
         for (Acceso menuDto : acceso.getAccesoList()) {
             if (menuDto.getIdAcceso() != null && menuDto.getIdEstado() == 1) {
@@ -192,6 +195,34 @@ public class IndexController implements Serializable {
         }
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("registro", registro);
+    }
+
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/index.xhtml?faces-redirect=true";
+    }
+
+    public void cambiarClave() throws Exception {
+        RequestContext context = RequestContext.getCurrentInstance();
+        FacesMessage msg = null;
+        boolean clave = false;
+        if (Crypt.encryptMD5(claveAnterior).equals(this.usuario.getClave())) {
+            if (claveActual.equals(claveActualRepetida)) {
+                clave = true;
+                this.usuario.setClave(Crypt.encryptMD5(claveActual));
+                usuarioServicio.actualizar(this.usuario);
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Cambio de contraseña exitoso!!", "");
+            } else {
+                msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error la nueva contraseña y la confirmación no coinciden!!",
+                        "");
+            }
+        } else {
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error la contraseña anterior es incorrecta!!",
+                    "");
+        }
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        context.addCallbackParam("clave", clave);
     }
 
     public String getUsername() {
@@ -272,6 +303,30 @@ public class IndexController implements Serializable {
 
     public void setMenu(MenuModel menu) {
         this.menu = menu;
-    }    
+    }
+
+    public String getClaveAnterior() {
+        return claveAnterior;
+    }
+
+    public void setClaveAnterior(String claveAnterior) {
+        this.claveAnterior = claveAnterior;
+    }
+
+    public String getClaveActual() {
+        return claveActual;
+    }
+
+    public void setClaveActual(String claveActual) {
+        this.claveActual = claveActual;
+    }
+
+    public String getClaveActualRepetida() {
+        return claveActualRepetida;
+    }
+
+    public void setClaveActualRepetida(String claveActualRepetida) {
+        this.claveActualRepetida = claveActualRepetida;
+    }
 
 }

@@ -282,3 +282,36 @@ h1{
     margin: -2.8em auto 1em auto;
     width: 1000px !important;
 }
+
+.menuUsuario{
+    margin-top: 1em;
+}
+
+.ui-menu .ui-menuitem-link {
+    display: block;
+    width: 92%;
+    outline: none;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: 400;
+    border: solid 1px transparent;
+    float: left;
+    line-height: 16px;
+    padding: 0.3em;
+    cursor: pointer;
+}
+
+ul.ui-menu-child {
+    overflow: visible !important;
+    white-space: nowrap;
+    width: auto !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    overflow: visible !important;
+}
+
+.ui-layout-north {
+    z-index: 30 !important;
+    overflow: visible !important;
+}
