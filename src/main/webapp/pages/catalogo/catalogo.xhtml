@@ -1,0 +1,136 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-con-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formCatalogo">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" header="Administración de catálogos" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                    <center>                        						
+                        <div class="footerTabla">
+                            <p:outputPanel id="panelTabla">
+                                <p:dataTable value="#{catalogoController.listaCatalogos}"
+                                             var="catalogo" rendered="#{catalogoController.listaCatalogos.size() > 0}"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             paginatorPosition="bottom" rows="5" paginator="true"
+                                             rowsPerPageTemplate="5,10,15,20,25,30"
+                                             tableStyle="table-layout:auto;width:100%;">
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Nombre">
+                                        <h:outputText value="#{catalogo.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Descripción">
+                                        <h:outputText value="#{catalogo.descripcion}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Nemónico">
+                                        <h:outputText value="#{catalogo.nemonico}" />
+                                    </p:column>
+
+                                    <p:column headerText="Editar" styleClass="classBtn">
+                                        <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                         update=":formNe" process="@this"
+                                                         onclick="PF('dlg').show();"
+                                                         action="#{catalogoController.editarCatalogo(catalogo)}" />
+                                        <p:tooltip for="cbEditar"
+                                                   value="Editar #{catalogo.nombre}"
+                                                   showEffect="fade" hideEffect="fade" />
+                                    </p:column>
+
+                                    <p:column headerText="Eliminar"
+                                              styleClass="classBtn">
+                                        <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                         update=":formCatalogo" process="@this"
+                                                         actionListener="#{catalogoController.seleccionarCatalogo(catalogo)}"
+                                                         oncomplete="dlgEliminar.show()" />
+                                        <p:tooltip for="cbEliminar"
+                                                   value="Eliminar #{catalogo.nombre}"
+                                                   showEffect="fade" hideEffect="fade" />
+                                    </p:column>
+                                </p:dataTable>
+                                <br />
+                                <p:commandButton value="Nuevo catálogo" update=":formNe" onclick="PF('dlg').show();" 
+                                                 process="@this" action="#{catalogoController.setearValores}" />
+                            </p:outputPanel>
+                        </div>
+                    </center>
+                </p:panel>
+                <br />
+
+                <p:confirmDialog id="cdEliminar" styleClass="cajaEspecial"
+                                 message="Desea eliminar el catálogo: #{catalogoController.eliminarCatalogo.nombre}?"
+                                 header="Eliminar #{catalogoController.eliminarCatalogo.nombre}"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formCatalogo"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{catalogoController.eliminar()}" />
+                    <p:commandButton value="No" update=":formCatalogo"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
+            </h:form>
+            <p:dialog id="dlgCatalogo" widgetVar="dlg"
+                      header="Gestión de catálogos"
+                      width="400" resizable="false" showEffect="clip" hideEffect="clip">
+                <h:form id="formNe">
+                    <center>
+                        <p:outputPanel>
+                            <br />
+                            <h:outputLabel value="#{catalogoController.editarCatalogo ? 'Editar catálogo' : 'Crear catálogo'}"
+                                           style="font-size: 1em; font-weight: bold" />
+                            <br /><br />
+                            <h:panelGrid columns="2">
+                                <h:outputLabel class="label" value="Nombre: " />
+                                <p:outputPanel>
+                                    <p:inputText id="nombre" styleClass="lblbtn" size="33"
+                                                 value="#{catalogoController.nuevoCatalogo.nombre}" required="true"
+                                                 requiredMessage="El campo Nombre es requerido!"
+                                                 style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+
+                                <h:outputLabel class="label" value="Descripción: " />
+                                <p:outputPanel>
+                                    <p:inputText id="descripcion" styleClass="lblbtn" size="33"
+                                                 value="#{catalogoController.nuevoCatalogo.descripcion}" required="false"
+                                                 style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                    <h:outputText value=" " style="color: red" />
+                                </p:outputPanel>
+
+                                <h:outputLabel class="label" value="Nemónico: " />
+                                <p:outputPanel>
+                                    <p:inputText id="nemonico" styleClass="lblbtn" size="33"
+                                                 value="#{catalogoController.nuevoCatalogo.nemonico}" required="true"
+                                                 requiredMessage="El campo Nemónico es requerido!"
+                                                 style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>								
+                            </h:panelGrid>
+                            <br />
+                            <p:commandButton value="Editar" oncomplete="dlg.hide()"
+                                             action="#{catalogoController.editarCatalogo()}"
+                                             rendered="#{catalogoController.editarCatalogo}"
+                                             update=":formCatalogo:tab" process="@all" styleClass="btnClic" />
+                            <p:commandButton value="Guardar" oncomplete="dlg.hide()"
+                                             action="#{catalogoController.guardar()}" update=":formCatalogo:tab"
+                                             process="@all" styleClass="btnClic"
+                                             rendered="#{!catalogoController.editarCatalogo}" />
+                            <p:commandButton value="Cancelar" process="@this" onclick="dlg.hide()"
+                                             action="#{catalogoController.iniciar()}" update=":formCatalogo:tab"
+                                             styleClass="btnClic" />
+                            <br /><br />
+                        </p:outputPanel>
+                    </center>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

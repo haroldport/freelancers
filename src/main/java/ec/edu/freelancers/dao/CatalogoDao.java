@@ -32,7 +32,7 @@ public class CatalogoDao extends Generico<Catalogo> {
      */
     @SuppressWarnings("unchecked")
     public List<Catalogo> listarCatalogos() {
-        String sql = "SELECT c FROM Catalogo c WHERE c.estado.idEstado = 1 ORDER BY c.idCatalogo";
+        String sql = "SELECT c FROM Catalogo c WHERE c.idEstado.idEstado = 1 ORDER BY c.idCatalogo";
         return this.getEntityManager().createQuery(sql).getResultList();
     }
 
@@ -44,7 +44,7 @@ public class CatalogoDao extends Generico<Catalogo> {
      */
     public Catalogo obtenerPorNemonico(String nemonico) {
         try {
-            String sql = "SELECT c FROM Catalogo c WHERE c.estado.idEstado = 1 "
+            String sql = "SELECT c FROM Catalogo c WHERE c.idEstado.idEstado = 1 "
                     + "AND c.nemonico = :nemonico";
             Query query = getEntityManager().createQuery(sql);
             query.setParameter("nemonico", nemonico);
