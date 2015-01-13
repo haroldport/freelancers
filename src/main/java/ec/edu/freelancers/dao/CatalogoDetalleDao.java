@@ -112,5 +112,15 @@ public class CatalogoDetalleDao extends Generico<CatalogoDetalle> {
         String sql = "SELECT c FROM CatalogoDetalle c WHERE c.idEstado.idEstado = 1 AND c.idCatalogoDetallePadre IS NULL ORDER BY c.idCatalogoDetalle";
         return this.getEntityManager().createQuery(sql).getResultList();
     }
+    
+    /**
+     * Obtener por id
+     * @param id
+     * @return 
+     */
+    public CatalogoDetalle obtenerPorId(Integer id) {
+        String sql = "SELECT c FROM CatalogoDetalle c WHERE c.idEstado.idEstado = 1 AND c.idCatalogoDetalle = :id";
+        return (CatalogoDetalle) this.getEntityManager().createQuery(sql).setParameter("id",id).getResultList().get(0);
+    }
 
 }

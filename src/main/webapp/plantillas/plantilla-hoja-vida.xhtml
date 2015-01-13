@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:view contentType="text/html" locale="es">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <title><ui:insert name="title">Trabajo freelance en línea</ui:insert></title>
+            <h:outputStylesheet library="css" name="normalize.css" />
+            <h:outputStylesheet library="css" name="estilos.css" />
+            <h:outputScript library="js" name="validador.js" />
+        </h:head>
+
+        <h:body>
+            <div class="contenido">
+                <div class="header">
+                    <div id="logo">
+                        <p:graphicImage styleClass="imgHeader" library="images"
+                                        name="logo.png" />
+                    </div>
+                    <h1>Comunidad Freelance</h1>
+                    <div class="nav">
+                        <h:form id="formMenu">
+                            <ul class="menu">
+                                <li>
+                                    <p:commandLink onclick="PF('dlg').show();" rendered="#{indexController.usuario.username == null}"
+                                                   styleClass="linkHeader" value="INGRESAR" />
+                                    <h:outputLabel value="Bienvenid@ #{indexController.usuario.username}!" id="menuUsuario"
+                                                   rendered="#{indexController.usuario.username != null}" />
+                                    <p:overlayPanel id="menuPanel" for="menuUsuario" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mousedown"
+                                                    dismissable="false" showCloseIcon="true" style="width: 520px; margin-right: 100px">
+                                        <h:panelGrid columns="5">
+                                            <p:commandLink id="home" styleClass="linkHeader" action="#{indexController.inicio}">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="home.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Home" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                            <p:commandLink id="inicial" styleClass="linkHeader" action="#{indexController.pantallaInicial}">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="modulo.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Módulos disponibles" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                            <p:columnGroup rendered="#{indexController.usuario.idRol.nemonico ne 'RFR'}" />
+                                            <p:commandLink id="perfil" styleClass="linkHeader"
+                                                           rendered="#{indexController.usuario.idRol.nemonico eq 'RFR'}">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="perfil.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Perfil" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                            <p:commandLink id="clave" styleClass="linkHeader" onclick="PF('dlgClave').show();">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="clave.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Cambiar clave" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                            <p:commandLink id="cerrar" styleClass="linkHeader" action="#{indexController.logout}">
+                                                <h:panelGrid columns="4">
+                                                    <h:graphicImage library="images" name="cerrar.png" />
+                                                    <p:spacer height="10" width="5" />
+                                                    <h:outputLabel style="font-size: 1.2em" value="Cerrar sesión" />
+                                                    <p:spacer height="10" width="10" />
+                                                </h:panelGrid>
+                                            </p:commandLink>
+                                        </h:panelGrid>
+                                    </p:overlayPanel>
+                                </li>
+                                <li>
+                                    <p:commandLink onclick="PF('dlg1').show();" action="#{indexController.setearRadio}"
+                                                   rendered="#{indexController.usuario.username == null}"
+                                                   styleClass="linkHeader" update=":formMenu, :formRegistro" value="REGISTRARSE" />
+                                </li>
+                            </ul>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div id="menuHoja" style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                <p:panel header="Gestión de Hoja de Vida" style="text-align: center">
+                    <br/>
+                    <h:form id="formHojaVida">
+                        <h:panelGrid columns="7">
+                            <p:outputPanel class="panelLinkHV">
+                                <p:commandLink id="menu0" styleClass="linkHV" action="#{hojaVidaController.irAInfoPersonal}">
+                                    <h:panelGrid columns="1">
+                                        <h:graphicImage library="images" name="freelance/info_personal.png" />
+                                        <h:outputLabel style="font-size: 1.2em" value="Información personal" />
+                                    </h:panelGrid>
+                                </p:commandLink>
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <p:outputPanel class="panelLinkHV">
+                                <p:commandLink id="menu1" styleClass="linkHV" action="#{hojaVidaController.irAFormacionAcademica}">
+                                    <h:panelGrid columns="1">
+                                        <h:graphicImage library="images" name="freelance/formacion_academica.png" />
+                                        <h:outputLabel style="font-size: 1.2em" value="Formación académica" />
+                                    </h:panelGrid>
+                                </p:commandLink>
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <p:outputPanel class="panelLinkHV">
+                                <p:commandLink id="menu2" styleClass="linkHV" action="#{hojaVidaController.irACapacitacion}">
+                                    <h:panelGrid columns="1">
+                                        <h:graphicImage library="images" name="freelance/capacitacion.png" />
+                                        <h:outputLabel style="font-size: 1.2em" value="Capacitación" />
+                                    </h:panelGrid>
+                                </p:commandLink>
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <p:outputPanel class="panelLinkHV">
+                                <p:commandLink id="menu3" styleClass="linkHV" action="#{hojaVidaController.irAExperiencia}">
+                                    <h:panelGrid columns="1">
+                                        <h:graphicImage library="images" name="freelance/experiencia.png" />
+                                        <h:outputLabel style="font-size: 1.2em" value="Experiencia" />
+                                    </h:panelGrid>
+                                </p:commandLink>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </h:form>
+                    <br/>
+                </p:panel>
+            </div>
+            <div id="content">
+                <ui:insert name="content" />
+            </div>
+            <div class="footer">
+                <p>Powered by Luis Rizzo y Luis Córdova</p>
+                <p>Copyright - Todos los derechos reservados 2014</p>
+            </div>
+
+            <p:dialog id="dlgPass" widgetVar="dlgClave" header="Cambiar contraseña"
+                      width="600" resizable="false" showEffect="explode"
+                      hideEffect="bounce" position="center top">
+                <h:form id="formClave">
+                    <p:growl id="growl" life="5000" autoUpdate="true" />
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Contraseña anterior: " />
+                        <p:password size="35" value="#{indexController.claveAnterior}"
+                                    feedback="true" promptLabel="Ingrese la contraseña anterior"
+                                    required="true" requiredMessage="La contraseña anterior es requerida!"
+                                    weakLabel="Seguridad baja" goodLabel="Seguridad buena"
+                                    strongLabel="Seguridad fuerte" />
+                        <h:outputText value="Contraseña nueva: " />
+                        <p:password size="35" value="#{indexController.claveActual}"
+                                    feedback="true" promptLabel="Ingrese la contraseña actual"
+                                    required="true" requiredMessage="La contraseña actual es requerida!"
+                                    weakLabel="Seguridad baja" goodLabel="Seguridad buena"
+                                    strongLabel="Seguridad fuerte" />
+                        <h:outputText value="Repita contraseña: " />
+                        <p:password size="35" value="#{indexController.claveActualRepetida}"
+                                    feedback="true" promptLabel="Repita la contraseña actual"
+                                    required="true"
+                                    requiredMessage="Repetir la contraseña actual es requerido!"
+                                    weakLabel="Seguridad baja" goodLabel="Seguridad buena"
+                                    strongLabel="Seguridad fuerte" />
+                        <p:columnGroup />
+                        <p:commandButton value="Cambiar contraseña"
+                                         action="#{indexController.cambiarClave}"
+                                         oncomplete="handleLoginRequest(xhr, status, args)"
+                                         styleClass="btnClic" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
+            <script>
+                function handleLoginRequest(xhr, status, args) {
+                    if (args.validationFailed || !args.clave) {
+                        dlgClave.jq.effect("shake", {
+                            times: 5
+                        }, 100);
+                    } else {
+                        dlgClave.hide();
+                    }
+                }
+            </script>
+
+        </h:body>
+
+    </f:view>
+</html>

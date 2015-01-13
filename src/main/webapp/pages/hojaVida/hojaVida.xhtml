@@ -1,0 +1,209 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-hoja-vida.xhtml">
+        <ui:define name="content">
+            <h:form id="formInfoPersonal">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" header="Información personal" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                    <center>
+                        <h:panelGrid columns="6">
+                            <h:outputLabel styleClass="label" value="Tipo de documento:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="tipoDocumento" style="margin-left: 10px; width: 225px;"
+                                                 value="#{infoPersonalController.freelance.idTipoDocumento.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Tipo de documento es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{infoPersonalController.freelanceController.tiposDocumento}"
+                                                   var="tipoDoc" itemValue="#{tipoDoc.idCatalogoDetalle}"
+                                                   itemLabel="#{tipoDoc.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="No. de documento:" />
+                            <p:outputPanel>
+                                <p:inputText id="numDoc" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.numeroDocumento}"
+                                             required="true" requiredMessage="El campo No. de documento es requerido!"
+                                             onkeypress="return aceptarNumeros(event);" maxlength="10" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Nombres: " />
+                            <p:outputPanel>
+                                <p:inputText id="nombres" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.nombres}"
+                                             required="true"
+                                             requiredMessage="El campo Nombres es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Apellidos: " />
+                            <p:outputPanel>
+                                <p:inputText id="apellidos" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.apellidos}"
+                                             required="true"
+                                             requiredMessage="El campo Apellidos es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Fecha de nacimiento: " />
+                            <p:outputPanel>
+                                <p:calendar id="fecha" styleClass="Login-input" size="34"
+                                            value="#{infoPersonalController.freelance.fechaNacimiento}"
+                                            required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
+                                            requiredMessage="El campo Fecha de nacimiento es requerido!" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Edad: " />
+                            <p:outputPanel>
+                                <p:inputText id="edad" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.edad}"
+                                             onkeypress="return aceptarNumeros(event);" maxlength="10" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="País:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="pais" style="margin-left: 10px; width: 225px;"
+                                                 value="#{infoPersonalController.freelance.idPais.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo País es requerido!">
+                                    <p:ajax event="change" update=":formInfoPersonal:pnlProvincia, :formInfoPersonal:pnlCanton" 
+                                            listener="#{infoPersonalController.obtenerProvincias}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{infoPersonalController.paises}"
+                                                   var="pais" itemValue="#{pais.idCatalogoDetalle}"
+                                                   itemLabel="#{pais.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Provincia:" />
+                            <p:outputPanel id="pnlProvincia">
+                                <p:selectOneMenu id="provincia" style="margin-left: 10px; width: 225px;"
+                                                 value="#{infoPersonalController.freelance.idProvincia.idCatalogoDetalle}"
+                                                 required="true" disabled="#{infoPersonalController.provincias.size() == 0}"
+                                                 requiredMessage="El campo Provincia es requerido!">
+                                    <p:ajax event="change" update=":formInfoPersonal:pnlCanton" 
+                                            listener="#{infoPersonalController.obtenerCantones}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{infoPersonalController.provincias}"
+                                                   var="prov" itemValue="#{prov.idCatalogoDetalle}"
+                                                   itemLabel="#{prov.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Cantón:" />
+                            <p:outputPanel id="pnlCanton">
+                                <p:selectOneMenu id="canton" style="margin-left: 10px; width: 225px;"
+                                                 value="#{infoPersonalController.freelance.idCanton.idCatalogoDetalle}"
+                                                 required="true" disabled="#{infoPersonalController.cantones.size() == 0}"
+                                                 requiredMessage="El campo Cantón es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{infoPersonalController.cantones}"
+                                                   var="cant" itemValue="#{cant.idCatalogoDetalle}"
+                                                   itemLabel="#{cant.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Calle principal: " />
+                            <p:outputPanel>
+                                <p:inputText id="calle1f" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.callePrincipal}"
+                                             required="true" requiredMessage="El campo Calle principal es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="No. casa: " />
+                            <p:outputPanel>
+                                <p:inputText id="numCasaf" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.numeroCasa}"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Calle secundaria: " />
+                            <p:outputPanel>
+                                <p:inputText id="calle2f" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.calleSecundaria}"
+                                             required="true" requiredMessage="El campo Calle secundaria es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Referencia: " />
+                            <p:outputPanel>
+                                <p:inputText id="ref2" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.referencia}"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Estado civil:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="estCivil" style="margin-left: 10px; width: 225px;"
+                                                 value="#{infoPersonalController.freelance.idEstadoCivil.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Estado civil es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{infoPersonalController.freelanceController.estadosCiviles}"
+                                                   var="est" itemValue="#{est.idCatalogoDetalle}"
+                                                   itemLabel="#{est.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Teléfono: " />
+                            <p:outputPanel>
+                                <p:inputText id="telefonof" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.telefono}"
+                                             onkeypress="return aceptarNumeros(event);" maxlength="10"/>
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Celular: " />
+                            <p:outputPanel>
+                                <p:inputText id="celularf" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.celular}"
+                                             onkeypress="return aceptarNumeros(event);" maxlength="10" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Email: " />
+                            <p:outputPanel>
+                                <p:inputText id="emailf" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.correo}"
+                                             required="true" validatorMessage="Ingrese un correo válido"
+                                             requiredMessage="El campo Email es requerido!">
+                                    <f:validateRegex
+                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Web site: " />
+                            <p:outputPanel>
+                                <p:inputText id="webf" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.paginaWeb}" />
+                            </p:outputPanel>
+                        </h:panelGrid>
+                        <br/>
+                        <p:commandLink id="btnGuardar" action="#{infoPersonalController.guardar}" process="@all" 
+                                       update=":formInfoPersonal:tab">
+                            <h:graphicImage library="images" name="guardar.png" title="Guardar datos" />
+                        </p:commandLink>
+                    </center>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

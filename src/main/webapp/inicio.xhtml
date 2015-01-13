@@ -10,9 +10,14 @@
                     <h:outputLabel value="Administración del Sistema de Gestión de Portfolio para Freelancers"
                                    rendered="#{indexController.usuario.idRol.nemonico eq 'RAD'}"
                                    styleClass="estiloTitulo" />
+                    <h:outputLabel value="Opciones para usuario Freelance dentro del sistema de Gestión de Portfolio para Freelancers"
+                                   rendered="#{indexController.usuario.idRol.nemonico eq 'RFR'}"
+                                   styleClass="estiloTitulo" />
                     <br /><br />
                     <h:outputLabel value="Como administrador del sistema, tendrá acceso al(los) siguiente(s) módulo(s):"
                                    rendered="#{indexController.usuario.idRol.nemonico eq 'RAD'}" />
+                    <h:outputLabel value="Como usuario Freelance, tendrá acceso al(los) siguiente(s) módulo(s):"
+                                   rendered="#{indexController.usuario.idRol.nemonico eq 'RFR'}" />
                     <br /><br />
                     <p:dataGrid var="acceso" styleClass="contentModules"
                                 value="#{indexController.listaAccesoRol}" columns="3">
@@ -20,7 +25,7 @@
                             <div class="contentModulo">
                                 <p:commandLink action="#{indexController.buscarPagina(acceso)}">
                                     <p:graphicImage value="/resources/images/#{acceso.idAcceso.etiqueta}.png"
-                                                    styleClass="iconoMenu" width="250" height="150"
+                                                    styleClass="iconoMenu" width="210" height="150"
                                                     title="#{acceso.idAcceso.descripcion}" alt="#{acceso.idAcceso.etiqueta}" /> 	
                                 </p:commandLink>
                             </div>

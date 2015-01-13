@@ -315,3 +315,18 @@ ul.ui-menu-child {
     z-index: 30 !important;
     overflow: visible !important;
 }
+
+.panelLinkHV{
+    border: 1px solid #0174DF !important;
+    padding: 1em;
+    margin-left: 1em;
+    margin-right: 2em;
+}
+
+.panelLinkHV:hover{
+    background: #F5F6CE;
+}
+
+.linkHV{    
+    color: #0174DF !important;
+}

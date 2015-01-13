@@ -84,5 +84,14 @@ public class CatalogoDetalleServicio {
     public List<CatalogoDetalle> listarCatalogosDetallePadre() {
         return catalogoDetalleDao.listarCatalogosDetallePadre();
     }
+    
+    /**
+     * Obtener por id
+     * @param id
+     * @return 
+     */
+    public CatalogoDetalle obtenerPorId(Integer id) {
+        return catalogoDetalleDao.obtenerPorId(id);
+    }
 
 }

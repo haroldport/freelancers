@@ -3,6 +3,7 @@ package ec.edu.freelancers.servicio;
 import ec.edu.freelancers.dao.FreelanceDao;
 import ec.edu.freelancers.dao.UsuarioDao;
 import ec.edu.freelancers.modelo.Freelance;
+import ec.edu.freelancers.modelo.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -45,6 +46,16 @@ public class FreelanceServicio {
         } catch (Exception ex) {
             Logger.getLogger(FreelanceServicio.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    /**
+     * Buscar por usuario
+     * @param usuario
+     * @return
+     * @throws Exception 
+     */
+    public Freelance buscarPorUsuario(Usuario usuario) throws Exception {
+        return freelanceDao.buscarPorUsuario(usuario);
     }
     
 }
