@@ -1,16 +1,193 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-con-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formCatalogoDetalle">
+                <p:growl id="messages" showDetail="false" life="5000"
+                         autoUpdate="true" />
+                <br /><br />                
+                <p:panel id="tab" header="Administración de catálogos detalle" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                    <center>
+                        <div class="footerTabla">
+                            <p:outputPanel id="panelTabla">
+                                <p:treeTable value="#{catalogoDetalleController.rootCatDetPadre}" var="catDet"
+                                             style="text-align: left;table-layout: fixed !important; word-wrap: break-word !important; white-space: normal;" 
+                                             scrollHeight="200" scrollable="true"
+                                             rendered="#{catalogoDetalleController.rootCatDetPadre.childCount > 0}">
+
+                                    <p:column styleClass="wrap" headerText="Catálogo">
+                                        <h:outputText value="#{catDet.idCatalogo.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap" headerText="Cat. Det. Padre">
+                                        <h:outputText value="#{catDet.idCatalogoDetallePadre.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap" headerText="Nombre">
+                                        <h:outputText value="#{catDet.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap" headerText="Descripción">
+                                        <h:outputText value="#{catDet.descripcion}" />
+                                    </p:column>
+
+                                    <p:column headerText="Editar" styleClass="classBtn" style="width: 50px">
+                                        <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                         onclick="PF('dlg').show();"
+                                                         update=":formNe" process="@this"
+                                                         action="#{catalogoDetalleController.editarCatalogoDetalle(catDet)}" />
+                                        <p:tooltip for="cbEditar" value="Editar #{catDet.nombre}"
+                                                   showEffect="fade" hideEffect="fade" />
+                                    </p:column>
+
+                                    <p:column headerText="Eliminar" styleClass="classBtn" style="width: 50px">
+                                        <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                         update=":formCatalogoDetalle" process="@this"
+                                                         actionListener="#{catalogoDetalleController.seleccionarCatalogoDetalle(catDet)}"
+                                                         oncomplete="dlgEliminar.show()" />
+                                        <p:tooltip for="cbEliminar" value="Eliminar #{catDet.nombre}"
+                                                   showEffect="fade" hideEffect="fade" />
+                                    </p:column>
+                                </p:treeTable>
+                                <br />
+                                <p:commandButton value="Nuevo catálogo detalle" update=":formNe" onclick="PF('dlg').show();" 
+                                                 process="@this" action="#{catalogoDetalleController.setearValores}" />
+                            </p:outputPanel>
+                        </div>
+                    </center>
+                </p:panel>
+                <br />
+                <p:confirmDialog id="cdEliminar" styleClass="cajaEspecial"
+                                 message="Desea eliminar el catálogo detalle: #{catalogoDetalleController.eliminarCatalogoDetalle.nombre}?"
+                                 header="Eliminar #{catalogoDetalleController.eliminarCatalogoDetalle.nombre}"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formCatalogoDetalle"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{catalogoDetalleController.eliminar()}" />
+                    <p:commandButton value="No" update=":formCatalogoDetalle"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
+            </h:form>
+            <p:dialog id="dlgCatalogo" widgetVar="dlg"
+                      header="Gestión de catálogos detalle"
+                      width="800" resizable="false" showEffect="clip" hideEffect="clip">
+                <h:form id="formNe">
+                    <center>
+                        <p:outputPanel>
+                            <br />
+                            <h:outputLabel value="#{catalogoController.editarCatalogo ? 'Editar catálogo detalle' : 'Crear catálogo detalle'}"
+                                           style="font-size: 1em; font-weight: bold" />
+                            <br /><br />
+                            <h:panelGrid columns="2">
+                                <h:outputLabel class="label" value="Catálogos:" />
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="catalogo" style="width: 255px;"
+                                                     value="#{catalogoDetalleController.nuevoCatalogoDetalle.idCatalogo.idCatalogo}"
+                                                     required="true"
+                                                     requiredMessage="El campo Catalogo es requerido!">
+                                        <f:selectItem itemValue=""
+                                                      itemLabel="-- Seleccione un Catálogo --" />
+                                        <f:selectItems value="#{catalogoDetalleController.listaCatalogos}"
+                                                       var="cat" itemValue="#{cat.idCatalogo}"
+                                                       itemLabel="#{cat.nombre}" />
+                                    </p:selectOneMenu>
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+
+                                <h:outputLabel class="label" value="Cat. Det. padre:" />
+                                <p:outputPanel id="catDetPadre">
+                                    <p:inputText styleClass="lblbtn" id="catDetP"
+                                                 disabled="true" size="40"
+                                                 value="#{catalogoDetalleController.catalogoDetallePadre.nombre}" />
+                                    <p:commandButton id="btnCatalogo" icon="ui-icon-folder-open"
+                                                     process="@this" action="#{catalogoDetalleController.mostrarElArbol}"
+                                                     update=":formNe:catDetPadre"
+                                                     styleClass="btnSele" />
+                                    <p:tooltip for="btnCatalogo" value="Seleccionar Padre"
+                                               showEffect="fade" hideEffect="fade" />
+                                    <p:outputPanel id="pnlArbol" rendered="#{catalogoDetalleController.mostrarArbol}">
+                                        <p:treeTable value="#{catalogoDetalleController.rootCatDetPadre}" var="catDet"
+                                                     style="text-align: left;table-layout: fixed !important; word-wrap: break-word !important; white-space: normal;" 
+                                                     scrollHeight="200" scrollable="true"
+                                                     rendered="#{catalogoDetalleController.rootCatDetPadre.childCount > 0}">
+
+                                            <p:column styleClass="wrap" headerText="Catálogo">
+                                                <h:outputText value="#{catDet.idCatalogo.nombre}" />
+                                            </p:column>
+
+                                            <p:column styleClass="wrap" headerText="Cat. Det. Padre">
+                                                <h:outputText value="#{catDet.idCatalogoDetallePadre.nombre}" />
+                                            </p:column>
+
+                                            <p:column styleClass="wrap" headerText="Nombre">
+                                                <h:outputText value="#{catDet.nombre}" />
+                                            </p:column>
+
+                                            <p:column styleClass="classBtn" headerText="Seleccionar">
+                                                <p:commandButton id="btnSeleccionar" icon="ui-icon-pin-w"
+                                                                 update=":formNe:catDetPadre" process="@this"
+                                                                 action="#{catalogoDetalleController.seleccionarCatDetPadre(catDet)}">
+                                                </p:commandButton>
+                                                <p:tooltip for="btnSeleccionar" value="Seleccione el catalogo detalle padre"
+                                                           showEffect="fade" hideEffect="fade" />
+                                            </p:column>
+                                        </p:treeTable>
+                                    </p:outputPanel>
+                                </p:outputPanel>
+
+                                <h:outputLabel class="label" value="Nombre: " />
+                                <p:outputPanel>
+                                    <p:inputText id="nombre" styleClass="lblbtn" size="46"
+                                                 value="#{catalogoDetalleController.nuevoCatalogoDetalle.nombre}"
+                                                 required="true"
+                                                 requiredMessage="El campo Nombre es requerido!"
+                                                 style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+
+                                <h:outputLabel class="label" value="Descripción: " />
+                                <p:outputPanel>
+                                    <p:inputText id="descripcion" styleClass="lblbtn" size="46"
+                                                 value="#{catalogoDetalleController.nuevoCatalogoDetalle.descripcion}"
+                                                 required="false" style="text-transform: uppercase"
+                                                 onchange="toUpperCase(this)" />
+                                    <h:outputText value=" " style="color: red" />
+                                </p:outputPanel>
+
+                                <h:outputLabel class="label" value="Nemónico: " />
+                                <p:outputPanel>
+                                    <p:inputText id="nemonico" styleClass="lblbtn" size="46"
+                                                 value="#{catalogoDetalleController.nuevoCatalogoDetalle.nemonico}"
+                                                 required="true"
+                                                 requiredMessage="El campo Nemónico es requerido!"
+                                                 style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+                            </h:panelGrid>
+                            <br />
+                            <p:commandButton value="Editar" oncomplete="dlg.hide()"
+                                             action="#{catalogoDetalleController.editarCatalogoDetalle()}"
+                                             rendered="#{catalogoDetalleController.editarCatalogoDetalle}"
+                                             update=":formCatalogoDetalle:tab" process="@all"
+                                             styleClass="btnClic" />
+                            <p:commandButton value="Guardar" oncomplete="dlg.hide()"
+                                             action="#{catalogoDetalleController.guardar()}"
+                                             update=":formCatalogoDetalle:tab" process="@all"
+                                             styleClass="btnClic"
+                                             rendered="#{!catalogoDetalleController.editarCatalogoDetalle}" />
+                            <p:commandButton value="Cancelar" process="@this" onclick="dlg.hide()"
+                                             action="#{catalogoDetalleController.iniciar()}"
+                                             update=":formCatalogoDetalle:tab" styleClass="btnClic" />
+                            <br />
+                        </p:outputPanel>
+                    </center>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
 </html>

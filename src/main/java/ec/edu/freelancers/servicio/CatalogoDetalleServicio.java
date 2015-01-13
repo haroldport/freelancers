@@ -76,5 +76,13 @@ public class CatalogoDetalleServicio {
     public List<CatalogoDetalle> obtenerPorCatDetNemonico(String nemonico) {
         return catalogoDetalleDao.obtenerPorCatDetNemonico(nemonico);
     }
+    
+    /**
+     * Obtener los padres
+     * @return 
+     */
+    public List<CatalogoDetalle> listarCatalogosDetallePadre() {
+        return catalogoDetalleDao.listarCatalogosDetallePadre();
+    }
 
 }
