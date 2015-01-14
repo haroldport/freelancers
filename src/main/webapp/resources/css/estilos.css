@@ -330,3 +330,12 @@ ul.ui-menu-child {
 .linkHV{    
     color: #0174DF !important;
 }
+
+.imagen {
+    border: 1px dashed #000000 !important;
+    margin-left: 0.8em;
+    margin-bottom: 0.6em;
+    max-width: 150px !important;
+    max-height: 150px !important;
+    vertical-align: middle !important; 
+}

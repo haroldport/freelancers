@@ -13,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -60,6 +61,9 @@ public class Imagen implements Serializable {
     private List<Freelance> freelanceList;
     @OneToMany(mappedBy = "idImagen")
     private List<ImagenPortfolio> imagenPortfolioList;
+    
+    @Transient
+    private String fileNameExtension;
 
     public Imagen() {
     }
@@ -115,6 +119,16 @@ public class Imagen implements Serializable {
     public void setExtension(String extension) {
         this.extension = extension;
     }
+    
+    public String getFileNameExtension() {
+        fileNameExtension = nombre + extension;
+        return fileNameExtension;
+    }
+
+    public void setFileNameExtension(String fileNameExtension) {
+        this.fileNameExtension = fileNameExtension;
+    }
+
 
     @XmlTransient
     public List<Ofertas> getOfertasList() {

@@ -6,13 +6,37 @@
       xmlns:pou="http://primefaces.org/ui">
     <ui:composition template="/plantillas/plantilla-hoja-vida.xhtml">
         <ui:define name="content">
-            <h:form id="formInfoPersonal">
+            <h:form id="formInfoPersonal" enctype="multipart/form-data">
                 <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
                 <br /><br />
                 <p:panel id="tab" header="Información personal" 
                          style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
                     <center>
-                        <h:panelGrid columns="6">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel styleClass="label" value="Foto:" />
+                            <p:outputPanel id="pnlImagen">
+                                <h:graphicImage styleClass="imagen" id="imagen"
+                                                rendered="#{infoPersonalController.freelance.idImagen.idImagen == 1}"
+                                                library="images" name="sel-imagen.png" />
+                                <h:graphicImage id="image" styleClass="imagen"
+                                                rendered="#{infoPersonalController.freelance.idImagen.idImagen > 1}"
+                                                url="/image?id=#{infoPersonalController.freelance.idImagen.idImagen}"
+                                                width="150" height="150" />
+                            </p:outputPanel>
+                            <p:columnGroup />
+                            <p:outputPanel id="fileImg" style="width: 150px">
+                                <p:fileUpload
+                                    fileUploadListener="#{infoPersonalController.cargarImagen}"
+                                    mode="advanced" style="width: 220px"
+                                    label="Seleccione la foto (gif;jpg;jpeg;png)"
+                                    sizeLimit="200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                    auto="true" update=":formInfoPersonal:pnlImagen" process="@this"
+                                    invalidSizeMessage="El tamaño máximo de archivo permitido es 200 Kb!"
+                                    invalidFileMessage="Sólo se permiten cargar imágenes!" />
+                            </p:outputPanel>                            
+                        </h:panelGrid>
+                        <br />
+                        <h:panelGrid columns="6">                            
                             <h:outputLabel styleClass="label" value="Tipo de documento:" />
                             <p:outputPanel>
                                 <p:selectOneMenu id="tipoDocumento" style="margin-left: 10px; width: 225px;"
@@ -198,7 +222,7 @@
                         </h:panelGrid>
                         <br/>
                         <p:commandLink id="btnGuardar" action="#{infoPersonalController.guardar}" process="@all" 
-                                       update=":formInfoPersonal:tab">
+                                       update=":formInfoPersonal:tab" ajax="false">
                             <h:graphicImage library="images" name="guardar.png" title="Guardar datos" />
                         </p:commandLink>
                     </center>
