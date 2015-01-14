@@ -33,7 +33,11 @@ public enum CatalogoEnum {
     /**
      * Estados civiles.
      */
-    ESTADO_CIVIL("ESTCI");
+    ESTADO_CIVIL("ESTCI"),
+    /**
+     * Niveles de instruccion.
+     */
+    NIVEL_INSTRUCCION("NIVIN");
 
     private String nemonico;
 

@@ -11,8 +11,53 @@
                 <br /><br />
                 <p:panel id="tab" header="Formación académica" 
                          style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
-                    <center>                        						
-
+                    <center>                        						                        
+                        <h:panelGrid columns="2">                            
+                            <h:outputLabel styleClass="label" value="Nivel de instrucción:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="nivelInstruccion" style="margin-left: 10px; width: 225px;"
+                                                 value="#{formacionAcademicaController.nuevaFormacion.idNivelInstruccion.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Nivel de instrucción es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{formacionAcademicaController.nivelesInstruccion}"
+                                                   var="nivel" itemValue="#{nivel.idCatalogoDetalle}"
+                                                   itemLabel="#{nivel.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Nombre de institución:" />
+                            <p:outputPanel>
+                                <p:inputText id="numDoc" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.numeroDocumento}"
+                                             required="true" requiredMessage="El campo No. de documento es requerido!"
+                                             onkeypress="return aceptarNumeros(event);" maxlength="10" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Años de estudio: " />
+                            <p:outputPanel>
+                                <p:inputText id="nombres" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.nombres}"
+                                             required="true"
+                                             requiredMessage="El campo Nombres es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Título obtenido:" />
+                            <p:outputPanel>
+                                <p:inputText id="apellidos" styleClass="Login-input" size="40"
+                                             value="#{infoPersonalController.freelance.apellidos}"
+                                             required="true"
+                                             requiredMessage="El campo Apellidos es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                        </h:panelGrid>
+                        <br/>
+                        <p:commandLink id="btnGuardar" action="#{infoPersonalController.guardar}" process="@all" 
+                                       update=":formInfoPersonal:tab" ajax="false">
+                            <h:graphicImage library="images" name="guardar.png" title="Guardar datos" />
+                        </p:commandLink>
                     </center>
                 </p:panel>
             </h:form>
