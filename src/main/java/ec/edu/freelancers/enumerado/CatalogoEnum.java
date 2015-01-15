@@ -37,7 +37,19 @@ public enum CatalogoEnum {
     /**
      * Niveles de instruccion.
      */
-    NIVEL_INSTRUCCION("NIVIN");
+    NIVEL_INSTRUCCION("NIVIN"),
+    /**
+     * Tipo de evento.
+     */
+    TIPO_EVENTO("TIPEV"),
+    /**
+     * Area de estudio.
+     */
+    AREA_ESTUDIO("AREST"),
+    /**
+     * Tipo de certificado.
+     */
+    TIPO_CERTIFICADO("TIPCE");
 
     private String nemonico;
 
