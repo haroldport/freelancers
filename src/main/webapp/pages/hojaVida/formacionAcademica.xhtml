@@ -28,38 +28,105 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Nombre de institución:" />
                             <p:outputPanel>
-                                <p:inputText id="numDoc" styleClass="Login-input" size="40"
-                                             value="#{infoPersonalController.freelance.numeroDocumento}"
-                                             required="true" requiredMessage="El campo No. de documento es requerido!"
-                                             onkeypress="return aceptarNumeros(event);" maxlength="10" />
+                                <p:inputText id="nombreInstitucion" styleClass="Login-input" size="40"
+                                             value="#{formacionAcademicaController.nuevaFormacion.nombreInstitucion}"
+                                             required="true" requiredMessage="El campo Nombre de institución es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Años de estudio: " />
                             <p:outputPanel>
-                                <p:inputText id="nombres" styleClass="Login-input" size="40"
-                                             value="#{infoPersonalController.freelance.nombres}"
-                                             required="true"
-                                             requiredMessage="El campo Nombres es requerido!"
-                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <p:inputText id="anio" styleClass="Login-input" size="40"
+                                             value="#{formacionAcademicaController.nuevaFormacion.aniosEstudio}"
+                                             required="true" maxlength="2"
+                                             requiredMessage="El campo Años de estudio es requerido!"
+                                             onkeypress="return aceptarNumeros(event);" />
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Título obtenido:" />
                             <p:outputPanel>
-                                <p:inputText id="apellidos" styleClass="Login-input" size="40"
-                                             value="#{infoPersonalController.freelance.apellidos}"
-                                             required="true"
-                                             requiredMessage="El campo Apellidos es requerido!"
+                                <p:inputText id="titulo" styleClass="Login-input" size="40"
+                                             value="#{formacionAcademicaController.nuevaFormacion.tituloObtenido}"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
-                                <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                         </h:panelGrid>
                         <br/>
-                        <p:commandLink id="btnGuardar" action="#{infoPersonalController.guardar}" process="@all" 
-                                       update=":formInfoPersonal:tab" ajax="false">
-                            <h:graphicImage library="images" name="guardar.png" title="Guardar datos" />
+                        <p:commandLink id="btnEditar" action="#{formacionAcademicaController.editarFormacion}" process="@all" 
+                                       rendered="#{formacionAcademicaController.editarFormacion}"
+                                       update=":formFormacionAcademica:tab">
+                            <h:graphicImage library="images" name="editar.png" title="Editar" />
                         </p:commandLink>
+                        <p:commandLink id="btnGuardar" action="#{formacionAcademicaController.guardar}" process="@all" 
+                                       rendered="#{!formacionAcademicaController.editarFormacion}"
+                                       update=":formFormacionAcademica:tab">
+                            <h:graphicImage library="images" name="guardar.png" title="Guardar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnCancelar" action="#{formacionAcademicaController.iniciar}" process="@this"
+                                       update=":formFormacionAcademica:tab">
+                            <h:graphicImage library="images" name="cancelar.png" title="Cancelar" />
+                        </p:commandLink>
+                        <br/><br/>
+                        <p:outputPanel id="panelTabla">
+                            <p:dataTable value="#{formacionAcademicaController.listadoFormaciones}"
+                                         var="formacion" emptyMessage="No se ha registrado ninguna formación académica"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom" rows="5" paginator="true"
+                                         rowsPerPageTemplate="5,10,15,20,25,30"
+                                         tableStyle="table-layout:auto;width:100%;">
+
+                                <p:column styleClass="wrap"
+                                          headerText="Nivel de instrucción">
+                                    <h:outputText value="#{formacion.idNivelInstruccion.nombre}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Nombre de institución">
+                                    <h:outputText value="#{formacion.nombreInstitucion}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Años de estudio">
+                                    <h:outputText value="#{formacion.aniosEstudio}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Titulo obtenido">
+                                    <h:outputText value="#{formacion.tituloObtenido}" />
+                                </p:column>
+
+                                <p:column headerText="Editar" styleClass="classBtn">
+                                    <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                     update=":formFormacionAcademica" process="@this"
+                                                     action="#{formacionAcademicaController.editarFormacion(formacion)}" />
+                                    <p:tooltip for="cbEditar"
+                                               value="Editar formación"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+
+                                <p:column headerText="Eliminar"
+                                          styleClass="classBtn">
+                                    <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                     update=":formFormacionAcademica" process="@this"
+                                                     actionListener="#{formacionAcademicaController.seleccionarFormacion(formacion)}"
+                                                     oncomplete="dlgEliminar.show()" />
+                                    <p:tooltip for="cbEliminar"
+                                               value="Eliminar formación"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
                     </center>
                 </p:panel>
+                <p:confirmDialog id="cdEliminar"
+                                 message="Desea eliminar la formación?"
+                                 header="Eliminar formación"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formFormacionAcademica"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{formacionAcademicaController.eliminar}" />
+                    <p:commandButton value="No" update=":formFormacionAcademica"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
