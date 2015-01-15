@@ -12,9 +12,198 @@
                 <p:panel id="tab" header="Capacitación" 
                          style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
                     <center>                        						
+                        <h:panelGrid columns="4">
+                            <h:outputLabel styleClass="label" value="Nombre de institución:" />
+                            <p:outputPanel>
+                                <p:inputText id="nombreInstitucion" styleClass="Login-input" size="40"
+                                             value="#{capacitacionController.nuevaCapacitacion.nombreInstitucion}"
+                                             required="true" requiredMessage="El campo Nombre de institución es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Tipo de Evento:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="tipoEvento" style="margin-left: 10px; width: 225px;"
+                                                 value="#{capacitacionController.nuevaCapacitacion.idTipoEvento.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Tipo de Evento es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{capacitacionController.tiposDeEvento}"
+                                                   var="tipEv" itemValue="#{tipEv.idCatalogoDetalle}"
+                                                   itemLabel="#{tipEv.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel> 
+                            <h:outputLabel styleClass="label" value="Nombre del evento:" />
+                            <p:outputPanel>
+                                <p:inputText id="nombreEvento" styleClass="Login-input" size="40"
+                                             value="#{capacitacionController.nuevaCapacitacion.nombreEvento}"
+                                             required="true" requiredMessage="El campo Nombre del evento es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Área de estudio:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="areaEstudio" style="margin-left: 10px; width: 225px;"
+                                                 value="#{capacitacionController.nuevaCapacitacion.idAreaEstudio.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Área de estudio es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{capacitacionController.areasDeEstudio}"
+                                                   var="area" itemValue="#{area.idCatalogoDetalle}"
+                                                   itemLabel="#{area.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Fecha desde:" />
+                            <p:outputPanel>
+                                <p:calendar id="fechaDesde" styleClass="Login-input" size="34"
+                                            value="#{capacitacionController.nuevaCapacitacion.fechaDesde}"
+                                            required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
+                                            requiredMessage="El campo Fecha desde es requerido!" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Fecha hasta:" />
+                            <p:outputPanel>
+                                <p:calendar id="fechaHasta" styleClass="Login-input" size="34"
+                                            value="#{capacitacionController.nuevaCapacitacion.fechaHasta}"
+                                            required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
+                                            requiredMessage="El campo Fecha hasta es requerido!" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Número de días:" />
+                            <p:outputPanel>
+                                <p:inputText id="numDias" styleClass="Login-input" size="40"
+                                             value="#{capacitacionController.nuevaCapacitacion.numeroDias}"
+                                             required="true" maxlength="3"
+                                             requiredMessage="El campo Número de días es requerido!"
+                                             onkeypress="return aceptarNumeros(event);" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Número de horas totales:" />
+                            <p:outputPanel>
+                                <p:inputText id="numHoras" styleClass="Login-input" size="40"
+                                             value="#{capacitacionController.nuevaCapacitacion.numeroHoras}"
+                                             required="true" maxlength="3"
+                                             requiredMessage="El campo Número de horas totales es requerido!"
+                                             onkeypress="return aceptarNumeros(event);" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Tipo de certificado:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="tipoCertificado" style="margin-left: 10px; width: 225px;"
+                                                 value="#{capacitacionController.nuevaCapacitacion.idTipoCertificado.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Tipo de certificado es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{capacitacionController.tiposDeCertificado}"
+                                                   var="tipo" itemValue="#{tipo.idCatalogoDetalle}"
+                                                   itemLabel="#{tipo.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                        </h:panelGrid>
+                        <br/>
+                        <p:commandLink id="btnEditar" action="#{capacitacionController.editarCapacitacion}" process="@all" 
+                                       rendered="#{capacitacionController.editarCapacitacion}"
+                                       update=":formCapacitacion:tab">
+                            <h:graphicImage library="images" name="editar.png" title="Editar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnGuardar" action="#{capacitacionController.guardar}" process="@all" 
+                                       rendered="#{!capacitacionController.editarCapacitacion}"
+                                       update=":formCapacitacion:tab">
+                            <h:graphicImage library="images" name="guardar.png" title="Guardar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnCancelar" action="#{capacitacionController.iniciar}" process="@this"
+                                       update=":formCapacitacion:tab">
+                            <h:graphicImage library="images" name="cancelar.png" title="Cancelar" />
+                        </p:commandLink>
+                        <br/><br/>
+                        <p:outputPanel id="panelTabla">
+                            <p:dataTable value="#{capacitacionController.listadoCapacitaciones}"
+                                         var="capacitacion" emptyMessage="No se ha registrado ninguna capacitación"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom" rows="5" paginator="true"
+                                         rowsPerPageTemplate="5,10,15,20,25,30"
+                                         tableStyle="table-layout:auto;width:100%;">
 
+                                <p:column styleClass="wrap"
+                                          headerText="Nombre de institución">
+                                    <h:outputText value="#{capacitacion.nombreInstitucion}" />
+                                </p:column>
+                                
+                                <p:column styleClass="wrap"
+                                          headerText="Tipo de evento">
+                                    <h:outputText value="#{capacitacion.idTipoEvento.nombre}" />
+                                </p:column>                                
+
+                                <p:column styleClass="wrap"
+                                          headerText="Nombre del evento">
+                                    <h:outputText value="#{capacitacion.nombreEvento}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Área de estudios">
+                                    <h:outputText value="#{capacitacion.idAreaEstudio.nombre}" />
+                                </p:column>
+                                
+                                <p:column styleClass="wrap"
+                                          headerText="Fecha desde">
+                                    <h:outputText value="#{capacitacion.fechaDesde}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:outputText>
+                                </p:column>
+                                
+                                <p:column styleClass="wrap"
+                                          headerText="Fecha hasta">
+                                    <h:outputText value="#{capacitacion.fechaHasta}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:outputText>
+                                </p:column>
+                                
+                                <p:column styleClass="wrap"
+                                          headerText="Número de días">
+                                    <h:outputText value="#{capacitacion.numeroDias}" />
+                                </p:column>
+                                
+                                <p:column styleClass="wrap"
+                                          headerText="Número de horas totales">
+                                    <h:outputText value="#{capacitacion.numeroHoras}" />
+                                </p:column>
+
+                                <p:column headerText="Editar" styleClass="classBtn">
+                                    <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                     update=":formCapacitacion" process="@this"
+                                                     action="#{capacitacionController.editarCapacitacion(capacitacion)}" />
+                                    <p:tooltip for="cbEditar"
+                                               value="Editar capacitación"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+
+                                <p:column headerText="Eliminar"
+                                          styleClass="classBtn">
+                                    <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                     update=":formCapacitacion" process="@this"
+                                                     actionListener="#{capacitacionController.seleccionarCapacitacion(capacitacion)}"
+                                                     oncomplete="dlgEliminar.show()" />
+                                    <p:tooltip for="cbEliminar"
+                                               value="Eliminar capacitación"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
                     </center>
                 </p:panel>
+                <p:confirmDialog id="cdEliminar"
+                                 message="Desea eliminar la capacitación?"
+                                 header="Eliminar capacitación"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formCapacitacion"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{capacitacionController.eliminar}" />
+                    <p:commandButton value="No" update=":formCapacitacion"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
