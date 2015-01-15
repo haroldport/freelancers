@@ -49,7 +49,11 @@ public enum CatalogoEnum {
     /**
      * Tipo de certificado.
      */
-    TIPO_CERTIFICADO("TIPCE");
+    TIPO_CERTIFICADO("TIPCE"),
+    /**
+     * Area de trabajo.
+     */
+    AREA_TRABAJO("ARETR");
 
     private String nemonico;
 

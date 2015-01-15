@@ -12,9 +12,156 @@
                 <p:panel id="tab" header="Experiencia laboral" 
                          style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
                     <center>                        						
+                        <h:panelGrid columns="4">
+                            <h:outputLabel styleClass="label" value="Nombre de institución:" />
+                            <p:outputPanel>
+                                <p:inputText id="nombreInstitucion" styleClass="Login-input" size="40"
+                                             value="#{experienciaController.nuevaExperiencia.nombreInstitucion}"
+                                             required="true" requiredMessage="El campo Nombre de institución es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Área de trabajo:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="areaTrabajo" style="margin-left: 10px; width: 225px;"
+                                                 value="#{experienciaController.nuevaExperiencia.idAreaTrabajo.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Área de trabajo es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{experienciaController.areasDeTrabajo}"
+                                                   var="area" itemValue="#{area.idCatalogoDetalle}"
+                                                   itemLabel="#{area.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel> 
+                            <h:outputLabel styleClass="label" value="Puesto/Cargo:" />
+                            <p:outputPanel>
+                                <p:inputText id="puesto" styleClass="Login-input" size="40"
+                                             value="#{experienciaController.nuevaExperiencia.puesto}"
+                                             required="true" requiredMessage="El campo Puesto/Cargo es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Fecha desde:" />
+                            <p:outputPanel>
+                                <p:calendar id="fechaDesde" styleClass="Login-input" size="34"
+                                            value="#{experienciaController.nuevaExperiencia.fechaDesde}"
+                                            required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
+                                            requiredMessage="El campo Fecha desde es requerido!" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Fecha hasta:" />
+                            <p:outputPanel>
+                                <p:calendar id="fechaHasta" styleClass="Login-input" size="34"
+                                            value="#{experienciaController.nuevaExperiencia.fechaHasta}"
+                                            navigator="true" pattern="yyyy-MM-dd" showOn="button" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Resumen de actividades:" />
+                            <p:outputPanel>
+                                <p:inputText id="actividad" styleClass="Login-input" size="40"
+                                             value="#{experienciaController.nuevaExperiencia.resumenActividades}"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Trabaja actualmente en este lugar:" />
+                            <p:selectBooleanButton id="trabaja" value="#{experienciaController.nuevaExperiencia.trabajoActual}" 
+                                                   onLabel="Si" offLabel="No" style="width:60px" />
+                        </h:panelGrid>
+                        <br/>
+                        <p:commandLink id="btnEditar" action="#{experienciaController.editarExperiencia}" process="@all" 
+                                       rendered="#{experienciaController.editarExperiencia}"
+                                       update=":formExperiencia:tab">
+                            <h:graphicImage library="images" name="editar.png" title="Editar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnGuardar" action="#{experienciaController.guardar}" process="@all" 
+                                       rendered="#{!experienciaController.editarExperiencia}"
+                                       update=":formExperiencia:tab">
+                            <h:graphicImage library="images" name="guardar.png" title="Guardar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnCancelar" action="#{experienciaController.iniciar}" process="@this"
+                                       update=":formExperiencia:tab">
+                            <h:graphicImage library="images" name="cancelar.png" title="Cancelar" />
+                        </p:commandLink>
+                        <br/><br/>
+                        <p:outputPanel id="panelTabla">
+                            <p:dataTable value="#{experienciaController.listadoExperiencias}"
+                                         var="experiencia" emptyMessage="No se ha registrado ninguna experiencia"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom" rows="5" paginator="true"
+                                         rowsPerPageTemplate="5,10,15,20,25,30"
+                                         tableStyle="table-layout:auto;width:100%;">
 
+                                <p:column styleClass="wrap"
+                                          headerText="Nombre de institución">
+                                    <h:outputText value="#{experiencia.nombreInstitucion}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Área de trabajo">
+                                    <h:outputText value="#{experiencia.idAreaTrabajo.nombre}" />
+                                </p:column>                                
+
+                                <p:column styleClass="wrap"
+                                          headerText="Puesto">
+                                    <h:outputText value="#{experiencia.puesto}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Fecha desde">
+                                    <h:outputText value="#{experiencia.fechaDesde}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Fecha hasta">
+                                    <h:outputText value="#{experiencia.fechaHasta}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Resumen de actividades">
+                                    <h:outputText value="#{experiencia.resumenActividades}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Trabajo actual">
+                                    <h:outputText value="#{experiencia.trabajoActual ? 'Si' : 'No'}" />
+                                </p:column>
+
+                                <p:column headerText="Editar" styleClass="classBtn">
+                                    <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                     update=":formExperiencia" process="@this"
+                                                     action="#{experienciaController.editarExperiencia(experiencia)}" />
+                                    <p:tooltip for="cbEditar"
+                                               value="Editar experiencia"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+
+                                <p:column headerText="Eliminar"
+                                          styleClass="classBtn">
+                                    <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                     update=":formExperiencia" process="@this"
+                                                     actionListener="#{experienciaController.seleccionarExperiencia(experiencia)}"
+                                                     oncomplete="dlgEliminar.show()" />
+                                    <p:tooltip for="cbEliminar"
+                                               value="Eliminar experiencia"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
                     </center>
                 </p:panel>
+                <p:confirmDialog id="cdEliminar"
+                                 message="Desea eliminar la experiencia?"
+                                 header="Eliminar experiencia"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formExperiencia"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{experienciaController.eliminar}" />
+                    <p:commandButton value="No" update=":formExperiencia"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
