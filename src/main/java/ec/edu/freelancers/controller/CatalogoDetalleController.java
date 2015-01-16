@@ -137,6 +137,8 @@ public class CatalogoDetalleController extends Utilitario implements Serializabl
             } else {
                 nuevoCatalogoDetalle.setIdCatalogoDetallePadre(null);
             }
+            Catalogo catalogo = catalogoServicio.obtenerPorId(nuevoCatalogoDetalle.getIdCatalogo().getIdCatalogo());
+            nuevoCatalogoDetalle.setIdCatalogo(catalogo);
             nuevoCatalogoDetalle.setNombre(nuevoCatalogoDetalle.getNombre().toUpperCase());
             nuevoCatalogoDetalle.setDescripcion(nuevoCatalogoDetalle.getDescripcion().toUpperCase());
             nuevoCatalogoDetalle.setNemonico(nuevoCatalogoDetalle.getNemonico().toUpperCase());

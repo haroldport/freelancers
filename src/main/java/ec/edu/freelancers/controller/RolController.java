@@ -76,7 +76,7 @@ public class RolController extends Utilitario implements Serializable {
     public String editarRol() {
         try {
             Date fechaActualizacion = new Date();
-            setEditarRol(false);
+            setEditarRol(false);            
             nuevoRol.setNombre(nuevoRol.getNombre().toUpperCase());
             nuevoRol.setDescripcion(nuevoRol.getDescripcion().toUpperCase());
             nuevoRol.setNemonico(nuevoRol.getNemonico().toUpperCase());

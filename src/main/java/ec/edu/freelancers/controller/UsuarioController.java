@@ -87,6 +87,8 @@ public class UsuarioController extends Utilitario implements Serializable {
         try {
             Date fechaActualizacion = new Date();
             setEditarUsuario(false);
+            Rol rol = rolServicio.obtenerPorId(nuevoUsuario.getIdRol().getIdRol());
+            nuevoUsuario.setIdRol(rol);
             usuarioServicio.actualizar(nuevoUsuario);
             logSistema = new LogSistema(fechaActualizacion, "Modificación de usuario: " + nuevoUsuario.getUsername(), this.getUsuario());
             logSistemaServicio.crear(logSistema);

@@ -80,7 +80,13 @@ public class CapacitacionController extends Utilitario implements Serializable {
 
     public String editarCapacitacion() {
         try {
-            setEditarCapacitacion(Boolean.FALSE);            
+            setEditarCapacitacion(Boolean.FALSE);
+            CatalogoDetalle tipoEvento = catalogoDetalleServicio.obtenerPorId(nuevaCapacitacion.getIdTipoEvento().getIdCatalogoDetalle());
+            CatalogoDetalle areaEstudio = catalogoDetalleServicio.obtenerPorId(nuevaCapacitacion.getIdAreaEstudio().getIdCatalogoDetalle());
+            CatalogoDetalle tipoCertificado = catalogoDetalleServicio.obtenerPorId(nuevaCapacitacion.getIdTipoCertificado().getIdCatalogoDetalle());
+            nuevaCapacitacion.setIdTipoEvento(tipoEvento);
+            nuevaCapacitacion.setIdAreaEstudio(areaEstudio);
+            nuevaCapacitacion.setIdTipoCertificado(tipoCertificado);
             capacitacionServicio.editar(nuevaCapacitacion);
             initValores();
             this.ponerMensajeInfo("Capacitación actualizada con éxito", "");

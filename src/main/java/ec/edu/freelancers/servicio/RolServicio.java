@@ -66,4 +66,13 @@ public class RolServicio {
     public Rol obtenerPorNemonico(String nemonico) {
         return rolDao.obtenerPorNemonico(nemonico);
     }
+    
+    /**
+     * Obtener por id
+     * @param id
+     * @return 
+     */
+    public Rol obtenerPorId(Integer id) {
+        return rolDao.obtenerPorId(id);
+    }
 }

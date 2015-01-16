@@ -57,5 +57,14 @@ public class CatalogoServicio {
     public Catalogo obtenerPorNemonico(String nemonico) {
         return catalogoDao.obtenerPorNemonico(nemonico);
     }
+    
+    /**
+     * Obtener por id
+     * @param idCatalogo
+     * @return 
+     */
+    public Catalogo obtenerPorId(Integer idCatalogo) {
+        return catalogoDao.obtenerPorId(idCatalogo);
+    }
 
 }

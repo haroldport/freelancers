@@ -55,5 +55,24 @@ public class CatalogoDao extends Generico<Catalogo> {
             return null;
         }
     }
+    
+    /**
+     * Obtener por id
+     * @param idCatalogo
+     * @return 
+     */
+    public Catalogo obtenerPorId(Integer idCatalogo) {
+        try {
+            String sql = "SELECT c FROM Catalogo c WHERE c.idEstado.idEstado = 1 "
+                    + "AND c.idCatalogo = :idCatalogo";
+            Query query = getEntityManager().createQuery(sql);
+            query.setParameter("idCatalogo", idCatalogo);
+            Catalogo catalogo = query.getResultList() != null && !query.getResultList().isEmpty() ? (Catalogo) query.getResultList().get(0) : null;
+            return catalogo;
+        } catch (Exception e) {
+            Logger.getLogger(CatalogoDao.class.getName()).log(Level.SEVERE, null, e);
+            return null;
+        }
+    }
 
 }

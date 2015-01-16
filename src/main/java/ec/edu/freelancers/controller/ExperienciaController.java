@@ -74,6 +74,8 @@ public class ExperienciaController extends Utilitario implements Serializable {
 
     public String editarExperiencia() {
         try {
+            CatalogoDetalle areaTrabajo = catalogoDetalleServicio.obtenerPorId(nuevaExperiencia.getIdAreaTrabajo().getIdCatalogoDetalle());
+            nuevaExperiencia.setIdAreaTrabajo(areaTrabajo);
             setEditarExperiencia(Boolean.FALSE);            
             experienciaServicio.editar(nuevaExperiencia);
             initValores();

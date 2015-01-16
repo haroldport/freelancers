@@ -58,13 +58,13 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Resumen de actividades:" />
                             <p:outputPanel>
-                                <p:inputText id="actividad" styleClass="Login-input" size="40"
+                                <p:inputTextarea id="actividad" styleClass="Login-input" cols="28" rows="4"
                                              value="#{experienciaController.nuevaExperiencia.resumenActividades}"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Trabaja actualmente en este lugar:" />
                             <p:selectBooleanButton id="trabaja" value="#{experienciaController.nuevaExperiencia.trabajoActual}" 
-                                                   onLabel="Si" offLabel="No" style="width:60px" />
+                                                   onLabel="Si" offLabel="No" style="width:60px;margin-left: 10px" />
                         </h:panelGrid>
                         <br/>
                         <p:commandLink id="btnEditar" action="#{experienciaController.editarExperiencia}" process="@all" 

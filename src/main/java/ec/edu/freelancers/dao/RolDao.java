@@ -60,4 +60,20 @@ public class RolDao extends Generico<Rol> {
             return null;
         }
     }
+    
+    /**
+     * Obtener por id
+     * @param id
+     * @return 
+     */
+    public Rol obtenerPorId(Integer id) {
+        try {
+            Query query = this.em.createQuery("SELECT r FROM Rol r WHERE r.idRol = :id AND r.idEstado.idEstado = 1");
+            query.setParameter("id", id);
+            return query.getResultList() != null && !query.getResultList().isEmpty() ? (Rol) query.getResultList().get(0) : null;
+        } catch (Exception e) {
+            Logger.getLogger(RolDao.class.getName()).log(Level.SEVERE, null, e);
+            return null;
+        }
+    }
 }

@@ -74,7 +74,9 @@ public class FormacionAcademicaController extends Utilitario implements Serializ
 
     public String editarFormacion() {
         try {
-            setEditarFormacion(Boolean.FALSE);            
+            setEditarFormacion(Boolean.FALSE);
+            CatalogoDetalle nivelInstruccion = catalogoDetalleServicio.obtenerPorId(nuevaFormacion.getIdNivelInstruccion().getIdCatalogoDetalle());
+            nuevaFormacion.setIdNivelInstruccion(nivelInstruccion);
             formacionAcademicaServicio.editar(nuevaFormacion);
             initValores();
             this.ponerMensajeInfo("Formación académica actualizada con éxito", "");
