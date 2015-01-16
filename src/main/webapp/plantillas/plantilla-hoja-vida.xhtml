@@ -92,7 +92,7 @@
                 <p:panel header="Gestión de Hoja de Vida" style="text-align: center">
                     <br/>
                     <h:form id="formHojaVida">
-                        <h:panelGrid columns="7">
+                        <h:panelGrid columns="9">
                             <p:outputPanel class="panelLinkHV">
                                 <p:commandLink id="menu0" styleClass="linkHV" action="#{hojaVidaController.irAInfoPersonal}">
                                     <h:panelGrid columns="1">
@@ -101,7 +101,6 @@
                                     </h:panelGrid>
                                 </p:commandLink>
                             </p:outputPanel>
-                            <p:spacer height="10" width="20" />
                             <p:outputPanel class="panelLinkHV">
                                 <p:commandLink id="menu1" styleClass="linkHV" action="#{hojaVidaController.irAFormacionAcademica}">
                                     <h:panelGrid columns="1">
@@ -110,7 +109,6 @@
                                     </h:panelGrid>
                                 </p:commandLink>
                             </p:outputPanel>
-                            <p:spacer height="10" width="20" />
                             <p:outputPanel class="panelLinkHV">
                                 <p:commandLink id="menu2" styleClass="linkHV" action="#{hojaVidaController.irACapacitacion}">
                                     <h:panelGrid columns="1">
@@ -119,12 +117,19 @@
                                     </h:panelGrid>
                                 </p:commandLink>
                             </p:outputPanel>
-                            <p:spacer height="10" width="20" />
                             <p:outputPanel class="panelLinkHV">
                                 <p:commandLink id="menu3" styleClass="linkHV" action="#{hojaVidaController.irAExperiencia}">
                                     <h:panelGrid columns="1">
                                         <h:graphicImage library="images" name="freelance/experiencia.png" />
                                         <h:outputLabel style="font-size: 1.2em" value="Experiencia" />
+                                    </h:panelGrid>
+                                </p:commandLink>
+                            </p:outputPanel>
+                            <p:outputPanel class="panelLinkHV">
+                                <p:commandLink id="menu4" styleClass="linkHV" action="#{hojaVidaController.irAIdioma}">
+                                    <h:panelGrid columns="1">
+                                        <h:graphicImage library="images" name="freelance/idioma.png" />
+                                        <h:outputLabel style="font-size: 1.2em" value="Idiomas" />
                                     </h:panelGrid>
                                 </p:commandLink>
                             </p:outputPanel>

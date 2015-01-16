@@ -50,8 +50,6 @@ public class Experiencia implements Serializable {
     @Column(name = "FECHA_DESDE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaDesde;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_HASTA")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHasta;

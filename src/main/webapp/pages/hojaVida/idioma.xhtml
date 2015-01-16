@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-hoja-vida.xhtml">
+        <ui:define name="content">
+            <h:form id="formIdioma">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" header="Idiomas" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                    <center>                        						
+                        <h:panelGrid columns="6">
+                            <h:outputLabel styleClass="label" value="Idioma:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="idioma" style="margin-left: 10px; width: 225px;"
+                                                 value="#{idiomaController.nuevoIdioma.idNombreIdioma.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Idioma es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{idiomaController.idiomas}"
+                                                   var="idio" itemValue="#{idio.idCatalogoDetalle}"
+                                                   itemLabel="#{idio.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel> 
+                            <h:outputLabel styleClass="label" value="Nivel hablado:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="nivelHablado" style="margin-left: 10px; width: 225px;"
+                                                 value="#{idiomaController.nuevoIdioma.idNivelHablado.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Nivel hablado es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{idiomaController.nivelesHablado}"
+                                                   var="nivel" itemValue="#{nivel.idCatalogoDetalle}"
+                                                   itemLabel="#{nivel.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Nivel escrito:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="nivelEscrito" style="margin-left: 10px; width: 225px;"
+                                                 value="#{idiomaController.nuevoIdioma.idNivelEscrito.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Nivel escrito es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{idiomaController.nivelesEscrito}"
+                                                   var="niv" itemValue="#{niv.idCatalogoDetalle}"
+                                                   itemLabel="#{niv.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel> 
+                        </h:panelGrid>
+                        <br/>
+                        <p:commandLink id="btnEditar" action="#{idiomaController.editarIdioma}" process="@all" 
+                                       rendered="#{idiomaController.editarIdioma}"
+                                       update=":formIdioma:tab">
+                            <h:graphicImage library="images" name="editar.png" title="Editar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnGuardar" action="#{idiomaController.guardar}" process="@all" 
+                                       rendered="#{!idiomaController.editarIdioma}"
+                                       update=":formIdioma:tab">
+                            <h:graphicImage library="images" name="guardar.png" title="Guardar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnCancelar" action="#{idiomaController.iniciar}" process="@this"
+                                       update=":formIdioma:tab">
+                            <h:graphicImage library="images" name="cancelar.png" title="Cancelar" />
+                        </p:commandLink>
+                        <br/><br/>
+                        <p:outputPanel id="panelTabla">
+                            <p:dataTable value="#{idiomaController.listadoIdiomas}"
+                                         var="idioma" emptyMessage="No se ha registrado ningún idioma"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom" rows="5" paginator="true"
+                                         rowsPerPageTemplate="5,10,15,20,25,30"
+                                         tableStyle="table-layout:auto;width:100%;">
+
+                                <p:column styleClass="wrap"
+                                          headerText="Idioma">
+                                    <h:outputText value="#{idioma.idNombreIdioma.nombre}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Nivel hablado">
+                                    <h:outputText value="#{idioma.idNivelHablado.nombre}" />
+                                </p:column>
+                                
+                                <p:column styleClass="wrap"
+                                          headerText="Nivel escrito">
+                                    <h:outputText value="#{idioma.idNivelEscrito.nombre}" />
+                                </p:column>
+
+                                <p:column headerText="Editar" styleClass="classBtn">
+                                    <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                     update=":formIdioma" process="@this"
+                                                     action="#{idiomaController.editarIdioma(idioma)}" />
+                                    <p:tooltip for="cbEditar"
+                                               value="Editar idioma"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+
+                                <p:column headerText="Eliminar"
+                                          styleClass="classBtn">
+                                    <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                     update=":formIdioma" process="@this"
+                                                     actionListener="#{idiomaController.seleccionarIdioma(idioma)}"
+                                                     oncomplete="dlgEliminar.show()" />
+                                    <p:tooltip for="cbEliminar"
+                                               value="Eliminar idioma"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
+                    </center>
+                </p:panel>
+                <p:confirmDialog id="cdEliminar"
+                                 message="Desea eliminar la idioma?"
+                                 header="Eliminar idioma"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formIdioma"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{idiomaController.eliminar}" />
+                    <p:commandButton value="No" update=":formIdioma"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

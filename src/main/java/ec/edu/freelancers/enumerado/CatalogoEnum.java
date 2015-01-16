@@ -53,9 +53,21 @@ public enum CatalogoEnum {
     /**
      * Area de trabajo.
      */
-    AREA_TRABAJO("ARETR");
+    AREA_TRABAJO("ARETR"),
+    /**
+     * Idiomas.
+     */
+    IDIOMA("IDIOM"),
+    /**
+     * Nivel hablado.
+     */
+    NIVEL_HABLADO("NIVHA"),
+    /**
+     * Nivel escrito.
+     */
+    NIVEL_ESCRITO("NIVES");
 
-    private String nemonico;
+    private final String nemonico;
 
     /**
      * Constructor de la clase.
