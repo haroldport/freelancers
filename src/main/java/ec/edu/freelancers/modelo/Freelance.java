@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -120,7 +121,7 @@ public class Freelance implements Serializable {
     @JoinColumn(name = "ID_CANTON", referencedColumnName = "ID_CATALOGO_DETALLE")
     @ManyToOne
     private CatalogoDetalle idCanton;
-    @OneToMany(mappedBy = "idFreelance")
+    @OneToMany(mappedBy = "idFreelance", fetch = FetchType.EAGER)
     private List<Habilidades> habilidadesList;
     @OneToMany(mappedBy = "idFreelance")
     private List<Experiencia> experienciaList;

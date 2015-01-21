@@ -65,7 +65,11 @@ public enum CatalogoEnum {
     /**
      * Nivel escrito.
      */
-    NIVEL_ESCRITO("NIVES");
+    NIVEL_ESCRITO("NIVES"),
+    /**
+     * Habilidades.
+     */
+    HABILIDAD("HABIL");
 
     private final String nemonico;
 

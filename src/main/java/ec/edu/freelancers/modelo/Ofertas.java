@@ -1,6 +1,7 @@
 package ec.edu.freelancers.modelo;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -62,6 +65,27 @@ public class Ofertas implements Serializable {
     private Estado idEstado;
     @OneToMany(mappedBy = "idOferta")
     private List<HabilidadesOferta> habilidadesOfertaList;
+    @JoinColumn(name = "ID_PROVINCIA", referencedColumnName = "ID_CATALOGO_DETALLE")
+    @ManyToOne
+    private CatalogoDetalle idProvincia;
+    @JoinColumn(name = "ID_PAIS", referencedColumnName = "ID_CATALOGO_DETALLE")
+    @ManyToOne
+    private CatalogoDetalle idPais;
+    @JoinColumn(name = "ID_CANTON", referencedColumnName = "ID_CATALOGO_DETALLE")
+    @ManyToOne
+    private CatalogoDetalle idCanton;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "FECHA_INICIO_PUBLICACION")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaInicioPublicacion;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "FECHA_FIN_PUBLICACION")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaFinPublicacion;
+    @Column(name = "PRESUPUESTO")
+    private Double presupuesto;
 
     public Ofertas() {
     }
@@ -157,6 +181,54 @@ public class Ofertas implements Serializable {
     public void setHabilidadesOfertaList(List<HabilidadesOferta> habilidadesOfertaList) {
         this.habilidadesOfertaList = habilidadesOfertaList;
     }
+
+    public CatalogoDetalle getIdProvincia() {
+        return idProvincia;
+    }
+
+    public void setIdProvincia(CatalogoDetalle idProvincia) {
+        this.idProvincia = idProvincia;
+    }
+
+    public CatalogoDetalle getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(CatalogoDetalle idPais) {
+        this.idPais = idPais;
+    }
+
+    public CatalogoDetalle getIdCanton() {
+        return idCanton;
+    }
+
+    public void setIdCanton(CatalogoDetalle idCanton) {
+        this.idCanton = idCanton;
+    }
+
+    public Date getFechaInicioPublicacion() {
+        return fechaInicioPublicacion;
+    }
+
+    public void setFechaInicioPublicacion(Date fechaInicioPublicacion) {
+        this.fechaInicioPublicacion = fechaInicioPublicacion;
+    }
+
+    public Date getFechaFinPublicacion() {
+        return fechaFinPublicacion;
+    }
+
+    public void setFechaFinPublicacion(Date fechaFinPublicacion) {
+        this.fechaFinPublicacion = fechaFinPublicacion;
+    }
+
+    public Double getPresupuesto() {
+        return presupuesto;
+    }
+
+    public void setPresupuesto(Double presupuesto) {
+        this.presupuesto = presupuesto;
+    }    
 
     @Override
     public int hashCode() {

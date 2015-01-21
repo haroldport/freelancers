@@ -44,7 +44,7 @@ public class AccesoDao extends Generico<Acceso> {
 	public List<AccesoRol> obtenerAccesosPorRol(Rol rol, String tipo) {
         String sql = "SELECT ar FROM AccesoRol ar WHERE ar.idRol = :rol "
         		+ "and ar.idAcceso.idEstado = 1 and ar.idAcceso.tipo = :tipo "
-        		+ "ORDER BY ar.idAcceso.etiqueta";
+        		+ "ORDER BY ar.idAcceso.orden";
         Query query = getEntityManager().createQuery(sql);
         query.setParameter("rol", rol);
         query.setParameter("tipo", tipo);

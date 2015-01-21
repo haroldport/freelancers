@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formHabilidad">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" header="Gestión de Habilidades del Freelance" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                    <center>
+                        <h3 style="text-align: justify; font-weight: normal">Elige hasta 20 habilidades que sean relacionadas a ti. Esto te permitirá tener más 
+                            posibilidades de que contraten tus servicios, ya que en las búsquedas de profesionales 
+                            una de las consideraciones a tener en cuenta son las habilidades que estos poseen.</h3>
+                        <br />
+                        <div align="left">
+                            <h:panelGrid columns="2">
+                                <p:fieldset legend="Habilidades Disponibles">
+                                    <p:dataTable id="habilidadesDisponibles" widgetVar="datatableWidget1"
+                                                 value="#{habilidadController.listaHabilidades}" var="habilidadD"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 paginatorPosition="bottom" rows="10" paginator="true" rowsPerPageTemplate="10,15,20,25,30" 
+                                                 style="width : 100%;text-align: left;">
+                                        <p:column style="width:20px">  
+                                            <h:outputText id="dragIcon"  
+                                                          styleClass="ui-icon ui-icon-arrow-4" />  
+                                            <p:draggable for="dragIcon" revert="true" />  
+                                        </p:column>
+
+                                        <p:column headerText="Habilidad" filterBy="#{habilidadD.nombre}" 
+                                                  filterMatchMode="contains" filterStyle="width:200px">
+                                            <h:outputText value="#{habilidadD.nombre}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:fieldset>
+
+                                <p:fieldset id="habilidadesSeleccionadas" legend="Habilidades Seleccionadas" style="margin-top:20px">  
+                                    <p:outputPanel id="dropArea">  
+                                        <h:outputText value="!!!Arrastre las habilidades aquí!!!"  
+                                                      rendered="#{empty habilidadController.listaHabilidadesSeleccionadas}"  
+                                                      style="font-size:24px;" />  
+
+                                        <p:dataTable var="habilidadS" value="#{habilidadController.listaHabilidadesSeleccionadas}"
+                                                     widgetVar="datatableWidget"
+                                                     rendered="#{not empty habilidadController.listaHabilidadesSeleccionadas}"                                                     
+                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     paginatorPosition="bottom" rows="10" paginator="true" rowsPerPageTemplate="10,15,20,25,30" 
+                                                     style="width : 100%;text-align: left;">  
+
+                                            <p:column headerText="Habilidad" filterBy="#{habilidadS.nombre}" 
+                                                      filterMatchMode="contains" filterStyle="width:200px">
+                                                <h:outputText value="#{habilidadS.nombre}"/>
+                                            </p:column> 
+                                            <p:column style="width:20px">
+                                                <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                                 oncomplete="datatableWidget.clearFilters();datatableWidget1.clearFilters();"
+                                                                 update=":formHabilidad:tab" process="@this"
+                                                                 actionListener="#{habilidadController.eliminarHabilidad(habilidadS)}" />
+                                                <p:tooltip for="cbEliminar"
+                                                           value="Eliminar habilidad #{habilidadS.nombre}"
+                                                           showEffect="fade" hideEffect="fade" />
+                                            </p:column>
+                                        </p:dataTable>  
+                                    </p:outputPanel>  
+                                </p:fieldset> 
+                            </h:panelGrid>
+
+                            <p:droppable id="dropEvento" for="habilidadesSeleccionadas" tolerance="touch" activeStyleClass="ui-state-highlight"                                         
+                                         datasource="habilidadesDisponibles" onDrop="handleDrop">  
+                                <p:ajax listener="#{habilidadController.onHabilidadesDrop}" update="dropArea habilidadesDisponibles"
+                                        oncomplete="datatableWidget.clearFilters();datatableWidget1.clearFilters();" />  
+                            </p:droppable>
+                        </div>
+                        <br />
+                        <p:commandButton action="#{habilidadController.guardarHabilidades}"
+                                         oncomplete="datatableWidget.clearFilters();datatableWidget1.clearFilters();"
+                                         value="Guardar habilidades" update=":formHabilidad:tab" />
+                    </center>
+                </p:panel>                
+            </h:form>
+            <script type="text/javascript">
+                function handleDrop(event, ui) {
+                    var droppedHabilidad = ui.draggable;
+
+                    droppedHabilidad.fadeOut('fast');
+                }
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

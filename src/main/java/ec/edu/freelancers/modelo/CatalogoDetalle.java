@@ -74,15 +74,15 @@ public class CatalogoDetalle implements Serializable {
     @OneToMany(mappedBy = "idNivelEscrito")
     private List<Idioma> idiomaList2;
     @OneToMany(mappedBy = "idTipoDocumento")
-    private List<Freelance> freelanceList;
+    private List<Freelance> tipoDeDocumentoList;
     @OneToMany(mappedBy = "idProvincia")
-    private List<Freelance> freelanceList1;
+    private List<Freelance> provinciaList;
     @OneToMany(mappedBy = "idPais")
-    private List<Freelance> freelanceList2;    
+    private List<Freelance> paisList;    
     @OneToMany(mappedBy = "idEstadoCivil")
-    private List<Freelance> freelanceList4;
+    private List<Freelance> estadoCivilList;
     @OneToMany(mappedBy = "idCanton")
-    private List<Freelance> freelanceList5;
+    private List<Freelance> cantonList;
     @OneToMany(mappedBy = "idNombreHabilidad")
     private List<Habilidades> habilidadesList;
     @OneToMany(mappedBy = "idTipoPersona")
@@ -236,48 +236,48 @@ public class CatalogoDetalle implements Serializable {
     }
 
     @XmlTransient
-    public List<Freelance> getFreelanceList() {
-        return freelanceList;
+    public List<Freelance> getTipoDeDocumentoList() {
+        return tipoDeDocumentoList;
     }
 
-    public void setFreelanceList(List<Freelance> freelanceList) {
-        this.freelanceList = freelanceList;
-    }
-
-    @XmlTransient
-    public List<Freelance> getFreelanceList1() {
-        return freelanceList1;
-    }
-
-    public void setFreelanceList1(List<Freelance> freelanceList1) {
-        this.freelanceList1 = freelanceList1;
+    public void setTipoDeDocumentoList(List<Freelance> tipoDeDocumentoList) {
+        this.tipoDeDocumentoList = tipoDeDocumentoList;
     }
 
     @XmlTransient
-    public List<Freelance> getFreelanceList2() {
-        return freelanceList2;
+    public List<Freelance> getProvinciaList() {
+        return provinciaList;
     }
 
-    public void setFreelanceList2(List<Freelance> freelanceList2) {
-        this.freelanceList2 = freelanceList2;
-    }
-
-    @XmlTransient
-    public List<Freelance> getFreelanceList4() {
-        return freelanceList4;
-    }
-
-    public void setFreelanceList4(List<Freelance> freelanceList4) {
-        this.freelanceList4 = freelanceList4;
+    public void setProvinciaList(List<Freelance> provinciaList) {
+        this.provinciaList = provinciaList;
     }
 
     @XmlTransient
-    public List<Freelance> getFreelanceList5() {
-        return freelanceList5;
+    public List<Freelance> getPaisList() {
+        return paisList;
     }
 
-    public void setFreelanceList5(List<Freelance> freelanceList5) {
-        this.freelanceList5 = freelanceList5;
+    public void setPaisList(List<Freelance> paisList) {
+        this.paisList = paisList;
+    }
+
+    @XmlTransient
+    public List<Freelance> getEstadoCivilList() {
+        return estadoCivilList;
+    }
+
+    public void setEstadoCivilList(List<Freelance> estadoCivilList) {
+        this.estadoCivilList = estadoCivilList;
+    }
+
+    @XmlTransient
+    public List<Freelance> getCantonList() {
+        return cantonList;
+    }
+
+    public void setCantonList(List<Freelance> cantonList) {
+        this.cantonList = cantonList;
     }
 
     @XmlTransient

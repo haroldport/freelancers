@@ -47,6 +47,12 @@ public class Habilidades implements Serializable {
         this.idHabilidad = idHabilidad;
     }
 
+    public Habilidades(CatalogoDetalle idNombreHabilidad, Freelance idFreelance, Estado idEstado) {
+        this.idNombreHabilidad = idNombreHabilidad;
+        this.idFreelance = idFreelance;
+        this.idEstado = idEstado;
+    }
+
     public Integer getIdHabilidad() {
         return idHabilidad;
     }
