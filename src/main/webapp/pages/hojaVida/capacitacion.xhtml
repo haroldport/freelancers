@@ -3,7 +3,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:pou="http://primefaces.org/ui">
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <ui:composition template="/plantillas/plantilla-hoja-vida.xhtml">
         <ui:define name="content">
             <h:form id="formCapacitacion">
@@ -17,6 +18,7 @@
                             <p:outputPanel>
                                 <p:inputText id="nombreInstitucion" styleClass="Login-input" size="40"
                                              value="#{capacitacionController.nuevaCapacitacion.nombreInstitucion}"
+                                             pt:placeholder="Introduzca nombre de institución"
                                              required="true" requiredMessage="El campo Nombre de institución es requerido!"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                                 <h:outputText value=" *" style="color: red" />
@@ -38,6 +40,7 @@
                             <p:outputPanel>
                                 <p:inputText id="nombreEvento" styleClass="Login-input" size="40"
                                              value="#{capacitacionController.nuevaCapacitacion.nombreEvento}"
+                                             pt:placeholder="Introduzca nombre del evento"
                                              required="true" requiredMessage="El campo Nombre del evento es requerido!"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                                 <h:outputText value=" *" style="color: red" />
@@ -59,6 +62,7 @@
                             <p:outputPanel>
                                 <p:calendar id="fechaDesde" styleClass="Login-input" size="34"
                                             value="#{capacitacionController.nuevaCapacitacion.fechaDesde}"
+                                            pt:placeholder="Fecha desde (yyyy-MM-dd)"
                                             required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
                                             requiredMessage="El campo Fecha desde es requerido!" />
                                 <h:outputText value=" *" style="color: red" />
@@ -67,6 +71,7 @@
                             <p:outputPanel>
                                 <p:calendar id="fechaHasta" styleClass="Login-input" size="34"
                                             value="#{capacitacionController.nuevaCapacitacion.fechaHasta}"
+                                            pt:placeholder="Fecha hasta (yyyy-MM-dd)"
                                             required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
                                             requiredMessage="El campo Fecha hasta es requerido!" />
                                 <h:outputText value=" *" style="color: red" />

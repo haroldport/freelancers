@@ -3,15 +3,144 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:pou="http://primefaces.org/ui">
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
         <ui:define name="content">
-            <h:form id="formPortafolio">
+            <h:form id="formPortafolio" enctype="multipart/form-data">
                 <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
                 <br /><br />
                 <p:panel id="tab" header="Gestión de Portafolio del Freelance" 
                          style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
                     <center>
+                        <h3 style="text-align: justify; font-weight: normal">Ingresa los trabajos que hayas realizado, esto te ayudará
+                            a demostrar tus capacidades plasmadas en proyectos que hayas desarrollado o en los que hayas intervenido.</h3>
+                        <br />
+                        <h:panelGrid columns="2">
+                            <h:outputLabel styleClass="label" value="Tipo de contenido:" />
+                            <p:outputPanel>
+                                <p:selectOneRadio id="tipoContenido" style="margin-left: 10px; width: 225px;"
+                                                  value="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle}"
+                                                  required="true"
+                                                  requiredMessage="El campo Tipo de contenido es requerido!">
+                                    <f:selectItems value="#{portfolioController.tiposContenido}"
+                                                   var="tipo" itemValue="#{tipo.idCatalogoDetalle}"
+                                                   itemLabel="#{tipo.nombre}" />
+                                    <p:ajax event="change" update=":formPortafolio" />
+                                </p:selectOneRadio>
+                            </p:outputPanel> 
+                        </h:panelGrid>
+                        <br />
+                        <p:outputPanel id="pnlPortfolio" rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle != null}">
+                            <h:panelGrid columns="2">
+                                <h:outputLabel styleClass="label" value="Título:" />
+                                <p:outputPanel>
+                                    <p:inputText id="titulo" styleClass="Login-input" size="100"
+                                                 pt:placeholder="Introduzca el título del trabajo realizado" pt:autofocus="autofocus"
+                                                 value="#{portfolioController.nuevoPortafolio.titulo}"
+                                                 required="true" requiredMessage="El campo Título de institución es requerido!"
+                                                 style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+                                <h:outputLabel styleClass="label" value="Redacta el artículo:" 
+                                               rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 309}" />
+                                <p:editor id="editor" widgetVar="editorWidget" value="#{portfolioController.nuevoPortafolio.descripcion}" 
+                                          width="600" rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 309}" />
+                                <h:outputLabel styleClass="label" value="Ingresa el código:" 
+                                               rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 310}" />
+                                <p:outputPanel rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 310}">
+                                    <p:inputTextarea id="codigo" styleClass="Login-input"
+                                                     cols="100" rows="30"
+                                                     pt:placeholder="Introduzca el código"
+                                                     value="#{portfolioController.nuevoPortafolio.descripcion}"
+                                                     required="true" requiredMessage="Debes introducir el código" />
+                                    <h:outputText value=" *" style="color: red" />
+                                </p:outputPanel>
+                                <h:outputLabel styleClass="label" value="Descripción:" 
+                                               rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 308}" />
+                                <p:outputPanel rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 308}">
+                                    <p:inputTextarea id="descripcion" styleClass="Login-input"
+                                                     cols="80" rows="7"
+                                                     pt:placeholder="Introduzca una descripción de la(s) imagen(es) (opcional)"
+                                                     value="#{portfolioController.nuevoPortafolio.descripcion}" />
+                                </p:outputPanel>
+                                <p:columnGroup rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 308}" />
+                                <h:panelGrid columns="1" rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 308}">
+                                    <h:outputLabel style="font-size: 1.2em !important" value="Puedes subir hasta 3 imágenes por registro" />
+                                    <br />
+                                    <h:panelGrid columns="5">
+                                        <h:panelGrid columns="1">
+                                            <p:outputPanel id="pnlImagen">
+                                                <h:graphicImage styleClass="imagenPortfolio" id="imagen"
+                                                                rendered="#{portfolioController.imagenes[0] == null}"
+                                                                library="images" name="sel-imagen.png"
+                                                                width="500" height="350" />
+                                                <h:graphicImage id="image" styleClass="imagenPortfolio"
+                                                                rendered="#{portfolioController.imagenes[0].idImagen > 1}"
+                                                                url="/image?id=#{portfolioController.imagenes[0].idImagen}"
+                                                                width="500" height="350" />
+                                            </p:outputPanel>
+                                            <p:outputPanel id="fileImg" style="width: 110px; margin-left: 8px">
+                                                <p:fileUpload
+                                                    fileUploadListener="#{portfolioController.cargarImagen}"
+                                                    mode="advanced" style="width: 250px"
+                                                    label="Seleccione la imagen (gif;jpg;jpeg;png)"
+                                                    sizeLimit="200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                    auto="true" update=":formPortafolio:pnlImagen" process="@this"
+                                                    invalidSizeMessage="El tamaño máximo de archivo permitido es 200 Kb!"
+                                                    invalidFileMessage="Sólo se permiten cargar imágenes!" />
+                                            </p:outputPanel>
+                                        </h:panelGrid>
+                                        <p:spacer height="10" width="25" />
+                                        <h:panelGrid columns="1">
+                                            <p:outputPanel id="pnlImagen1">
+                                                <h:graphicImage styleClass="imagenPortfolio" id="imagen1"
+                                                                rendered="#{portfolioController.imagenes[1] == null}"
+                                                                library="images" name="sel-imagen.png" 
+                                                                width="500" height="350" />
+                                                <h:graphicImage id="image1" styleClass="imagenPortfolio"
+                                                                rendered="#{portfolioController.imagenes[1].idImagen > 1}"
+                                                                url="/image?id=#{portfolioController.imagenes[1].idImagen}"
+                                                                width="500" height="350" />
+                                            </p:outputPanel>
+                                            <p:outputPanel id="fileImg1" style="width: 110px; margin-left: 8px">
+                                                <p:fileUpload
+                                                    fileUploadListener="#{portfolioController.cargarImagen1}"
+                                                    mode="advanced" style="width: 250px"
+                                                    label="Seleccione la imagen (gif;jpg;jpeg;png)"
+                                                    sizeLimit="200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                    auto="true" update=":formPortafolio:pnlImagen1" process="@this"
+                                                    invalidSizeMessage="El tamaño máximo de archivo permitido es 200 Kb!"
+                                                    invalidFileMessage="Sólo se permiten cargar imágenes!" />
+                                            </p:outputPanel>
+                                        </h:panelGrid>
+                                        <p:spacer height="10" width="25" />
+                                        <h:panelGrid columns="1">
+                                            <p:outputPanel id="pnlImagen2">
+                                                <h:graphicImage styleClass="imagenPortfolio" id="imagen2"
+                                                                rendered="#{portfolioController.imagenes[2] == null}"
+                                                                library="images" name="sel-imagen.png" 
+                                                                width="500" height="350" />
+                                                <h:graphicImage id="image2" styleClass="imagenPortfolio"
+                                                                rendered="#{portfolioController.imagenes[2].idImagen > 1}"
+                                                                url="/image?id=#{portfolioController.imagenes[2].idImagen}"
+                                                                width="500" height="350" />
+                                            </p:outputPanel>
+                                            <p:outputPanel id="fileImg2" style="width: 110px; margin-left: 8px">
+                                                <p:fileUpload
+                                                    fileUploadListener="#{portfolioController.cargarImagen2}"
+                                                    mode="advanced" style="width: 250px"
+                                                    label="Seleccione la imagen (gif;jpg;jpeg;png)"
+                                                    sizeLimit="200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                    auto="true" update=":formPortafolio:pnlImagen2" process="@this"
+                                                    invalidSizeMessage="El tamaño máximo de archivo permitido es 200 Kb!"
+                                                    invalidFileMessage="Sólo se permiten cargar imágenes!" />
+                                            </p:outputPanel>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:outputPanel>
                     </center>
                 </p:panel>                
             </h:form>

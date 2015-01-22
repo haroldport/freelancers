@@ -199,6 +199,7 @@ h1{
 
 .Login-input{
     /*border-radius: 0px 15px 0px 15px;*/
+    font-size: 0.8em !important;
     margin-bottom: 1em !important;
     margin-left: 1em !important;
     margin-top: .5em !important;	
@@ -337,5 +338,14 @@ ul.ui-menu-child {
     margin-bottom: 0.6em;
     max-width: 150px !important;
     max-height: 150px !important;
+    vertical-align: middle !important; 
+}
+
+.imagenPortfolio {
+    border: 1px dashed #000000 !important;
+    margin-left: 0.8em;
+    margin-bottom: 0.6em;
+    max-width: 250px !important;
+    max-height: 250px !important;
     vertical-align: middle !important; 
 }

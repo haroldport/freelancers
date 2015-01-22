@@ -69,7 +69,11 @@ public enum CatalogoEnum {
     /**
      * Habilidades.
      */
-    HABILIDAD("HABIL");
+    HABILIDAD("HABIL"),
+    /**
+     * Tipo de contenido.
+     */
+    TIPO_CONTENIDO("TIPCO");
 
     private final String nemonico;
 

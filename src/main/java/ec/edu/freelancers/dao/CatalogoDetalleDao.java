@@ -109,7 +109,7 @@ public class CatalogoDetalleDao extends Generico<CatalogoDetalle> {
      */
     @SuppressWarnings("unchecked")
     public List<CatalogoDetalle> listarCatalogosDetallePadre() {
-        String sql = "SELECT c FROM CatalogoDetalle c WHERE c.idEstado.idEstado = 1 AND c.idCatalogoDetallePadre IS NULL ORDER BY c.idCatalogoDetalle";
+        String sql = "SELECT c FROM CatalogoDetalle c WHERE c.idEstado.idEstado = 1 AND c.idCatalogoDetallePadre IS NULL";
         return this.getEntityManager().createQuery(sql).getResultList();
     }
     

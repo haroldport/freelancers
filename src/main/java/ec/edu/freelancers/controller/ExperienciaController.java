@@ -22,7 +22,7 @@ import javax.faces.bean.ViewScoped;
 
 /**
  *
- * @author hportocarrero
+ * @author Luis Cordova
  */
 @ManagedBean
 @ViewScoped
