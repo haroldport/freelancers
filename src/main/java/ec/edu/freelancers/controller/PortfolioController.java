@@ -1,13 +1,18 @@
 package ec.edu.freelancers.controller;
 
 import ec.edu.freelancers.enumerado.CatalogoEnum;
+import ec.edu.freelancers.enumerado.EstadoEnum;
 import ec.edu.freelancers.modelo.CatalogoDetalle;
+import ec.edu.freelancers.modelo.Estado;
 import ec.edu.freelancers.modelo.Freelance;
 import ec.edu.freelancers.modelo.Imagen;
+import ec.edu.freelancers.modelo.ImagenPortfolio;
 import ec.edu.freelancers.modelo.Portfolio;
 import ec.edu.freelancers.servicio.CatalogoDetalleServicio;
+import ec.edu.freelancers.servicio.EstadoServicio;
 import ec.edu.freelancers.servicio.FileServicio;
 import ec.edu.freelancers.servicio.FreelanceServicio;
+import ec.edu.freelancers.servicio.PortfolioServicio;
 import ec.edu.freelancers.utilitario.Utilitario;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,32 +42,52 @@ public class PortfolioController extends Utilitario implements Serializable {
     private FreelanceServicio freelanceServicio;
     @EJB
     private FileServicio fileServicio;
+    @EJB
+    private EstadoServicio estadoServicio;
+    @EJB
+    private PortfolioServicio portfolioServicio;
 
     private List<CatalogoDetalle> tiposContenido;
     private Portfolio nuevoPortafolio;
+    private Portfolio eliminarPortafolio;
     private Freelance freelance;
     private Imagen[] imagenes;
     private Imagen imagen;
     private File result;
     private String pathDestino = getRequest().getSession().getServletContext().getRealPath("/resources/images/") + "//";
     private static final int BUFFER_SIZE = 200000;
+    private Estado estadoActivo;
+    private Estado estadoInactivo;
+    private boolean editarPortafolio;
+    private List<Portfolio> listadoPortfolios;
 
     @PostConstruct
     public void iniciar() {
-        try {
-            imagenes = new Imagen[3];
+        try {            
             freelance = freelanceServicio.buscarPorUsuario(this.getUsuario());
             initValores();
             tiposContenido = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.TIPO_CONTENIDO.getNemonico());
+            estadoActivo = estadoServicio.buscarPorNemonico(EstadoEnum.ACTIVO.getNemonico());
+            estadoInactivo = estadoServicio.buscarPorNemonico(EstadoEnum.INACTIVO.getNemonico());
         } catch (Exception ex) {
             Logger.getLogger(PortfolioController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void initValores() {
+    public void initValores() {
+        imagenes = new Imagen[3];
         nuevoPortafolio = new Portfolio();
         nuevoPortafolio.setIdTipoContenido(new CatalogoDetalle());
         nuevoPortafolio.setIdFreelance(freelance);
+        listadoPortfolios = portfolioServicio.listarPortfolioPorFreelance(freelance);
+    }
+    
+    public void init() {
+        imagenes = new Imagen[3];
+        nuevoPortafolio.setTitulo("");
+        nuevoPortafolio.setDescripcion("");
+        setEditarPortafolio(Boolean.FALSE);
+        listadoPortfolios = portfolioServicio.listarPortfolioPorFreelance(freelance);
     }
 
     public void cargarImagen(FileUploadEvent event) {
@@ -161,6 +186,65 @@ public class PortfolioController extends Utilitario implements Serializable {
         }
         return output;
     }
+    
+    public String seleccionarPortfolio(Portfolio portfolio) {
+        setEliminarPortafolio(portfolio);
+        return "";
+    }
+
+    public String editarPortfolio() {
+        try {
+            CatalogoDetalle tipoArchivo = catalogoDetalleServicio.obtenerPorId(nuevoPortafolio.getIdTipoContenido().getIdCatalogoDetalle());
+            nuevoPortafolio.setIdTipoContenido(tipoArchivo);
+            setEditarPortafolio(Boolean.FALSE);            
+            portfolioServicio.editar(nuevoPortafolio, imagenes);
+            initValores();
+            this.ponerMensajeInfo("Portfolio actualizado con éxito", "");
+        } catch (Exception e) {
+            Logger.getLogger(PortfolioController.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return "";
+    }
+
+    public String editarPortfolio(Portfolio portfolio) {
+        int cont = 0;
+        setEditarPortafolio(Boolean.TRUE);
+        setNuevoPortafolio(portfolio);
+        List<ImagenPortfolio> listaImagenesPorPortfolio = portfolioServicio.listarPorPortfolio(portfolio);
+        for(ImagenPortfolio ip : listaImagenesPorPortfolio){
+            imagenes[cont] = ip.getIdImagen();
+            cont++;
+        }
+        return "";
+    }
+
+    public void guardar() {
+        try {
+            if(imagenes[0] == null && imagenes[1] == null && imagenes[2] == null
+                    && nuevoPortafolio.getIdTipoContenido().getIdCatalogoDetalle() == 308){
+                this.ponerMensajeInfo("No ha seleccionado ninguna imagen", "");
+            }else{
+                nuevoPortafolio.setIdEstado(estadoActivo);
+                portfolioServicio.crear(nuevoPortafolio,imagenes);
+                this.ponerMensajeInfo("Portfolio creado con éxito", "");
+                initValores();
+            }            
+        } catch (Exception e) {
+            Logger.getLogger(PortfolioController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void eliminar() {
+        try {
+            eliminarPortafolio.setIdEstado(estadoInactivo);
+            portfolioServicio.eliminar(eliminarPortafolio, estadoInactivo);
+            initValores();
+            eliminarPortafolio = new Portfolio();
+            this.ponerMensajeInfo("Portfolio eliminado con éxito", "");
+        } catch (Exception e) {
+            Logger.getLogger(PortfolioController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
 
     public List<CatalogoDetalle> getTiposContenido() {
         return tiposContenido;
@@ -217,4 +301,46 @@ public class PortfolioController extends Utilitario implements Serializable {
     public void setPathDestino(String pathDestino) {
         this.pathDestino = pathDestino;
     }
+
+    public Estado getEstadoActivo() {
+        return estadoActivo;
+    }
+
+    public void setEstadoActivo(Estado estadoActivo) {
+        this.estadoActivo = estadoActivo;
+    }
+
+    public Estado getEstadoInactivo() {
+        return estadoInactivo;
+    }
+
+    public void setEstadoInactivo(Estado estadoInactivo) {
+        this.estadoInactivo = estadoInactivo;
+    }
+
+    public Portfolio getEliminarPortafolio() {
+        return eliminarPortafolio;
+    }
+
+    public void setEliminarPortafolio(Portfolio eliminarPortafolio) {
+        this.eliminarPortafolio = eliminarPortafolio;
+    }
+
+    public boolean isEditarPortafolio() {
+        return editarPortafolio;
+    }
+
+    public void setEditarPortafolio(boolean editarPortafolio) {
+        this.editarPortafolio = editarPortafolio;
+    }    
+
+    public List<Portfolio> getListadoPortfolios() {
+        return listadoPortfolios;
+    }
+
+    public void setListadoPortfolios(List<Portfolio> listadoPortfolios) {
+        this.listadoPortfolios = listadoPortfolios;
+    }
+    
+    
 }

@@ -26,7 +26,7 @@
                                     <f:selectItems value="#{portfolioController.tiposContenido}"
                                                    var="tipo" itemValue="#{tipo.idCatalogoDetalle}"
                                                    itemLabel="#{tipo.nombre}" />
-                                    <p:ajax event="change" update=":formPortafolio" />
+                                    <p:ajax event="change" listener="#{portfolioController.init}" update=":formPortafolio" />
                                 </p:selectOneRadio>
                             </p:outputPanel> 
                         </h:panelGrid>
@@ -35,11 +35,11 @@
                             <h:panelGrid columns="2">
                                 <h:outputLabel styleClass="label" value="Título:" />
                                 <p:outputPanel>
-                                    <p:inputText id="titulo" styleClass="Login-input" size="100"
+                                    <p:inputText id="titulo" styleClass="Login-input" size="90"
                                                  pt:placeholder="Introduzca el título del trabajo realizado" pt:autofocus="autofocus"
                                                  value="#{portfolioController.nuevoPortafolio.titulo}"
-                                                 required="true" requiredMessage="El campo Título de institución es requerido!"
-                                                 style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                                 required="true" requiredMessage="El campo Título es requerido!"
+                                                 style="text-transform: uppercase;font-size: 1.1em !important" onchange="toUpperCase(this)" />
                                     <h:outputText value=" *" style="color: red" />
                                 </p:outputPanel>
                                 <h:outputLabel styleClass="label" value="Redacta el artículo:" 
@@ -50,7 +50,7 @@
                                                rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 310}" />
                                 <p:outputPanel rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 310}">
                                     <p:inputTextarea id="codigo" styleClass="Login-input"
-                                                     cols="100" rows="30"
+                                                     cols="80" rows="25" style="font-size: 1.1em !important"
                                                      pt:placeholder="Introduzca el código"
                                                      value="#{portfolioController.nuevoPortafolio.descripcion}"
                                                      required="true" requiredMessage="Debes introducir el código" />
@@ -60,7 +60,7 @@
                                                rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 308}" />
                                 <p:outputPanel rendered="#{portfolioController.nuevoPortafolio.idTipoContenido.idCatalogoDetalle eq 308}">
                                     <p:inputTextarea id="descripcion" styleClass="Login-input"
-                                                     cols="80" rows="7"
+                                                     cols="80" rows="7" style="text-transform: uppercase;font-size: 1.1em !important"
                                                      pt:placeholder="Introduzca una descripción de la(s) imagen(es) (opcional)"
                                                      value="#{portfolioController.nuevoPortafolio.descripcion}" />
                                 </p:outputPanel>
@@ -140,9 +140,76 @@
                                     </h:panelGrid>
                                 </h:panelGrid>
                             </h:panelGrid>
+                            <br />
+                            <p:commandButton value="Editar" ajax="false"
+                                             action="#{portfolioController.editarPortfolio}"
+                                             rendered="#{portfolioController.editarPortafolio}"
+                                             update=":formPortafolio" process="@all" styleClass="btnClic" />
+                            <p:commandButton value="Guardar" ajax="false"
+                                             action="#{portfolioController.guardar}" update=":formPortafolio"
+                                             process="@all" styleClass="btnClic"
+                                             rendered="#{!portfolioController.editarPortafolio}" />
+                            <p:commandButton value="Cancelar" process="@this"
+                                             action="#{portfolioController.iniciar()}" update=":formPortafolio"
+                                             styleClass="btnClic" />
+                        </p:outputPanel>
+                        <br/><br/>
+                        <p:outputPanel id="panelTabla">
+                            <p:dataTable value="#{portfolioController.listadoPortfolios}"
+                                         var="portfolio" emptyMessage="No se ha registrado portfolio alguno"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom" rows="5" paginator="true"
+                                         rowsPerPageTemplate="5,10,15,20,25,30"
+                                         tableStyle="table-layout:auto;width:100%;">
+
+                                <p:column styleClass="wrap"
+                                          headerText="Tipo de contenido">
+                                    <h:outputText value="#{portfolio.idTipoContenido.nombre}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Título">
+                                    <h:outputText value="#{portfolio.titulo}" />
+                                </p:column>                                
+
+                                <p:column styleClass="wrap"
+                                          headerText="Descripción">
+                                    <h:outputText value="#{portfolio.descripcion}" />
+                                </p:column>
+
+                                <p:column headerText="Editar" styleClass="classBtn">
+                                    <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                     update=":formPortafolio" process="@this"
+                                                     action="#{portfolioController.editarPortfolio(portfolio)}" />
+                                    <p:tooltip for="cbEditar"
+                                               value="Editar portfolio #{portfolio.titulo}"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+
+                                <p:column headerText="Eliminar"
+                                          styleClass="classBtn">
+                                    <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                     update=":formPortafolio" process="@this"
+                                                     actionListener="#{portfolioController.seleccionarPortfolio(portfolio)}"
+                                                     oncomplete="dlgEliminar.show()" />
+                                    <p:tooltip for="cbEliminar"
+                                               value="Eliminar portfolio #{portfolio.titulo}"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+                            </p:dataTable>
                         </p:outputPanel>
                     </center>
-                </p:panel>                
+                </p:panel>
+                <p:confirmDialog id="cdEliminar"
+                                 message="Desea eliminar el portfolio #{portfolioController.eliminarPortafolio.titulo}?"
+                                 header="Eliminar portfolio #{portfolioController.eliminarPortafolio.titulo}"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formPortafolio"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{portfolioController.eliminar}" />
+                    <p:commandButton value="No" update=":formPortafolio"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

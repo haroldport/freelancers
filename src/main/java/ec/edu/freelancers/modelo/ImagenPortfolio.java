@@ -36,12 +36,21 @@ public class ImagenPortfolio implements Serializable {
     @JoinColumn(name = "ID_IMAGEN", referencedColumnName = "ID_IMAGEN")
     @ManyToOne
     private Imagen idImagen;
+    @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO")
+    @ManyToOne
+    private Estado idEstado;
 
     public ImagenPortfolio() {
     }
 
     public ImagenPortfolio(Integer idImagenPortfolio) {
         this.idImagenPortfolio = idImagenPortfolio;
+    }
+
+    public ImagenPortfolio(Portfolio idPortfolio, Imagen idImagen, Estado idEstado) {
+        this.idPortfolio = idPortfolio;
+        this.idImagen = idImagen;
+        this.idEstado = idEstado;
     }
 
     public Integer getIdImagenPortfolio() {
@@ -67,6 +76,15 @@ public class ImagenPortfolio implements Serializable {
     public void setIdImagen(Imagen idImagen) {
         this.idImagen = idImagen;
     }
+
+    public Estado getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(Estado idEstado) {
+        this.idEstado = idEstado;
+    }
+    
 
     @Override
     public int hashCode() {

@@ -40,7 +40,6 @@ public class Portfolio implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "TITULO")
     private String titulo;
-    @Size(max = 255)
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @JoinColumn(name = "ID_TIPO_CONTENIDO", referencedColumnName = "ID_CATALOGO_DETALLE")
