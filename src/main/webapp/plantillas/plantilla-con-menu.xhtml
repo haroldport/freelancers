@@ -50,7 +50,7 @@
                                                 </h:panelGrid>
                                             </p:commandLink>
                                             <p:columnGroup rendered="#{indexController.usuario.idRol.nemonico ne 'RFR'}" />
-                                            <p:commandLink id="perfil" styleClass="linkHeader"
+                                            <p:commandLink id="perfil" styleClass="linkHeader" action="#{indexController.perfil}"
                                                            rendered="#{indexController.usuario.idRol.nemonico eq 'RFR'}">
                                                 <h:panelGrid columns="4">
                                                     <h:graphicImage library="images" name="perfil.png" />

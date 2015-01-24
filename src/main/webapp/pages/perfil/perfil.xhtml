@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formPerfil">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" 
+                         header="Perfil de #{indexController.usuario.freelanceList.get(0).nombres} #{indexController.usuario.freelanceList.get(0).apellidos}" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                    <h:panelGrid columns="2">
+                        <p:outputPanel id="pnlImagen">
+                            <h:graphicImage styleClass="imagen" id="imagen"
+                                            rendered="#{perfilController.freelance.idImagen.idImagen == 1}"
+                                            library="images" name="sel-imagen.png" />
+                            <h:graphicImage id="image" styleClass="imagenPortfolio"
+                                            rendered="#{perfilController.freelance.idImagen.idImagen > 1}"
+                                            url="/image?id=#{perfilController.freelance.idImagen.idImagen}"
+                                            width="350" height="250" />
+                        </p:outputPanel>
+
+                    </h:panelGrid>                                                 
+
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

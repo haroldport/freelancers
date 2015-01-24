@@ -23,6 +23,7 @@
         <security:intercept-url pattern="/pages/seguridad/**" access="ROLE_ADMINISTRADOR" />
         <security:intercept-url pattern="/pages/catalogo/**" access="ROLE_ADMINISTRADOR" />
         <security:intercept-url pattern="/pages/hojaVida/**" access="ROLE_FREELANCE" />
+        <security:intercept-url pattern="/pages/perfil/**" access="ROLE_FREELANCE,ROLE_DEMANDANTE" />
         <security:intercept-url pattern="/pages/ofertas/**" access="ROLE_DEMANDANTE" />
         
                         

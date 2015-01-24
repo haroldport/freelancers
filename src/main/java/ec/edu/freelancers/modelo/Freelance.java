@@ -127,6 +127,8 @@ public class Freelance implements Serializable {
     private List<Experiencia> experienciaList;
     @OneToMany(mappedBy = "idFreelance")
     private List<FormacionAcademica> formacionAcademicaList;
+    @Column(name = "DESCRIPCION_PERSONAL")
+    private String descripcionPersonal;
 
     public Freelance() {
     }
@@ -391,6 +393,15 @@ public class Freelance implements Serializable {
     public void setFormacionAcademicaList(List<FormacionAcademica> formacionAcademicaList) {
         this.formacionAcademicaList = formacionAcademicaList;
     }
+
+    public String getDescripcionPersonal() {
+        return descripcionPersonal;
+    }
+
+    public void setDescripcionPersonal(String descripcionPersonal) {
+        this.descripcionPersonal = descripcionPersonal;
+    }
+    
 
     @Override
     public int hashCode() {

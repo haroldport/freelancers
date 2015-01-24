@@ -35,6 +35,16 @@
                                     invalidFileMessage="Sólo se permiten cargar imágenes!" />
                             </p:outputPanel>                            
                         </h:panelGrid>
+                        <br /><br />
+                        <h:panelGrid style="text-align: left !important" columns="1">
+                            <h:outputLabel style="text-align: left !important; font-weight: bold; margin-left: 1em" 
+                                           value="Descripción personal:" />
+                            <p:outputPanel>
+                                <p:inputTextarea id="descripcion" styleClass="Login-input"
+                                                 cols="80" rows="10" style="font-size: 1em !important"
+                                                 value="#{infoPersonalController.freelance.descripcionPersonal}" />
+                            </p:outputPanel>
+                        </h:panelGrid>
                         <br />
                         <h:panelGrid columns="6">                            
                             <h:outputLabel styleClass="label" value="Tipo de documento:" />

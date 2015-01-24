@@ -111,6 +111,10 @@ public class IndexController implements Serializable {
     public String inicio() {
         return "/index.xhtml?faces-redirect=true";
     }
+    
+    public String perfil() {
+        return "/faces/pages/perfil/perfil.xhtml?faces-redirect=true";
+    }
 
     public String pantallaInicial() {
         try {
