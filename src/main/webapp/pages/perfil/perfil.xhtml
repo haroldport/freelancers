@@ -12,19 +12,219 @@
                 <p:panel id="tab" 
                          header="Perfil de #{indexController.usuario.freelanceList.get(0).nombres} #{indexController.usuario.freelanceList.get(0).apellidos}" 
                          style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                    <br />
                     <h:panelGrid columns="2">
-                        <p:outputPanel id="pnlImagen">
-                            <h:graphicImage styleClass="imagen" id="imagen"
+                        <p:outputPanel style="margin-left: 3em; margin-top: 0" id="pnlImagen">
+                            <h:graphicImage styleClass="imagenPerfil" id="imagen"
                                             rendered="#{perfilController.freelance.idImagen.idImagen == 1}"
                                             library="images" name="sel-imagen.png" />
-                            <h:graphicImage id="image" styleClass="imagenPortfolio"
+                            <h:graphicImage id="image" styleClass="imagenPerfil"
                                             rendered="#{perfilController.freelance.idImagen.idImagen > 1}"
                                             url="/image?id=#{perfilController.freelance.idImagen.idImagen}"
                                             width="350" height="250" />
                         </p:outputPanel>
+                        <p:outputPanel style="margin-left: 3em" id="pnlDescripcion">
+                            <h:outputText style="font-size: 5em" value="#{perfilController.freelance.idUsuario.username}" />
+                            <br /><br /><br />
+                            <h:outputText style="font-size: 1.5em !important" value="#{perfilController.freelance.descripcionPersonal}" />
+                            <br /><br /><br />
+                            <h:panelGrid columns="3">
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Username:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.idUsuario.username}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Ubicación:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.idCanton.nombre}, 
+                                              #{perfilController.freelance.idProvincia.nombre}, #{perfilController.freelance.idPais.nombre}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Nombres:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.nombres} #{perfilController.freelance.apellidos}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Dirección:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.callePrincipal} 
+                                              #{perfilController.freelance.numeroCasa} Y #{perfilController.freelance.calleSecundaria}. Ref. #{perfilController.freelance.referencia}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Nacimiento:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.fechaNacimiento}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Teléfono:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.telefono}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Celular:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.celular}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Correo:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.correo}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Página web:" />
+                                <p:spacer width="10" height="30" />
+                                <h:commandLink style="font-size: 1.2em !important; color: blue"  target="_blank"
+                                               value="#{perfilController.freelance.paginaWeb}" />
+                            </h:panelGrid>                            
+                            <br /><br />
+                            <h:outputText style="font-size: 3em" value="Mis habilidades:" />
+                            <p:tagCloud styleClass="pfTagCloud" model="#{perfilController.model}" />
+                        </p:outputPanel>
+                    </h:panelGrid>                    
+                    <br /><br />
+                    <h:outputText style="font-size: 3em" value="Mi formación académica:" />
+                    <p:dataTable var="formacion" value="#{perfilController.formacionesAcademica}">
+                        <p:column headerText="Nivel de instrucción">
+                            <h:outputText value="#{formacion.idNivelInstruccion.nombre}" />
+                        </p:column>
 
-                    </h:panelGrid>                                                 
+                        <p:column headerText="Nombre institución">
+                            <h:outputText value="#{formacion.nombreInstitucion}" />
+                        </p:column>
 
+                        <p:column headerText="Años de estudio">
+                            <h:outputText value="#{formacion.aniosEstudio}" />
+                        </p:column>
+
+                        <p:column headerText="Titulo obtenido">
+                            <h:outputText value="#{formacion.tituloObtenido}" />
+                        </p:column>
+                    </p:dataTable>
+                    <br /><br />
+                    <h:outputText style="font-size: 3em" value="Mi capacitación:" />
+                    <p:dataTable var="capacitacion" value="#{perfilController.capacitaciones}">
+                        <p:column headerText="Tipo de certificado">
+                            <h:outputText value="#{capacitacion.idTipoCertificado.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Tipo de evento">
+                            <h:outputText value="#{capacitacion.idTipoEvento.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Área de estudio">
+                            <h:outputText value="#{capacitacion.idAreaEstudio.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Nombre de institución">
+                            <h:outputText value="#{capacitacion.nombreInstitucion}" />
+                        </p:column>
+
+                        <p:column headerText="Nombre de evento">
+                            <h:outputText value="#{capacitacion.nombreEvento}" />
+                        </p:column>
+
+                        <p:column headerText="Fecha desde">
+                            <h:outputText value="#{capacitacion.fechaDesde}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Fecha hasta">
+                            <h:outputText value="#{capacitacion.fechaHasta}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="No. días">
+                            <h:outputText value="#{capacitacion.numeroDias}" />
+                        </p:column>
+
+                        <p:column headerText="No. horas">
+                            <h:outputText value="#{capacitacion.numeroHoras}" />
+                        </p:column>
+                    </p:dataTable>
+                    <br /><br />
+                    <h:outputText style="font-size: 3em" value="Mi experiencia:" />
+                    <p:dataTable var="experiencia" value="#{perfilController.experiencias}">
+                        <p:column headerText="Área de trabajo">
+                            <h:outputText value="#{experiencia.idAreaTrabajo.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Nombre de institución">
+                            <h:outputText value="#{experiencia.nombreInstitucion}" />
+                        </p:column>
+
+                        <p:column headerText="Puesto">
+                            <h:outputText value="#{experiencia.puesto}" />
+                        </p:column>
+
+                        <p:column headerText="Fecha desde">
+                            <h:outputText value="#{experiencia.fechaDesde}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Fecha hasta">
+                            <h:outputText value="#{experiencia.fechaHasta}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Resumen de actividades">
+                            <h:outputText value="#{experiencia.resumenActividades}" />
+                        </p:column>
+
+                        <p:column headerText="Trabajo actual">
+                            <h:outputText value="#{experiencia.trabajoActual ? 'Si' : 'No'}" />
+                        </p:column>
+                    </p:dataTable>
+                    <br /><br />
+                    <h:outputText style="font-size: 3em" value="Mis idiomas:" />
+                    <p:dataTable var="idioma" value="#{perfilController.idiomas}">
+                        <p:column headerText="Idioma">
+                            <h:outputText value="#{idioma.idNombreIdioma.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Nivel hablado">
+                            <h:outputText value="#{idioma.idNivelHablado.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Nivel escrito">
+                            <h:outputText value="#{idioma.idNivelEscrito.nombre}" />
+                        </p:column>
+                    </p:dataTable>
+                    <br /><br />
+                    <h:outputText style="font-size: 3em" value="Mi portafolio:" />
+                    <p:dataList value="#{perfilController.portafolios}" var="portfolio" rowIndexVar="indice" type="none">
+                        <br />
+                        <h:outputText style="font-size: 1.5em !important; font-weight: bold; font-style: italic" 
+                                      value="Contenido No. #{indice+1}" />
+                        <h:panelGrid columns="3" style="margin-bottom: 2em; margin-left: 1em">
+                            <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Tipo de contenido:" />
+                            <p:spacer width="10" height="30" />
+                            <h:outputText style="font-size: 1.2em !important" value="#{portfolio.idTipoContenido.nombre}" />
+                            <h:outputText style="font-size: 1.2em !important; margin-left: 2em" styleClass="label" value="Titulo:" />
+                            <p:spacer width="10" height="30" />
+                            <h:outputText style="font-size: 1.2em !important; margin-left: 2em" value="#{portfolio.titulo}" />
+                            <h:outputText style="font-size: 1.2em !important; margin-left: 2em" styleClass="label" 
+                                          value="#{portfolio.idTipoContenido.idCatalogoDetalle eq 309 ? 'Artículo:' : 
+                                                   portfolio.idTipoContenido.idCatalogoDetalle eq 310 ? 'Código:' : 'Descripción:'}" />
+                            <p:spacer width="10" height="30" />
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{portfolio.descripcion}" 
+                                      disabled="true" width="600" style="font-size: 1.2em !important; margin-left: 2em"
+                                      rendered="#{portfolio.idTipoContenido.idCatalogoDetalle eq 309}" />
+                            <p:inputTextarea readonly="true" style="font-size: 1.2em !important; margin-left: 2em" 
+                                             rendered="#{portfolio.idTipoContenido.idCatalogoDetalle eq 310}"
+                                             value="#{portfolio.descripcion}" scrollHeight="200" cols="80" rows="25" />
+                            <p:inputTextarea readonly="true" rendered="#{portfolio.idTipoContenido.idCatalogoDetalle eq 308}"
+                                             cols="80" rows="7" style="text-transform: uppercase;font-size: 1.1em !important; margin-left: 2em"
+                                             value="#{portfolio.descripcion}" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="3" style="font-size: 1.2em !important; margin-bottom: 2em; margin-left: 4em"
+                                     rendered="#{portfolio.idTipoContenido.idCatalogoDetalle eq 308}">
+                            <h:graphicImage styleClass="imagenPortfolio"
+                                            rendered="#{portfolio.imagenPortfolioList.get(0).idImagen.idImagen > 1 and 
+                                                        portfolio.imagenPortfolioList.size() >= 1}"
+                                            url="/image?id=#{portfolio.imagenPortfolioList.get(0).idImagen.idImagen}"
+                                            width="500" height="350" />
+                            <h:graphicImage styleClass="imagenPortfolio"
+                                            rendered="#{portfolio.imagenPortfolioList.get(1).idImagen.idImagen > 1 and 
+                                                        portfolio.imagenPortfolioList.size() >= 2}"
+                                            url="/image?id=#{portfolio.imagenPortfolioList.get(1).idImagen.idImagen}"
+                                            width="500" height="350" />
+                            <h:graphicImage styleClass="imagenPortfolio"
+                                            rendered="#{portfolio.imagenPortfolioList.get(2).idImagen.idImagen > 1 and 
+                                                        portfolio.imagenPortfolioList.size() >= 3}"
+                                            url="/image?id=#{portfolio.imagenPortfolioList.get(2).idImagen.idImagen}"
+                                            width="500" height="350" />
+                        </h:panelGrid>
+                    </p:dataList>
                 </p:panel>
             </h:form>
         </ui:define>
