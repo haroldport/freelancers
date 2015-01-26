@@ -90,15 +90,17 @@ public class HabilidadController extends Utilitario implements Serializable {
 
     public void guardarHabilidades() {
         try {
-            if (listaHabilidadesSeleccionadasTmp.size() > 0) {
-                listaHabilidadesSeleccionadas.removeAll(listaHabilidadesSeleccionadasTmp);
+            if (listaHabilidadesSeleccionadasTmp != null) {
+                if (listaHabilidadesSeleccionadasTmp.size() > 0) {
+                    listaHabilidadesSeleccionadas.removeAll(listaHabilidadesSeleccionadasTmp);
+                }
             }
             if (listaHabilidadesSeleccionadas.size() > 0) {
                 for (CatalogoDetalle habilidad : listaHabilidadesSeleccionadas) {
                     Habilidades nuevaHabilidad = new Habilidades(habilidad, freelance, estadoActivo);
                     habilidadesServicio.crear(nuevaHabilidad);
                 }
-                ponerMensajeInfo("Las habilidades se guardaron exitosamente!!", "");                
+                ponerMensajeInfo("Las habilidades se guardaron exitosamente!!", "");
             } else {
                 ponerMensajeError("No se ha seleccionado ninguna habilidad!!", "");
             }
@@ -107,20 +109,20 @@ public class HabilidadController extends Utilitario implements Serializable {
             ponerMensajeError("Ocurrió un error al guardar las habilidades: " + e.getMessage(), "");
         }
     }
-    
-    public void eliminarHabilidad(CatalogoDetalle habilidad){
+
+    public void eliminarHabilidad(CatalogoDetalle habilidad) {
         try {
-            Habilidades habilidadExiste = habilidadesServicio.buscarPorHabilidadYFreelance(habilidad, freelance);            
+            Habilidades habilidadExiste = habilidadesServicio.buscarPorHabilidadYFreelance(habilidad, freelance);
             listaHabilidades.add(habilidad);
             listaHabilidadesSeleccionadas.remove(habilidad);
-            if(habilidadExiste != null){
+            if (habilidadExiste != null) {
                 habilidadesServicio.eliminar(habilidadExiste);
                 obtenerHabilidadesActuales();
             }
         } catch (Exception ex) {
             Logger.getLogger(HabilidadController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     public List<CatalogoDetalle> getListaHabilidades() {

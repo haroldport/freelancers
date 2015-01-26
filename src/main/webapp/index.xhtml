@@ -255,9 +255,9 @@
                         <h:outputLabel styleClass="label" value="Usuario:" />
                         <p:inputText value="#{indexController.username}" required="true"
                                      requiredMessage="El usuario es requerido!"
-                                     styleClass="Login-input" />
+                                     styleClass="Login-input-l" />
                         <h:outputLabel styleClass="label" value="Clave:" />
-                        <p:password styleClass="Login-input" feedback="true"
+                        <p:password styleClass="Login-input-l" feedback="true"
                                     value="#{indexController.password}" promptLabel="Ingrese su clave"
                                     required="true" requiredMessage="La clave es requerida!"
                                     weakLabel="Seguridad baja" goodLabel="Seguridad buena"
@@ -300,7 +300,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Nombre: " />
                             <p:outputPanel>
-                                <p:inputText id="nombre" styleClass="Login-input" size="30"
+                                <p:inputText id="nombre" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.nombre}"
                                              required="true"
                                              requiredMessage="El campo Nombre es requerido!"
@@ -309,7 +309,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Calle principal: " />
                             <p:outputPanel>
-                                <p:inputText id="calle1" styleClass="Login-input" size="30"
+                                <p:inputText id="calle1" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.callePrincipal}"
                                              required="true" requiredMessage="El campo Calle principal es requerido!"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
@@ -317,13 +317,13 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="No. casa: " />
                             <p:outputPanel>
-                                <p:inputText id="numCasa" styleClass="Login-input" size="30"
+                                <p:inputText id="numCasa" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.numeroCasa}"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Calle secundaria: " />
                             <p:outputPanel>
-                                <p:inputText id="calle2" styleClass="Login-input" size="30"
+                                <p:inputText id="calle2" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.calleSecundaria}"
                                              required="true" requiredMessage="El campo Calle secundaria es requerido!"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
@@ -331,31 +331,31 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Referencia: " />
                             <p:outputPanel>
-                                <p:inputText id="ref" styleClass="Login-input" size="30"
+                                <p:inputText id="ref" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.referencia}"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Teléfono oficina: " />
                             <p:outputPanel>
-                                <p:inputText id="telefono" styleClass="Login-input" size="30"
+                                <p:inputText id="telefono" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.telefonoOficina}"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10"/>
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Teléfono personal: " />
                             <p:outputPanel>
-                                <p:inputText id="personal" styleClass="Login-input" size="30"
+                                <p:inputText id="personal" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.telefonoPersonal}"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Celular: " />
                             <p:outputPanel>
-                                <p:inputText id="celular" styleClass="Login-input" size="30"
+                                <p:inputText id="celular" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.celular}"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Email: " />
                             <p:outputPanel>
-                                <p:inputText id="email" styleClass="Login-input" size="30"
+                                <p:inputText id="email" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.correo}"
                                              required="true" validatorMessage="Ingrese un correo válido"
                                              requiredMessage="El campo Email es requerido!">
@@ -366,7 +366,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Web site: " />
                             <p:outputPanel>
-                                <p:inputText id="web" styleClass="Login-input" size="30"
+                                <p:inputText id="web" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.paginaWeb}" />
                             </p:outputPanel>
                         </h:panelGrid>
@@ -374,14 +374,14 @@
                         <h:panelGrid columns="4">
                             <h:outputLabel styleClass="label" value="Username: " />
                             <p:outputPanel>
-                                <p:inputText id="username" styleClass="Login-input" size="30"
+                                <p:inputText id="username" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.idUsuario.username}"
                                              required="true" requiredMessage="El campo Username es requerido!" />
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Password:" />
                             <p:outputPanel>
-                                <p:password styleClass="Login-input" feedback="true" size="30"
+                                <p:password styleClass="Login-input-l" feedback="true" size="30"
                                             value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.idUsuario.clave}" 
                                             promptLabel="Ingrese su clave"
                                             required="true" requiredMessage="La clave es requerida!"
@@ -410,7 +410,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="No. de documento:" />
                             <p:outputPanel>
-                                <p:inputText id="numDoc" styleClass="Login-input" size="30"
+                                <p:inputText id="numDoc" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.numeroDocumento}"
                                              required="true" requiredMessage="El campo No. de documento es requerido!"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10" />
@@ -418,7 +418,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Nombres: " />
                             <p:outputPanel>
-                                <p:inputText id="nombres" styleClass="Login-input" size="30"
+                                <p:inputText id="nombres" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.nombres}"
                                              required="true"
                                              requiredMessage="El campo Nombres es requerido!"
@@ -427,7 +427,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Apellidos: " />
                             <p:outputPanel>
-                                <p:inputText id="apellidos" styleClass="Login-input" size="30"
+                                <p:inputText id="apellidos" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.apellidos}"
                                              required="true"
                                              requiredMessage="El campo Apellidos es requerido!"
@@ -436,7 +436,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Fecha de nacimiento: " />
                             <p:outputPanel>
-                                <p:calendar id="fecha" styleClass="Login-input" size="23"
+                                <p:calendar id="fecha" styleClass="Login-input-l" size="23"
                                             value="#{indexController.freelanceController.nuevoFreelance.fechaNacimiento}"
                                             required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
                                             requiredMessage="El campo Fecha de nacimiento es requerido!" />
@@ -444,7 +444,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Edad: " />
                             <p:outputPanel>
-                                <p:inputText id="edad" styleClass="Login-input" size="30"
+                                <p:inputText id="edad" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.edad}"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10" />
                             </p:outputPanel>
@@ -493,7 +493,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Calle principal: " />
                             <p:outputPanel>
-                                <p:inputText id="calle1f" styleClass="Login-input" size="30"
+                                <p:inputText id="calle1f" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.callePrincipal}"
                                              required="true" requiredMessage="El campo Calle principal es requerido!"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
@@ -501,13 +501,13 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="No. casa: " />
                             <p:outputPanel>
-                                <p:inputText id="numCasaf" styleClass="Login-input" size="30"
+                                <p:inputText id="numCasaf" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.numeroCasa}"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Calle secundaria: " />
                             <p:outputPanel>
-                                <p:inputText id="calle2f" styleClass="Login-input" size="30"
+                                <p:inputText id="calle2f" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.calleSecundaria}"
                                              required="true" requiredMessage="El campo Calle secundaria es requerido!"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
@@ -515,7 +515,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Referencia: " />
                             <p:outputPanel>
-                                <p:inputText id="ref2" styleClass="Login-input" size="30"
+                                <p:inputText id="ref2" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.referencia}"
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                             </p:outputPanel>
@@ -534,19 +534,19 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Teléfono: " />
                             <p:outputPanel>
-                                <p:inputText id="telefonof" styleClass="Login-input" size="30"
+                                <p:inputText id="telefonof" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.telefono}"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10"/>
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Celular: " />
                             <p:outputPanel>
-                                <p:inputText id="celularf" styleClass="Login-input" size="30"
+                                <p:inputText id="celularf" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.celular}"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Email: " />
                             <p:outputPanel>
-                                <p:inputText id="emailf" styleClass="Login-input" size="30"
+                                <p:inputText id="emailf" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.correo}"
                                              required="true" validatorMessage="Ingrese un correo válido"
                                              requiredMessage="El campo Email es requerido!">
@@ -557,7 +557,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Web site: " />
                             <p:outputPanel>
-                                <p:inputText id="webf" styleClass="Login-input" size="30"
+                                <p:inputText id="webf" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.paginaWeb}" />
                             </p:outputPanel>
                         </h:panelGrid>
@@ -565,14 +565,14 @@
                         <h:panelGrid columns="4">
                             <h:outputLabel styleClass="label" value="Username: " />
                             <p:outputPanel>
-                                <p:inputText id="usernamef" styleClass="Login-input" size="30"
+                                <p:inputText id="usernamef" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.idUsuario.username}"
                                              required="true" requiredMessage="El campo Username es requerido!" />
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Password:" />
                             <p:outputPanel>
-                                <p:password styleClass="Login-input" feedback="true" size="30"
+                                <p:password styleClass="Login-input-l" feedback="true" size="30"
                                             value="#{indexController.freelanceController.nuevoFreelance.idUsuario.clave}" 
                                             promptLabel="Ingrese su clave"
                                             required="true" requiredMessage="La clave es requerida!"

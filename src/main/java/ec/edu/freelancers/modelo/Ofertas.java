@@ -86,6 +86,11 @@ public class Ofertas implements Serializable {
     private Date fechaFinPublicacion;
     @Column(name = "PRESUPUESTO")
     private Double presupuesto;
+    @JoinColumn(name = "ID_NIVEL_INSTRUCCION", referencedColumnName = "ID_CATALOGO_DETALLE")
+    @ManyToOne
+    private CatalogoDetalle idNivelInstruccion;
+    @Column(name = "ACTIVIDADES")
+    private String actividades;
 
     public Ofertas() {
     }
@@ -228,7 +233,23 @@ public class Ofertas implements Serializable {
 
     public void setPresupuesto(Double presupuesto) {
         this.presupuesto = presupuesto;
-    }    
+    }
+
+    public CatalogoDetalle getIdNivelInstruccion() {
+        return idNivelInstruccion;
+    }
+
+    public void setIdNivelInstruccion(CatalogoDetalle idNivelInstruccion) {
+        this.idNivelInstruccion = idNivelInstruccion;
+    }
+
+    public String getActividades() {
+        return actividades;
+    }
+
+    public void setActividades(String actividades) {
+        this.actividades = actividades;
+    }
 
     @Override
     public int hashCode() {

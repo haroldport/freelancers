@@ -43,6 +43,12 @@ public class HabilidadesOferta implements Serializable {
     public HabilidadesOferta() {
     }
 
+    public HabilidadesOferta(CatalogoDetalle idNombreHabilidad, Estado idEstado) {
+        this.idNombreHabilidad = idNombreHabilidad;
+        this.idEstado = idEstado;
+    }
+    
+
     public HabilidadesOferta(Integer idHabilidadOferta) {
         this.idHabilidadOferta = idHabilidadOferta;
     }

@@ -1,0 +1,347 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formOferta" enctype="multipart/form-data">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" header="Gestión de Ofertas - #{ofertasController.personaDemandante.nombre}" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1100px">
+                    <br /><br />
+                    <h:outputText style="font-size: 1.5em !important" value="Registra fácilmente tus ofertas, puedes seleccionar las habilidades que se requieren 
+                                  para ejecutar un trabajo en específico, además tienes el control del tiempo en que tus ofertas están publicadas." />
+                    <br /><br />
+                    <center>                        
+                        <h:panelGrid columns="4">
+                            <h:outputLabel styleClass="label" value="País:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="pais" style="margin-left: 10px; width: 225px;"
+                                                 value="#{ofertasController.nuevaOferta.idPais.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo País es requerido!">
+                                    <p:ajax event="change" update=":formOferta:pnlProvincia, :formOferta:pnlCanton" 
+                                            listener="#{ofertasController.obtenerProvincias}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{ofertasController.paises}"
+                                                   var="pais" itemValue="#{pais.idCatalogoDetalle}"
+                                                   itemLabel="#{pais.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Provincia:" />
+                            <p:outputPanel id="pnlProvincia">
+                                <p:selectOneMenu id="provincia" style="margin-left: 10px; width: 225px;"
+                                                 value="#{ofertasController.nuevaOferta.idProvincia.idCatalogoDetalle}"
+                                                 required="true" disabled="#{ofertasController.provincias.size() == 0}"
+                                                 requiredMessage="El campo Provincia es requerido!">
+                                    <p:ajax event="change" update=":formOferta:pnlCanton" 
+                                            listener="#{ofertasController.obtenerCantones}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{ofertasController.provincias}"
+                                                   var="prov" itemValue="#{prov.idCatalogoDetalle}"
+                                                   itemLabel="#{prov.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Cantón:" />
+                            <p:outputPanel id="pnlCanton">
+                                <p:selectOneMenu id="canton" style="margin-left: 10px; width: 225px;"
+                                                 value="#{ofertasController.nuevaOferta.idCanton.idCatalogoDetalle}"
+                                                 required="true" disabled="#{ofertasController.cantones.size() == 0}"
+                                                 requiredMessage="El campo Cantón es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{ofertasController.cantones}"
+                                                   var="cant" itemValue="#{cant.idCatalogoDetalle}"
+                                                   itemLabel="#{cant.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Nivel de instrucción:" />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="nivelInstruccion" style="margin-left: 10px; width: 225px;"
+                                                 value="#{ofertasController.nuevaOferta.idNivelInstruccion.idCatalogoDetalle}"
+                                                 required="true"
+                                                 requiredMessage="El campo Nivel de instrucción es requerido!">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{ofertasController.nivelesInstruccion}"
+                                                   var="nivel" itemValue="#{nivel.idCatalogoDetalle}"
+                                                   itemLabel="#{nivel.nombre}" />
+                                </p:selectOneMenu>
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Nombre de la Oferta:" />
+                            <p:outputPanel>
+                                <p:inputText id="nombreOferta" styleClass="Login-input" size="40"
+                                             value="#{ofertasController.nuevaOferta.nombre}"
+                                             required="true" requiredMessage="El campo Nombre de Oferta es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>                             
+                            <h:outputLabel styleClass="label" value="Descripción:" />
+                            <p:outputPanel>
+                                <p:inputText id="descripcion" styleClass="Login-input" size="40"
+                                             value="#{ofertasController.nuevaOferta.descripcion}"
+                                             required="true" requiredMessage="El campo Descripción es requerido!"
+                                             style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Años de experiencia:" />
+                            <p:outputPanel>
+                                <p:inputText id="anios" styleClass="Login-input" size="40"
+                                             value="#{ofertasController.nuevaOferta.aniosExperiencia}"
+                                             required="true" maxlength="2"
+                                             requiredMessage="El campo Años de experiencia es requerido!"
+                                             onkeypress="return aceptarNumeros(event);" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Tiempo de entrega (meses):" />
+                            <p:outputPanel>
+                                <p:inputText id="tiempo" styleClass="Login-input" size="40"
+                                             value="#{ofertasController.nuevaOferta.tiempoEntrega}"
+                                             required="true" maxlength="2"
+                                             requiredMessage="El campo Tiempo de entrega es requerido!"
+                                             onkeypress="return aceptarNumeros(event);" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Fecha inicio publicación:" />
+                            <p:outputPanel>
+                                <p:calendar id="fechaInicio" styleClass="Login-input" size="34"
+                                            value="#{ofertasController.nuevaOferta.fechaInicioPublicacion}"
+                                            required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
+                                            requiredMessage="El campo Fecha inicio publicación es requerido!" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Fecha fin de publicación:" />
+                            <p:outputPanel>
+                                <p:calendar id="fechaFin" styleClass="Login-input" size="34"
+                                            value="#{ofertasController.nuevaOferta.fechaFinPublicacion}"
+                                            required="true" requiredMessage="El campo Fecha fin publicación es requerido!"
+                                            navigator="true" pattern="yyyy-MM-dd" showOn="button" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Presupuesto($):" />
+                            <p:outputPanel>
+                                <p:inputText id="presupuesto" styleClass="Login-input" size="40"
+                                             value="#{ofertasController.nuevaOferta.presupuesto}"
+                                             required="true" maxlength="8"
+                                             requiredMessage="El campo Presupuesto es requerido!"
+                                             onkeypress="return aceptarNumerosDecimales(event);" />
+                                <h:outputText value=" *" style="color: red" />
+                            </p:outputPanel>
+                            <h:outputLabel styleClass="label" value="Actividades a realizar:" />
+                            <p:outputPanel>
+                                <p:inputTextarea id="actividad" styleClass="Login-input" cols="28" rows="4"
+                                                 value="#{ofertasController.nuevaOferta.actividades}"
+                                                 style="text-transform: uppercase" onchange="toUpperCase(this)" />
+                            </p:outputPanel>
+                        </h:panelGrid>
+                        <div align="left" style="margin-left: 11em;">
+                            <h:panelGrid columns="4">
+                                <h:outputLabel styleClass="label" value="Imagen (opcional):" />
+                                <p:outputPanel id="pnlImagen">
+                                    <h:graphicImage styleClass="imagen" id="imagen"
+                                                    rendered="#{ofertasController.nuevaOferta.idImagen.idImagen == null or ofertasController.nuevaOferta.idImagen.idImagen == 1}"
+                                                    library="images" name="sel-imagen.png" />
+                                    <h:graphicImage id="image" styleClass="imagen"
+                                                    rendered="#{ofertasController.nuevaOferta.idImagen.idImagen > 1}"
+                                                    url="/image?id=#{ofertasController.nuevaOferta.idImagen.idImagen}"
+                                                    width="150" height="150" />
+                                </p:outputPanel>
+                                <p:spacer width="20" height="20" />
+                                <p:outputPanel id="fileImg" style="width: 150px">
+                                    <p:fileUpload
+                                        fileUploadListener="#{ofertasController.cargarImagen}"
+                                        mode="advanced" style="width: 220px"
+                                        label="Seleccione la foto (gif;jpg;jpeg;png)"
+                                        sizeLimit="200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                        auto="true" update=":formOferta:pnlImagen" process="@this"
+                                        invalidSizeMessage="El tamaño máximo de archivo permitido es 200 Kb!"
+                                        invalidFileMessage="Sólo se permiten cargar imágenes!" />
+                                </p:outputPanel>                            
+                            </h:panelGrid>
+                        </div>
+                        <br /><br />
+                        <div align="left">
+                            <h:outputText style="font-size: 1.5em !important; text-align: left !important" value="Habilidades por oferta:" />
+                            <br /><br />
+                            <h:panelGrid columns="2">
+                                <p:fieldset legend="Habilidades Disponibles">
+                                    <p:dataTable id="habilidadesDisponibles" widgetVar="datatableWidget1"
+                                                 value="#{ofertasController.listaHabilidades}" var="habilidadD"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 paginatorPosition="bottom" rows="10" paginator="true" rowsPerPageTemplate="10,15,20,25,30" 
+                                                 style="width : 100%;text-align: left;">
+                                        <p:column style="width:20px">  
+                                            <h:outputText id="dragIcon"  
+                                                          styleClass="ui-icon ui-icon-arrow-4" />  
+                                            <p:draggable for="dragIcon" revert="true" />  
+                                        </p:column>
+
+                                        <p:column headerText="Habilidad" filterBy="#{habilidadD.nombre}" 
+                                                  filterMatchMode="contains" filterStyle="width:200px">
+                                            <h:outputText value="#{habilidadD.nombre}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:fieldset>
+
+                                <p:fieldset id="habilidadesSeleccionadas" legend="Habilidades Seleccionadas" style="margin-top:20px">  
+                                    <p:outputPanel id="dropArea">  
+                                        <h:outputText value="!!!Arrastre las habilidades aquí!!!"  
+                                                      rendered="#{empty ofertasController.listaHabilidadesSeleccionadas}"  
+                                                      style="font-size:24px;" />  
+
+                                        <p:dataTable var="habilidadS" value="#{ofertasController.listaHabilidadesSeleccionadas}"
+                                                     widgetVar="datatableWidget"
+                                                     rendered="#{not empty ofertasController.listaHabilidadesSeleccionadas}"                                                     
+                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     paginatorPosition="bottom" rows="10" paginator="true" rowsPerPageTemplate="10,15,20,25,30" 
+                                                     style="width : 100%;text-align: left;">  
+
+                                            <p:column headerText="Habilidad" filterBy="#{habilidadS.nombre}" 
+                                                      filterMatchMode="contains" filterStyle="width:200px">
+                                                <h:outputText value="#{habilidadS.nombre}"/>
+                                            </p:column> 
+                                            <p:column style="width:20px">
+                                                <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                                 oncomplete="datatableWidget.clearFilters();datatableWidget1.clearFilters();"
+                                                                 update=":formOferta:tab" process="@this"
+                                                                 actionListener="#{ofertasController.eliminarHabilidad(habilidadS)}" />
+                                                <p:tooltip for="cbEliminar"
+                                                           value="Eliminar habilidad #{habilidadS.nombre}"
+                                                           showEffect="fade" hideEffect="fade" />
+                                            </p:column>
+                                        </p:dataTable>  
+                                    </p:outputPanel>  
+                                </p:fieldset> 
+                            </h:panelGrid>
+
+                            <p:droppable id="dropEvento" for="habilidadesSeleccionadas" tolerance="touch" activeStyleClass="ui-state-highlight"                                         
+                                         datasource="habilidadesDisponibles" onDrop="handleDrop">  
+                                <p:ajax listener="#{ofertasController.onHabilidadesDrop}" update="dropArea habilidadesDisponibles"
+                                        oncomplete="datatableWidget.clearFilters();datatableWidget1.clearFilters();" />  
+                            </p:droppable>
+                        </div>
+                        <br />
+                        <p:commandLink id="btnEditar" action="#{ofertasController.editarOferta}" process="@all" 
+                                       rendered="#{ofertasController.editarOferta}"
+                                       update=":formOferta:tab" ajax="false">
+                            <h:graphicImage library="images" name="editar.png" title="Editar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnGuardar" action="#{ofertasController.guardar}" process="@all" 
+                                       rendered="#{!ofertasController.editarOferta}"
+                                       update=":formOferta:tab" ajax="false">
+                            <h:graphicImage library="images" name="guardar.png" title="Guardar" />
+                        </p:commandLink>
+                        <p:commandLink id="btnCancelar" action="#{ofertasController.iniciar}" process="@this"
+                                       update=":formOferta:tab">
+                            <h:graphicImage library="images" name="cancelar.png" title="Cancelar" />
+                        </p:commandLink>
+                        <br/><br/>
+                        <p:outputPanel id="panelTabla">
+                            <p:dataTable value="#{ofertasController.listaOfertas}"
+                                         var="oferta" emptyMessage="No se ha registrado ninguna oferta"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom" rows="5" paginator="true"
+                                         rowsPerPageTemplate="5,10,15,20,25,30"
+                                         tableStyle="table-layout:auto;width:100%;">
+
+                                <p:column styleClass="wrap"
+                                          headerText="Imagen">
+                                    <h:graphicImage id="image" styleClass="imagen"
+                                                    rendered="#{oferta.idImagen.idImagen > 1}"
+                                                    url="/image?id=#{oferta.idImagen.idImagen}"
+                                                    width="50" height="50" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Provincia">
+                                    <h:outputText value="#{oferta.idProvincia.nombre}" />
+                                </p:column>                                
+
+                                <p:column styleClass="wrap"
+                                          headerText="Cantón">
+                                    <h:outputText value="#{oferta.idCanton.nombre}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Nivel de instrucción">
+                                    <h:outputText value="#{oferta.idNivelInstruccion.nombre}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Nombre">
+                                    <h:outputText value="#{oferta.nombre}" />
+                                </p:column>
+                                
+                                <p:column styleClass="wrap"
+                                          headerText="Años de experiencia">
+                                    <h:outputText value="#{oferta.aniosExperiencia}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Fecha inicio publicación">
+                                    <h:outputText value="#{oferta.fechaInicioPublicacion}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Fecha fin publicación">
+                                    <h:outputText value="#{oferta.fechaFinPublicacion}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Presupuesto">
+                                    <h:outputText value="$ #{oferta.presupuesto}" />
+                                </p:column>
+
+                                <p:column headerText="Editar" styleClass="classBtn">
+                                    <p:commandButton id="cbEditar" icon="ui-icon-pencil"
+                                                     update=":formOferta" process="@this"
+                                                     action="#{ofertasController.editarOferta(oferta)}" />
+                                    <p:tooltip for="cbEditar"
+                                               value="Editar oferta"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+
+                                <p:column headerText="Eliminar"
+                                          styleClass="classBtn">
+                                    <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                                     update=":formOferta" process="@this"
+                                                     actionListener="#{ofertasController.seleccionarOferta(oferta)}"
+                                                     oncomplete="dlgEliminar.show()" />
+                                    <p:tooltip for="cbEliminar"
+                                               value="Eliminar oferta"
+                                               showEffect="fade" hideEffect="fade" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
+                    </center>
+                </p:panel>
+                <p:confirmDialog id="cdEliminar"
+                                 message="Desea eliminar la oferta?"
+                                 header="Eliminar oferta"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formOferta"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{ofertasController.eliminar}" />
+                    <p:commandButton value="No" update=":formOferta"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
+            </h:form>
+            <script type="text/javascript">
+                function handleDrop(event, ui) {
+                    var droppedHabilidad = ui.draggable;
+
+                    droppedHabilidad.fadeOut('fast');
+                }
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -7,6 +7,9 @@
         <ui:define name="content">
             <h:form id="formModulos">
                 <p:outputPanel styleClass="contentPage">
+                    <h:outputLabel value="Administración de las ofertas para Personas Demandantes de Servicios"
+                                   rendered="#{indexController.usuario.idRol.nemonico eq 'RDE'}"
+                                   styleClass="estiloTitulo" />
                     <h:outputLabel value="Administración del Sistema de Gestión de Portfolio para Freelancers"
                                    rendered="#{indexController.usuario.idRol.nemonico eq 'RAD'}"
                                    styleClass="estiloTitulo" />
@@ -18,6 +21,8 @@
                                    rendered="#{indexController.usuario.idRol.nemonico eq 'RAD'}" />
                     <h:outputLabel value="Como usuario Freelance, tendrá acceso al(los) siguiente(s) módulo(s):"
                                    rendered="#{indexController.usuario.idRol.nemonico eq 'RFR'}" />
+                    <h:outputLabel value="Como usuario Persona Demandante, tendrá acceso al(los) siguiente(s) módulo(s):"
+                                   rendered="#{indexController.usuario.idRol.nemonico eq 'RDE'}" />
                     <br /><br />
                     <p:dataGrid var="acceso" styleClass="contentModules"
                                 value="#{indexController.listaAccesoRol}" columns="3">

@@ -3,6 +3,7 @@ package ec.edu.freelancers.servicio;
 import ec.edu.freelancers.dao.PersonaDemandanteDao;
 import ec.edu.freelancers.dao.UsuarioDao;
 import ec.edu.freelancers.modelo.PersonaDemandante;
+import ec.edu.freelancers.modelo.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -45,6 +46,16 @@ public class PersonaDemandanteServicio {
         } catch (Exception ex) {
             Logger.getLogger(PersonaDemandanteServicio.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    /**
+     * Buscar por usuario
+     * @param usuario
+     * @return
+     * @throws Exception 
+     */
+    public PersonaDemandante buscarPorUsuario(Usuario usuario) throws Exception {
+        return personaDemandanteDao.buscarPorUsuario(usuario);
     }
 
 }
