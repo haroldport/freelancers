@@ -131,7 +131,7 @@ h1{
     padding: 1em !important;
 }
 
-.oferta-item{
+.oferta-panel>.oferta-item{
     border-bottom: 3px solid #22BCE0 !important;
     float: left !important;
     margin-bottom: 0.8em !important;
@@ -160,6 +160,16 @@ h1{
 .titulo-item{
     font-style: italic !important;
     padding: 0.5em 0.2em 0 0 !important;
+}
+
+.oferta-panel tr, .oferta-panel td {
+   border: none;
+}
+
+.oferta-panel>.ui-datagrid-content {
+   border: none;
+   font-family: 'Open Sans', sans-serif !important;
+   font-size: 16px !important;
 }
 
 .freelance-destacados{

@@ -222,6 +222,8 @@ public class OfertasController extends Utilitario implements Serializable {
         setEditarOferta(Boolean.TRUE);
         setNuevaOferta(oferta);
         obtenerHabilidadesActuales();
+        obtenerProvincias();
+        obtenerCantones();
         return "";
     }
 

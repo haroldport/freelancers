@@ -117,4 +117,12 @@ public class OfertasServicio {
         }
     }
     
+    /**
+     * Listar todas las ofertas
+     * @return 
+     */
+    public List<Ofertas> listarTodas() {
+        return ofertasDao.listarTodas();
+    }
+    
 }

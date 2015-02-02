@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 
- * @author Manuel
+ * @author Luis Cordova
  */
 @WebServlet(urlPatterns = "/image")
 public class ImageServlet extends HttpServlet {
@@ -30,7 +30,6 @@ public class ImageServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             String id = (String) request.getParameter("id");
-            System.out.println("------------- " + id);
             Imagen imagen = fileServicio.obtenerFile(Integer.parseInt(id));
             if (imagen != null) {
                 ServletOutputStream out;

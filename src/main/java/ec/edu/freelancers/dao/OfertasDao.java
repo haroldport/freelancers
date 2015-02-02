@@ -1,7 +1,5 @@
 package ec.edu.freelancers.dao;
 
-import ec.edu.freelancers.modelo.FormacionAcademica;
-import ec.edu.freelancers.modelo.Freelance;
 import ec.edu.freelancers.modelo.Ofertas;
 import ec.edu.freelancers.modelo.PersonaDemandante;
 import java.util.List;
@@ -36,6 +34,15 @@ public class OfertasDao extends Generico<Ofertas> {
     public List<Ofertas> listarOfertasPorPersonaDemandante(PersonaDemandante personaDemandante) {
         String sql = "SELECT o FROM Ofertas o WHERE o.idEstado.idEstado = 1 AND o.idPersonaDemandante = :personaDemandante ORDER BY o.idOferta";
         return this.getEntityManager().createQuery(sql).setParameter("personaDemandante", personaDemandante).getResultList();
+    }
+    
+    /**
+     * Listar todas las ofertas
+     * @return 
+     */
+    public List<Ofertas> listarTodas() {
+        String sql = "SELECT o FROM Ofertas o WHERE o.idEstado.idEstado = 1 ORDER BY o.fechaInicioPublicacion DESC";
+        return this.getEntityManager().createQuery(sql).getResultList();
     }
     
 }

@@ -116,58 +116,22 @@
                     <h2 class="oferta-titulo">Ofertas recientes</h2>
                     <p class="oferta-descripcion">Encuentra en esta sección las
                         ofertas ingresadas reciéntemente.</p>
-                    <div class="oferta-item">
-                        <div class="imagen-item">
-                            <p:graphicImage styleClass="oferta-image" library="photos"
-                                            name="oferta1.jpg" />
+                    <p:dataGrid var="oferta" styleClass="oferta-panel" emptyMessage="No hay ofertas en este momento"
+                                value="#{indexController.listaOfertas}" columns="2">                        
+                        <div class="oferta-item">
+                            <p:outputPanel rendered="#{indexController.dentroDeRango(oferta.fechaInicioPublicacion, oferta.fechaFinPublicacion)}"
+                                           style="font-family: 'Open Sans', sans-serif !important;
+                                           font-size: 16px !important;">
+                                <div class="imagen-item">
+                                    <p:graphicImage id="image" styleClass="oferta-image"
+                                                    rendered="#{oferta.idImagen.idImagen > 1}"
+                                                    url="/image?id=#{oferta.idImagen.idImagen}" />
+                                </div>
+                                <h4 class="titulo-item">#{oferta.nombre}</h4>
+                                <p>#{oferta.descripcion}</p>
+                            </p:outputPanel>
                         </div>
-                        <h4 class="titulo-item">Desarrollo de página web</h4>
-                        <p>Se requiere una página web para la empresa ABC S.A.</p>
-                    </div>
-                    <div class="oferta-item">
-                        <div class="imagen-item">
-                            <p:graphicImage styleClass="oferta-image" library="photos"
-                                            name="oferta2.jpg" />
-                        </div>
-                        <h4 class="titulo-item">Business Intelligence</h4>
-                        <p>Implementar una solución de Inteligencia de Negocios para
-                            nuestra empresa.</p>
-                    </div>
-                    <div class="oferta-item">
-                        <div class="imagen-item">
-                            <p:graphicImage styleClass="oferta-image" library="photos"
-                                            name="diseno.jpg" />
-                        </div>
-                        <h4 class="titulo-item">Creación de banner</h4>
-                        <p>Requerimos el diseño de un banner para la publicidad
-                            principal de una de nuestras agencias.</p>
-                    </div>
-                    <div class="oferta-item">
-                        <div class="imagen-item">
-                            <p:graphicImage styleClass="oferta-image" library="photos"
-                                            name="oferta1.jpg" />
-                        </div>
-                        <h4 class="titulo-item">Desarrollo de página web</h4>
-                        <p>Se requiere una página web para la empresa ABC S.A.</p>
-                    </div>
-                    <div class="oferta-item">
-                        <div class="imagen-item">
-                            <p:graphicImage styleClass="oferta-image" library="photos"
-                                            name="oferta2.jpg" />
-                        </div>
-                        <h4 class="titulo-item">Business Intelligence</h4>
-                        <p>Implementar una solución de Inteligencia de Negocios para
-                            nuestra empresa.</p>
-                    </div>
-                    <div class="oferta-item">
-                        <div class="imagen-item">
-                            <p:graphicImage styleClass="oferta-image" library="photos"
-                                            name="diseno.jpg" />
-                        </div>
-                        <h4 class="titulo-item">Creación de banner</h4>
-                        <p>Requerimos el diseño de un banner para la publicidad
-                            principal de una de nuestras agencias.</p>
-                    </div>
+                    </p:dataGrid>                    
                 </div>
 
                 <div class="freelance-destacados">

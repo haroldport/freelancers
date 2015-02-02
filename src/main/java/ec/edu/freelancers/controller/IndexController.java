@@ -3,9 +3,11 @@ package ec.edu.freelancers.controller;
 import ec.edu.freelancers.modelo.Acceso;
 import ec.edu.freelancers.modelo.AccesoRol;
 import ec.edu.freelancers.modelo.LogSistema;
+import ec.edu.freelancers.modelo.Ofertas;
 import ec.edu.freelancers.modelo.Usuario;
 import ec.edu.freelancers.servicio.AccesoServicio;
 import ec.edu.freelancers.servicio.LogSistemaServicio;
+import ec.edu.freelancers.servicio.OfertasServicio;
 import ec.edu.freelancers.servicio.UsuarioServicio;
 import ec.edu.freelancers.utilitario.Crypt;
 import java.io.Serializable;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -21,6 +24,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
@@ -53,6 +57,8 @@ public class IndexController implements Serializable {
     private LogSistemaServicio logSistemaServicio;
     @EJB
     private AccesoServicio accesoServicio;
+    @EJB
+    private OfertasServicio ofertasServicio;
 
     private String username;
     private String password;
@@ -65,6 +71,7 @@ public class IndexController implements Serializable {
     private String claveAnterior;
     private String claveActual;
     private String claveActualRepetida;
+    private List<Ofertas> listaOfertas;
 
     @ManagedProperty(value = "#{personaDemandanteController}")
     private PersonaDemandanteController personaDemandanteController;
@@ -76,6 +83,19 @@ public class IndexController implements Serializable {
     public void init() {
         setearRadio();
         usuarioRegistro = usuarioServicio.obtenerUsuarioPorUsername("usuario_registro");
+        listaOfertas = ofertasServicio.listarTodas();
+    }
+
+    public boolean dentroDeRango(Date fechaInicio, Date fechaFin) {
+        Date fechaActual = new Date();
+        if (fechaActual != null && fechaInicio != null && fechaFin != null) {
+            if (fechaActual.after(fechaInicio) && fechaActual.before(fechaFin)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     public void setearRadio() {
@@ -109,9 +129,10 @@ public class IndexController implements Serializable {
     }
 
     public String inicio() {
+        listaOfertas = ofertasServicio.listarTodas();
         return "/index.xhtml?faces-redirect=true";
     }
-    
+
     public String perfil() {
         return "/faces/pages/perfil/perfil.xhtml?faces-redirect=true";
     }
@@ -331,6 +352,14 @@ public class IndexController implements Serializable {
 
     public void setClaveActualRepetida(String claveActualRepetida) {
         this.claveActualRepetida = claveActualRepetida;
+    }
+
+    public List<Ofertas> getListaOfertas() {
+        return listaOfertas;
+    }
+
+    public void setListaOfertas(List<Ofertas> listaOfertas) {
+        this.listaOfertas = listaOfertas;
     }
 
 }
