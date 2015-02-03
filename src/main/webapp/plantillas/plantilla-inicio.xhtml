@@ -86,127 +86,18 @@
                                                    rendered="#{indexController.usuario.username == null}"
                                                    styleClass="linkHeader" update=":formMenu, :formRegistro" value="REGISTRARSE" />
                                 </li>
+                                <li>
+                                    <p:commandLink action="#{indexController.inicio}"
+                                                   rendered="#{indexController.usuario.username == null}"
+                                                   styleClass="linkHeader" update=":formMenu" value="REGRESAR" />
+                                </li>
                             </ul>
                         </h:form>
                     </div>
                 </div>
-                <div id="slider-top">
-                    <ul class="rslides">
-                        <li><p:graphicImage styleClass="imgSlider" library="photos"
-                                            name="diseno_grafico.jpg" alt="Slider 1" /></li>
-                        <li><p:graphicImage styleClass="imgSlider" library="photos"
-                                            name="aplicaciones_moviles.jpg" alt="Slider 2" /></li>
-                        <li><p:graphicImage styleClass="imgSlider" library="photos"
-                                            name="web.jpg" alt="Slider 3" /></li>
-                        <li><p:graphicImage styleClass="imgSlider" library="photos"
-                                            name="foto.jpg" alt="Slider 4" /></li>
-                        <li><p:graphicImage styleClass="imgSlider" library="photos"
-                                            name="ingeniero.gif" alt="Slider 5" /></li>
-                    </ul>
-                </div>
-
-                <div class="mensaje-slide">
-                    <h2>Encuentra el profesional que necesitas</h2>
-                    <p>Contrata el servicio que requieras, descubre a talentosos
-                        profesionales.</p>
-                    <a class="buscar" href="">Buscar freelance</a>
-                </div>
-
-                <div class="oferta">
-                    <h2 class="oferta-titulo">Ofertas recientes</h2>
-                    <p class="oferta-descripcion">Encuentra en esta sección las
-                        ofertas ingresadas reciéntemente.</p>
-                    <h:form id="formVerOferta">
-                        <p:dataGrid id="verOferta" var="oferta" styleClass="oferta-panel" emptyMessage="No hay ofertas en este momento"
-                                    value="#{indexController.listaOfertas}" columns="2">                        
-                            <div class="oferta-item">
-                                <p:outputPanel rendered="#{indexController.dentroDeRango(oferta.fechaInicioPublicacion, oferta.fechaFinPublicacion)}"
-                                               style="font-family: 'Open Sans', sans-serif !important;
-                                               font-size: 16px !important;border-bottom: 3px solid #22BCE0 !important; height: 190px">
-                                    <div class="imagen-item">
-                                        <p:graphicImage id="image" styleClass="oferta-image"
-                                                        rendered="#{oferta.idImagen.idImagen > 1}"
-                                                        url="/image?id=#{oferta.idImagen.idImagen}" />
-                                    </div>
-                                    <h4 class="titulo-item">#{oferta.nombre}</h4>
-                                    <p>#{oferta.descripcion}</p>
-                                    <p:commandLink id="linkOferta" style="font-size: 1em" styleClass="buscar" 
-                                                   process="@this :formVerOferta:verOferta" update=":formRegistro"
-                                                   value="Ver oferta" action="#{indexController.verOferta(oferta)}" />
-                                </p:outputPanel>
-                            </div>
-                        </p:dataGrid>  
-                    </h:form>
-                </div>
-
-                <div class="freelance-destacados">
-                    <h2 class="freelance-titulo">Freelancers destacados</h2>
-                    <p class="freelance-descripcion">Top 9 de los freelancers más
-                        rankeados.</p>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Andrés Cepeda</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Pedro Ortiz</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Carlos Paredes</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Juan Silva</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Marcos Mondaíni</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Pedro Quiñónez</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Ismael Rivera</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Hector Lavoe</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Arturo Acosta</h5>
-                    </div>
-                </div>
+            </div>
+            <div id="content">
+                <ui:insert name="content" />
             </div>
             <div class="footer">
                 <p>Powered by Luis Rizzo y Luis Córdova</p>

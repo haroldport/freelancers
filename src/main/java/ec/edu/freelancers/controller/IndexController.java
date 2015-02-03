@@ -2,6 +2,7 @@ package ec.edu.freelancers.controller;
 
 import ec.edu.freelancers.modelo.Acceso;
 import ec.edu.freelancers.modelo.AccesoRol;
+import ec.edu.freelancers.modelo.HabilidadesOferta;
 import ec.edu.freelancers.modelo.LogSistema;
 import ec.edu.freelancers.modelo.Ofertas;
 import ec.edu.freelancers.modelo.Usuario;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -24,7 +24,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
@@ -33,6 +32,9 @@ import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
 import org.primefaces.model.menu.Submenu;
+import org.primefaces.model.tagcloud.DefaultTagCloudItem;
+import org.primefaces.model.tagcloud.DefaultTagCloudModel;
+import org.primefaces.model.tagcloud.TagCloudModel;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -72,6 +74,8 @@ public class IndexController implements Serializable {
     private String claveActual;
     private String claveActualRepetida;
     private List<Ofertas> listaOfertas;
+    private Ofertas ofertaSeleccionada;
+    private TagCloudModel model;
 
     @ManagedProperty(value = "#{personaDemandanteController}")
     private PersonaDemandanteController personaDemandanteController;
@@ -135,6 +139,20 @@ public class IndexController implements Serializable {
 
     public String perfil() {
         return "/faces/pages/perfil/perfil.xhtml?faces-redirect=true";
+    }
+    
+    public String verOferta(Ofertas oferta){
+        ofertaSeleccionada = new Ofertas();
+        setOfertaSeleccionada(oferta);
+        recuperarHabilidades();
+        return "/faces/pages/oferta/ofertaSeleccionada.xhtml?faces-redirect=true";
+    }
+    
+    public void recuperarHabilidades(){
+        model = new DefaultTagCloudModel();
+        for(HabilidadesOferta habilidad : ofertaSeleccionada.getHabilidadesOfertaList()){
+            model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random()*5)));
+        }
     }
 
     public String pantallaInicial() {
@@ -362,4 +380,19 @@ public class IndexController implements Serializable {
         this.listaOfertas = listaOfertas;
     }
 
+    public Ofertas getOfertaSeleccionada() {
+        return ofertaSeleccionada;
+    }
+
+    public void setOfertaSeleccionada(Ofertas ofertaSeleccionada) {
+        this.ofertaSeleccionada = ofertaSeleccionada;
+    }
+
+    public TagCloudModel getModel() {
+        return model;
+    }
+
+    public void setModel(TagCloudModel model) {
+        this.model = model;
+    }
 }

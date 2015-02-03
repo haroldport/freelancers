@@ -1,0 +1,98 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-inicio.xhtml">
+        <ui:define name="content">
+            <h:form id="formOfertaSeleccionada">
+                <br /><br />
+                <p:panel id="tab" header="Oferta: #{indexController.ofertaSeleccionada.nombre}" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1100px">
+                    <br /><br />
+                    <h:panelGrid columns="2">
+                        <p:outputPanel style="margin-left: 3em; margin-top: 0" id="pnlImagen">
+                            <h:graphicImage styleClass="imagenPerfil" id="imagen"
+                                            rendered="#{indexController.ofertaSeleccionada.idImagen.idImagen == 1}"
+                                            library="images" name="sel-imagen.png" />
+                            <h:graphicImage id="image" styleClass="imagenPerfil"
+                                            rendered="#{indexController.ofertaSeleccionada.idImagen.idImagen > 1}"
+                                            url="/image?id=#{indexController.ofertaSeleccionada.idImagen.idImagen}"
+                                            width="350" height="250" />
+                        </p:outputPanel>
+                        <p:outputPanel style="margin-left: 3em" id="pnlDescripcion">
+                            <h:outputText style="font-size: 4em" value="#{indexController.ofertaSeleccionada.nombre}" />
+                            <br /><br /><br />
+                            <h:outputText style="font-size: 1.5em !important" value="#{indexController.ofertaSeleccionada.descripcion}" />
+                            <br /><br /><br />
+                            <h:panelGrid columns="3">
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Ofertante:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.idPersonaDemandante.nombre}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Experiencia requerida (años):" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.aniosExperiencia}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Ubicación:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.idCanton.nombre}, 
+                                              #{indexController.ofertaSeleccionada.idProvincia.nombre}, #{indexController.ofertaSeleccionada.idPais.nombre}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Tiempo de entrega (meses):" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.tiempoEntrega}" />                                
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Nivel de instrucción:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.idNivelInstruccion.nombre}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Fecha inicio publicación:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.fechaInicioPublicacion}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Fecha fin publicación:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.fechaFinPublicacion}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Actividades a realizar:" />
+                                <p:spacer width="10" height="30" />
+                                <p:inputTextarea readonly="true" style="font-size: 1.2em !important; border: none" 
+                                                 rows="4" cols="35"
+                                                 value="#{indexController.ofertaSeleccionada.actividades}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Presupuesto:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="$ #{indexController.ofertaSeleccionada.presupuesto}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Teléfono:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.idPersonaDemandante.telefonoOficina}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Celular:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.idPersonaDemandante.celular}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Correo:" />
+                                <p:spacer width="10" height="30" />
+                                <h:outputText style="font-size: 1.2em !important" value="#{indexController.ofertaSeleccionada.idPersonaDemandante.correo}" />
+                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Página web:" />
+                                <p:spacer width="10" height="30" />
+                                <h:commandLink style="font-size: 1.2em !important; color: blue"  target="_blank"
+                                               value="#{indexController.ofertaSeleccionada.idPersonaDemandante.paginaWeb}" />
+                            </h:panelGrid>                            
+                            <br /><br />
+                            <h:outputText style="font-size: 3em" value="Habilidades requeridas:" />
+                            <p:tagCloud styleClass="pfTagCloud" model="#{indexController.model}" />
+                            <br /><br />
+                            <center>
+                                <p:commandLink id="linkOferta" style="font-size: 1.4em;font-family: 'Open Sans', sans-serif !important;" styleClass="buscar" 
+                                               process="@this :formOfertaSeleccionada" update=":formOfertaSeleccionada"
+                                               value="Aplicar oferta" disabled="#{indexController.usuario.username == null or indexController.usuario.idRol.nemonico ne 'RFR'}" />
+                            </center>
+                            <br />
+                            <h:outputText style="font-size: 1.2em !important; color: red; font-weight: bold"
+                                          value="Debe ser un usuario freelance registrado e ingresar al sistema para aplicar a la oferta"
+                                          rendered="#{indexController.usuario.username == null or indexController.usuario.idRol.nemonico ne 'RFR'}" />
+                            <br />
+                        </p:outputPanel>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
