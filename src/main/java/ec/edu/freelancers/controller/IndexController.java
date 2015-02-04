@@ -1,12 +1,17 @@
 package ec.edu.freelancers.controller;
 
+import ec.edu.freelancers.enumerado.EstadoEnum;
 import ec.edu.freelancers.modelo.Acceso;
 import ec.edu.freelancers.modelo.AccesoRol;
+import ec.edu.freelancers.modelo.AplicacionOferta;
+import ec.edu.freelancers.modelo.Estado;
 import ec.edu.freelancers.modelo.HabilidadesOferta;
 import ec.edu.freelancers.modelo.LogSistema;
 import ec.edu.freelancers.modelo.Ofertas;
 import ec.edu.freelancers.modelo.Usuario;
 import ec.edu.freelancers.servicio.AccesoServicio;
+import ec.edu.freelancers.servicio.AplicacionOfertaServicio;
+import ec.edu.freelancers.servicio.EstadoServicio;
 import ec.edu.freelancers.servicio.LogSistemaServicio;
 import ec.edu.freelancers.servicio.OfertasServicio;
 import ec.edu.freelancers.servicio.UsuarioServicio;
@@ -61,6 +66,10 @@ public class IndexController implements Serializable {
     private AccesoServicio accesoServicio;
     @EJB
     private OfertasServicio ofertasServicio;
+    @EJB
+    private AplicacionOfertaServicio aplicacionOfertaServicio;
+    @EJB
+    private EstadoServicio estadoServicio;
 
     private String username;
     private String password;
@@ -76,6 +85,7 @@ public class IndexController implements Serializable {
     private List<Ofertas> listaOfertas;
     private Ofertas ofertaSeleccionada;
     private TagCloudModel model;
+    private Estado estadoAplicado;
 
     @ManagedProperty(value = "#{personaDemandanteController}")
     private PersonaDemandanteController personaDemandanteController;
@@ -85,9 +95,14 @@ public class IndexController implements Serializable {
 
     @PostConstruct
     public void init() {
-        setearRadio();
-        usuarioRegistro = usuarioServicio.obtenerUsuarioPorUsername("usuario_registro");
-        listaOfertas = ofertasServicio.listarTodas();
+        try {
+            setearRadio();
+            estadoAplicado = estadoServicio.buscarPorNemonico(EstadoEnum.APLICADO.getNemonico());
+            usuarioRegistro = usuarioServicio.obtenerUsuarioPorUsername("usuario_registro");
+            listaOfertas = ofertasServicio.listarTodas();
+        } catch (Exception ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean dentroDeRango(Date fechaInicio, Date fechaFin) {
@@ -140,18 +155,42 @@ public class IndexController implements Serializable {
     public String perfil() {
         return "/faces/pages/perfil/perfil.xhtml?faces-redirect=true";
     }
-    
-    public String verOferta(Ofertas oferta){
+
+    public String verOferta(Ofertas oferta) {
         ofertaSeleccionada = new Ofertas();
         setOfertaSeleccionada(oferta);
         recuperarHabilidades();
         return "/faces/pages/oferta/ofertaSeleccionada.xhtml?faces-redirect=true";
     }
-    
-    public void recuperarHabilidades(){
+
+    public void aplicarAOferta() {
+        FacesMessage msg = null;
+        try {
+            Date fechaAplicado = new Date();            
+            AplicacionOferta nuevaAplicacion = null;
+            nuevaAplicacion = aplicacionOfertaServicio.buscarPorFreelanceYOferta(this.getUsuario().getFreelanceList().get(0), ofertaSeleccionada);
+            if (nuevaAplicacion == null) {
+                nuevaAplicacion = new AplicacionOferta(Boolean.FALSE, fechaAplicado, "Oferta aplicada",
+                        ofertaSeleccionada, this.getUsuario().getFreelanceList().get(0), estadoAplicado);
+                aplicacionOfertaServicio.crear(nuevaAplicacion);
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Felicidades aplicaste correctamente a la oferta!!!", "");
+            }else{
+                msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Usted ya aplicó a esta oferta!!!", "");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Ocurrió un error al aplicar a la oferta: " + ex.getMessage(), "");
+        }
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void recuperarHabilidades() {
         model = new DefaultTagCloudModel();
-        for(HabilidadesOferta habilidad : ofertaSeleccionada.getHabilidadesOfertaList()){
-            model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random()*5)));
+        for (HabilidadesOferta habilidad : ofertaSeleccionada.getHabilidadesOfertaList()) {
+            model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random() * 5)));
         }
     }
 
@@ -394,5 +433,13 @@ public class IndexController implements Serializable {
 
     public void setModel(TagCloudModel model) {
         this.model = model;
+    }
+
+    public Estado getEstadoAplicado() {
+        return estadoAplicado;
+    }
+
+    public void setEstadoAplicado(Estado estadoAplicado) {
+        this.estadoAplicado = estadoAplicado;
     }
 }

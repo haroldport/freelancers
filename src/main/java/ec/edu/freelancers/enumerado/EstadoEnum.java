@@ -9,15 +9,15 @@ public enum EstadoEnum {
     /**
      * Estado ACTIVO.
      */
-    ACTIVO("A"),
+    ACTIVO("ACT"),
     /**
      * Estado INACTIVO.
      */
-    INACTIVO("I"),
+    INACTIVO("INA"),
     /**
-     * Estado HABILITADO.
+     * Estado APLICADO.
      */
-    HABILITADO("HAB"),
+    APLICADO("APL"),
     /**
      * Estado REVISIÓN.
      */

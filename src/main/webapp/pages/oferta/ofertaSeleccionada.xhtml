@@ -82,6 +82,7 @@
                             <center>
                                 <p:commandLink id="linkOferta" style="font-size: 1.4em;font-family: 'Open Sans', sans-serif !important;" styleClass="buscar" 
                                                process="@this :formOfertaSeleccionada" update=":formOfertaSeleccionada"
+                                               action="#{indexController.aplicarAOferta}"
                                                value="Aplicar oferta" disabled="#{indexController.usuario.username == null or indexController.usuario.idRol.nemonico ne 'RFR'}" />
                             </center>
                             <br />

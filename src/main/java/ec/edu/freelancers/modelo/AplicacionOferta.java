@@ -70,6 +70,15 @@ public class AplicacionOferta implements Serializable {
         this.fechaAplicado = fechaAplicado;
     }
 
+    public AplicacionOferta(boolean seleccionado, Date fechaAplicado, String comentario, Ofertas idOferta, Freelance idFreelance, Estado idEstado) {
+        this.seleccionado = seleccionado;
+        this.fechaAplicado = fechaAplicado;
+        this.comentario = comentario;
+        this.idOferta = idOferta;
+        this.idFreelance = idFreelance;
+        this.idEstado = idEstado;
+    }
+
     public Integer getIdAplicacionOferta() {
         return idAplicacionOferta;
     }
