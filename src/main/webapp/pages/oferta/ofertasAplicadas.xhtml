@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formOferta" target="_blank">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" header="Gestión de Ofertas aplicadas" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1100px">
+                    <br /><br />
+                    <h:outputText style="font-size: 1.5em !important" value="En esta sección podrás encontrar las ofertas a las que aplicaste, 
+                                  para ver el status de las mismas o dejar de aplicar a una de ellas en caso de así requerirlo." />
+                    <br /><br />
+                    <p:dataTable value="#{ofertasAplicadasController.ofertasAplicadas}"
+                                 var="oferta" emptyMessage="No haz aplicado a ninguna oferta"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 paginatorPosition="bottom" rows="5" paginator="true"
+                                 rowsPerPageTemplate="5,10,15,20,25,30"
+                                 tableStyle="table-layout:auto;width:100%;">
+
+                        <p:column styleClass="wrap"
+                                  headerText="Nombre oferta">
+                            <p:commandLink id="linkOferta" style="font-size: 1em; color: blue; border-bottom: 1px solid blue"
+                                           process="@this" ajax="false"
+                                           value="#{oferta.idOferta.nombre}" action="#{indexController.verOferta(oferta.idOferta)}" />
+                        </p:column>
+
+                        <p:column styleClass="wrap"
+                                  headerText="Descripción">
+                            <h:outputText value="#{oferta.idOferta.descripcion}" />
+                        </p:column>
+
+                        <p:column styleClass="wrap"
+                                  headerText="Años de experiencia">
+                            <h:outputText value="#{oferta.idOferta.aniosExperiencia}" />
+                        </p:column>
+
+                        <p:column styleClass="wrap"
+                                  headerText="Actividades">
+                            <h:outputText value="#{oferta.idOferta.actividades}" />
+                        </p:column>
+
+                        <p:column styleClass="wrap"
+                                  headerText="Estado">
+                            <h:outputText value="#{oferta.idEstado.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Eliminar"
+                                  styleClass="classBtn">
+                            <p:commandButton id="cbEliminar" icon="ui-icon-trash"
+                                             update=":formOferta" process="@this"
+                                             actionListener="#{ofertasAplicadasController.seleccionarOferta(oferta)}"
+                                             oncomplete="dlgEliminar.show()" />
+                            <p:tooltip for="cbEliminar"
+                                       value="Eliminar aplicación a oferta"
+                                       showEffect="fade" hideEffect="fade" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <p:confirmDialog id="cdEliminar"
+                                 message="Desea eliminar la aplicación a la oferta?"
+                                 header="Eliminar aplicación a oferta"
+                                 severity="alert" widgetVar="dlgEliminar">
+                    <p:commandButton value="Si" update=":formOferta"
+                                     oncomplete="dlgEliminar.hide()" process="@this"
+                                     actionListener="#{ofertasAplicadasController.eliminar}" />
+                    <p:commandButton value="No" update=":formOferta"
+                                     onclick="dlgEliminar.hide()" type="button" process="@this" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

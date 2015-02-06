@@ -106,10 +106,14 @@
                 </div>
 
                 <div class="mensaje-slide">
-                    <h2>Encuentra el profesional que necesitas</h2>
-                    <p>Contrata el servicio que requieras, descubre a talentosos
-                        profesionales.</p>
-                    <a class="buscar" href="">Buscar freelance</a>
+                    <h:form id="formBusqueda">
+                        <h2>Encuentra el profesional que necesitas</h2>
+                        <p>Contrata el servicio que requieras, descubre a talentosos
+                            profesionales.</p>
+                        <p:commandLink style="font-size: 1em" styleClass="buscar" 
+                                       process="@this :formBusqueda" update=":formBusqueda"
+                                       value="Buscar freelance" action="#{indexController.busqueda}" />
+                    </h:form>
                 </div>
 
                 <div class="oferta">

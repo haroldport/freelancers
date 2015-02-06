@@ -54,4 +54,24 @@ public class AplicacionOfertaDao extends Generico<AplicacionOferta> {
         }
     }
     
+    /**
+     * Buscar en base al freelance
+     * @param freelance
+     * @return
+     * @throws Exception 
+     */
+    public List<AplicacionOferta> buscarPorFreelance(Freelance freelance) throws Exception {
+        List<AplicacionOferta> result = new ArrayList<>();
+        String jpql = "SELECT a FROM AplicacionOferta a "
+                + "WHERE a.idFreelance = :freelance ";
+        Query query = em.createQuery(jpql);
+        query.setParameter("freelance", freelance);
+        result = query.getResultList();
+        if (result != null && !result.isEmpty()) {
+            return result;
+        } else {
+            return null;
+        }
+    }
+    
 }
