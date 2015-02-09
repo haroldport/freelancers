@@ -274,7 +274,7 @@
                                           headerText="Nombre">
                                     <h:outputText value="#{oferta.nombre}" />
                                 </p:column>
-                                
+
                                 <p:column styleClass="wrap"
                                           headerText="Años de experiencia">
                                     <h:outputText value="#{oferta.aniosExperiencia}" />
@@ -297,6 +297,17 @@
                                 <p:column styleClass="wrap"
                                           headerText="Presupuesto">
                                     <h:outputText value="$ #{oferta.presupuesto}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="No. Aplicaciones">
+                                    <center>
+                                        <p:commandLink id="linkAspirantes" disabled="#{oferta.aplicacionOfertaList.size() == 0}"
+                                                       ajax="false" immediate="true"
+                                                       action="#{ofertasController.verAspirantesOferta(oferta)}">
+                                            <h:outputText value="#{oferta.aplicacionOfertaList.size()}" style="color: blue; border-bottom: 1px solid blue; font-size: 1em" />
+                                        </p:commandLink>
+                                    </center>
                                 </p:column>
 
                                 <p:column headerText="Editar" styleClass="classBtn">

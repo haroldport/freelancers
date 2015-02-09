@@ -243,6 +243,7 @@
             </p:dialog>
 
             <p:dialog styleClass="Login-dialogo" id="dlgRegistro" widgetVar="dlg1"
+                      style="font-size: 1em"
                       header="Regístrate e ingresa a una comunidad de infinitas oportunidades" width="1000"
                       resizable="false" showEffect="clip" hideEffect="clip" position="center top">
                 <h:form id="formRegistro">
@@ -260,7 +261,7 @@
                         <h:panelGrid columns="6">					
                             <h:outputLabel styleClass="label" value="Tipo de persona:" />
                             <p:outputPanel>
-                                <p:selectOneMenu id="tipoPersona" style="width: 180px;"
+                                <p:selectOneMenu id="tipoPersona" style="width: 175px;margin-left: 1em"
                                                  value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.idTipoPersona.idCatalogoDetalle}"
                                                  required="true"
                                                  requiredMessage="El campo Tipo de persona es requerido!">
@@ -363,14 +364,17 @@
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <p:columnGroup />                            
-                        </h:panelGrid>                        
+                        </h:panelGrid>    
+                        <h3>Al registrarte, confirmas que aceptas los 
+                            <p:commandLink styleClass="link">Términos y Condiciones </p:commandLink> y                             
+                            <p:commandLink styleClass="link">Política de privacidad</p:commandLink>.</h3>
                     </p:outputPanel>
                     <p:outputPanel id="pnlFreelance" rendered="#{indexController.tipoUsuario eq '1'}">
                         <p class="Profile-description">Datos generales:</p>
                         <h:panelGrid columns="6">					
                             <h:outputLabel styleClass="label" value="Tipo de documento:" />
                             <p:outputPanel>
-                                <p:selectOneMenu id="tipoDocumento" style="width: 180px;"
+                                <p:selectOneMenu id="tipoDocumento" style="width: 175px;margin-left: 1em"
                                                  value="#{indexController.freelanceController.nuevoFreelance.idTipoDocumento.idCatalogoDetalle}"
                                                  required="true"
                                                  requiredMessage="El campo Tipo de documento es requerido!">
@@ -423,7 +427,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="País:" />
                             <p:outputPanel>
-                                <p:selectOneMenu id="pais" style="width: 180px;"
+                                <p:selectOneMenu id="pais" style="width: 175px;margin-left: 1em"
                                                  value="#{indexController.freelanceController.nuevoFreelance.idPais.idCatalogoDetalle}"
                                                  required="true"
                                                  requiredMessage="El campo País es requerido!">
@@ -438,7 +442,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Provincia:" />
                             <p:outputPanel id="pnlProvincia">
-                                <p:selectOneMenu id="provincia" style="width: 180px;"
+                                <p:selectOneMenu id="provincia" style="width: 175px;margin-left: 1em"
                                                  value="#{indexController.freelanceController.nuevoFreelance.idProvincia.idCatalogoDetalle}"
                                                  required="true" disabled="#{indexController.freelanceController.provincias.size() == 0}"
                                                  requiredMessage="El campo Provincia es requerido!">
@@ -453,7 +457,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Cantón:" />
                             <p:outputPanel id="pnlCanton">
-                                <p:selectOneMenu id="canton" style="width: 180px;"
+                                <p:selectOneMenu id="canton" style="width: 175px;margin-left: 1em"
                                                  value="#{indexController.freelanceController.nuevoFreelance.idCanton.idCatalogoDetalle}"
                                                  required="true" disabled="#{indexController.freelanceController.cantones.size() == 0}"
                                                  requiredMessage="El campo Cantón es requerido!">
@@ -494,7 +498,7 @@
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Estado civil:" />
                             <p:outputPanel>
-                                <p:selectOneMenu id="estCivil" style="width: 180px;"
+                                <p:selectOneMenu id="estCivil" style="width: 175px;margin-left: 1em"
                                                  value="#{indexController.freelanceController.nuevoFreelance.idEstadoCivil.idCatalogoDetalle}"
                                                  required="true"
                                                  requiredMessage="El campo Estado civil es requerido!">
@@ -555,6 +559,9 @@
                             </p:outputPanel>
                             <p:columnGroup />                            
                         </h:panelGrid>
+                        <h3>Al registrarte, confirmas que aceptas los 
+                            <h:commandLink immediate="true" action="/terminos.xhtml" target="_blank" styleClass="link">Términos y Condiciones </h:commandLink> y                             
+                            <h:commandLink immediate="true" action="/politica.xhtml" target="_blank" styleClass="link">Política de privacidad</h:commandLink>.</h3>
                     </p:outputPanel>
                     <br />
                     <center>

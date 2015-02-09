@@ -6,22 +6,27 @@ import ec.edu.freelancers.modelo.FormacionAcademica;
 import ec.edu.freelancers.modelo.Freelance;
 import ec.edu.freelancers.modelo.Habilidades;
 import ec.edu.freelancers.modelo.Idioma;
+import ec.edu.freelancers.modelo.ImagenPortfolio;
 import ec.edu.freelancers.modelo.Portfolio;
 import ec.edu.freelancers.servicio.CapacitacionServicio;
 import ec.edu.freelancers.servicio.ExperienciaServicio;
 import ec.edu.freelancers.servicio.FormacionAcademicaServicio;
 import ec.edu.freelancers.servicio.FreelanceServicio;
+import ec.edu.freelancers.servicio.HabilidadesServicio;
 import ec.edu.freelancers.servicio.IdiomaServicio;
 import ec.edu.freelancers.servicio.PortfolioServicio;
 import ec.edu.freelancers.utilitario.Utilitario;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.model.tagcloud.DefaultTagCloudItem;
 import org.primefaces.model.tagcloud.DefaultTagCloudModel;
 import org.primefaces.model.tagcloud.TagCloudModel;
@@ -33,7 +38,7 @@ import org.primefaces.model.tagcloud.TagCloudModel;
 @ManagedBean
 @ViewScoped
 public class PerfilController extends Utilitario implements Serializable {
-    
+
     @EJB
     private FreelanceServicio freelanceServicio;
     @EJB
@@ -46,7 +51,9 @@ public class PerfilController extends Utilitario implements Serializable {
     private IdiomaServicio idiomaServicio;
     @EJB
     private PortfolioServicio portfolioServicio;
-    
+    @EJB
+    private HabilidadesServicio habilidadesServicio;
+
     private Freelance freelance;
     private TagCloudModel model;
     private List<FormacionAcademica> formacionesAcademica;
@@ -54,32 +61,64 @@ public class PerfilController extends Utilitario implements Serializable {
     private List<Experiencia> experiencias;
     private List<Idioma> idiomas;
     private List<Portfolio> portafolios;
-    
+    private Integer idFreelance;
+
     @PostConstruct
     public void iniciar() {
-        try {            
+        try {
             freelance = new Freelance();
-            freelance = freelanceServicio.buscarPorUsuario(this.getUsuario());
+            obtenerValorParametro();                        
+            if (freelance == null) {
+                freelance = freelanceServicio.buscarPorUsuario(this.getUsuario());                
+            }
             recuperarHojaVida();
             recuperarHabilidades();
         } catch (Exception ex) {
             Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void recuperarHabilidades(){
-        model = new DefaultTagCloudModel();
-        for(Habilidades habilidad : freelance.getHabilidadesList()){
-            model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random()*5)));
+
+    public void obtenerValorParametro() {
+        try {
+            Map<String, String> params = FacesContext.getCurrentInstance()
+                    .getExternalContext().getRequestParameterMap();
+            if (params != null) {
+                if (idFreelance == null && params.get("freelance") != null) {
+                    idFreelance = Integer.parseInt(params.get("freelance"));
+                    freelance = freelanceServicio.buscarPorId(idFreelance);
+                }else{
+                    freelance = null;
+                }
+            }
+        } catch (Exception e) {
+            Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-    
-    public void recuperarHojaVida(){
+
+    public void recuperarHabilidades() {
+        try {
+            model = new DefaultTagCloudModel();
+            List<Habilidades> listaHabilidades = habilidadesServicio.buscarPorFreelance(freelance);
+            for (Habilidades habilidad : listaHabilidades) {
+                model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random() * 5)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void recuperarHojaVida() {
+        portafolios = new ArrayList<>();
         formacionesAcademica = formacionAcademicaServicio.listarFormacionesPorFreelance(freelance);
         capacitaciones = capacitacionServicio.listarCapacitacionesPorFreelance(freelance);
         experiencias = experienciaServicio.listarExperienciasPorFreelance(freelance);
         idiomas = idiomaServicio.listarIdiomasPorFreelance(freelance);
-        portafolios = portfolioServicio.listarPortfolioPorFreelance(freelance);
+        List<Portfolio> portafoliosTemp = portfolioServicio.listarPortfolioPorFreelance(freelance);
+        for(Portfolio p : portafoliosTemp){
+            List<ImagenPortfolio> listaImagenes = portfolioServicio.listarPorPortfolio(p);
+            p.setImagenPortfolioList(listaImagenes);
+            portafolios.add(p);
+        }
     }
 
     public Freelance getFreelance() {
@@ -137,7 +176,5 @@ public class PerfilController extends Utilitario implements Serializable {
     public void setPortafolios(List<Portfolio> portafolios) {
         this.portafolios = portafolios;
     }
-    
-    
-    
+
 }

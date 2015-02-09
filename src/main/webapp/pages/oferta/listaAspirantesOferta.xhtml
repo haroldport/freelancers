@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
+        <ui:define name="content">
+            <h:form id="formAspirante">
+                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+                <br /><br />
+                <p:panel id="tab" header="Aspirantes a la Oferta: #{ofertasController.ofertaSeleccionada.nombre}" 
+                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1100px">
+                    <br /><br />
+                    <h:outputText style="font-size: 1.5em !important" value="Resumen de la oferta:" />
+                    <br /><br />
+                    <p:outputPanel style="margin-left: 3em" id="pnlDescripcion">
+                        <h:outputText style="font-size: 1.3em !important" value="#{ofertasController.ofertaSeleccionada.descripcion}" />
+                        <br /><br />
+                        <h:panelGrid columns="6">
+                            <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Experiencia requerida (años):" />
+                            <p:spacer width="10" height="30" />
+                            <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaSeleccionada.aniosExperiencia}" />
+                            <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Ubicación:" />
+                            <p:spacer width="10" height="30" />
+                            <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaSeleccionada.idCanton.nombre}, 
+                                          #{ofertasController.ofertaSeleccionada.idProvincia.nombre}, #{ofertasController.ofertaSeleccionada.idPais.nombre}" />
+                            <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Tiempo de entrega (meses):" />
+                            <p:spacer width="10" height="30" />
+                            <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaSeleccionada.tiempoEntrega}" />                                
+                            <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Nivel de instrucción:" />
+                            <p:spacer width="10" height="30" />
+                            <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaSeleccionada.idNivelInstruccion.nombre}" />
+                            <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Actividades a realizar:" />
+                            <p:spacer width="10" height="30" />
+                            <p:inputTextarea readonly="true" style="font-size: 1.2em !important; border: none" 
+                                             rows="4" cols="35"
+                                             value="#{ofertasController.ofertaSeleccionada.actividades}" />
+                            <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Presupuesto:" />
+                            <p:spacer width="10" height="30" />
+                            <h:outputText style="font-size: 1.2em !important" value="$ #{ofertasController.ofertaSeleccionada.presupuesto}" />
+                        </h:panelGrid>                            
+                        <br /><br />
+                        <h:outputText style="font-size: 1.3em" value="Habilidades requeridas:" />
+                        <p:tagCloud styleClass="pfTagCloud" model="#{ofertasController.model}" />
+                        <br />
+                    </p:outputPanel>
+                    <h:outputText style="font-size: 1.5em !important" value="Freelancers que aplicaron:" />
+                    <br /><br />
+                    <p:outputPanel id="panelTabla">
+                        <p:dataTable value="#{ofertasController.ofertaSeleccionada.aplicacionOfertaList}"
+                                     var="freelance" emptyMessage="Nadie ha aplicado a esta oferta"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     paginatorPosition="bottom" rows="5" paginator="true"
+                                     rowsPerPageTemplate="5,10,15,20,25,30"
+                                     tableStyle="table-layout:auto;width:100%;">
+
+                            <p:column styleClass="wrap"
+                                      headerText="Avatar">
+                                <h:commandLink id="linkPerfil" action="#{buscarFreelanceController.verPerfil(freelance.idFreelance)}" target="_blank">
+                                    <h:graphicImage id="image" styleClass="freelance-image"
+                                                    rendered="#{freelance.idFreelance.idImagen.idImagen > 1}"
+                                                    url="/image?id=#{freelance.idFreelance.idImagen.idImagen}"
+                                                    height="60" width="50" />
+                                </h:commandLink>
+                            </p:column>
+
+                            <p:column styleClass="wrap"
+                                      headerText="Nombre">
+                                <h:outputText value="#{freelance.idFreelance.nombres} #{freelance.idFreelance.apellidos}" />
+                            </p:column>                                
+
+                            <p:column styleClass="wrap"
+                                      headerText="Ubicación">
+                                <h:outputText value="#{freelance.idFreelance.idPais.nombre}, #{freelance.idFreelance.idProvincia.nombre}, #{freelance.idFreelance.idCanton.nombre}" />
+                            </p:column>
+
+                            <p:column styleClass="wrap"
+                                      headerText="Edad">
+                                <h:outputText value="#{freelance.idFreelance.edad}" />
+                            </p:column>
+
+                            <p:column styleClass="wrap"
+                                      headerText="Teléfono">
+                                <h:outputText value="#{freelance.idFreelance.telefono}" />
+                            </p:column>
+
+                            <p:column styleClass="wrap"
+                                      headerText="Celular">
+                                <h:outputText value="#{freelance.idFreelance.celular}" />
+                            </p:column>
+
+                            <p:column styleClass="wrap"
+                                      headerText="Correo">
+                                <h:outputText value="#{freelance.idFreelance.correo}" />
+                            </p:column>
+
+                            <p:column styleClass="wrap"
+                                      headerText="% Habilidades">
+                                <h:outputText value="#{freelance.idFreelance.porcentajeHabilidades}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                    <br /><br />
+                    <center>
+                        <p:commandLink id="linkSeleccion" style="font-size: 1.4em;font-family: 'Open Sans', sans-serif !important;" styleClass="buscar" 
+                                       update=":formAspirante" action="#{ofertasController.seleccionarIdoneo}"
+                                       value="Seleccionar idoneo" rendered="#{ofertasController.ofertaSeleccionada.aplicacionOfertaList.size() > 1}" />
+                        <br /><br />
+                    </center>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

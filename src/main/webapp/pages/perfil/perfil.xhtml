@@ -4,7 +4,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:pou="http://primefaces.org/ui">
-    <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
+    <ui:composition template="/plantillas/plantilla-inicio.xhtml">
         <ui:define name="content">
             <h:form id="formPerfil">
                 <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
@@ -69,7 +69,8 @@
                     </h:panelGrid>                    
                     <br /><br />
                     <h:outputText style="font-size: 3em" value="Mi formación académica:" />
-                    <p:dataTable var="formacion" value="#{perfilController.formacionesAcademica}">
+                    <p:dataTable var="formacion" value="#{perfilController.formacionesAcademica}"
+                                 emptyMessage="No ha registrado formación académica">
                         <p:column headerText="Nivel de instrucción">
                             <h:outputText value="#{formacion.idNivelInstruccion.nombre}" />
                         </p:column>
@@ -88,7 +89,8 @@
                     </p:dataTable>
                     <br /><br />
                     <h:outputText style="font-size: 3em" value="Mi capacitación:" />
-                    <p:dataTable var="capacitacion" value="#{perfilController.capacitaciones}">
+                    <p:dataTable var="capacitacion" value="#{perfilController.capacitaciones}"
+                                 emptyMessage="No ha registrado capacitación">
                         <p:column headerText="Tipo de certificado">
                             <h:outputText value="#{capacitacion.idTipoCertificado.nombre}" />
                         </p:column>
@@ -131,7 +133,8 @@
                     </p:dataTable>
                     <br /><br />
                     <h:outputText style="font-size: 3em" value="Mi experiencia:" />
-                    <p:dataTable var="experiencia" value="#{perfilController.experiencias}">
+                    <p:dataTable var="experiencia" value="#{perfilController.experiencias}"
+                                 emptyMessage="No ha registrado experiencia">
                         <p:column headerText="Área de trabajo">
                             <h:outputText value="#{experiencia.idAreaTrabajo.nombre}" />
                         </p:column>
@@ -166,7 +169,8 @@
                     </p:dataTable>
                     <br /><br />
                     <h:outputText style="font-size: 3em" value="Mis idiomas:" />
-                    <p:dataTable var="idioma" value="#{perfilController.idiomas}">
+                    <p:dataTable var="idioma" value="#{perfilController.idiomas}"
+                                 emptyMessage="No ha registrado idiomas">
                         <p:column headerText="Idioma">
                             <h:outputText value="#{idioma.idNombreIdioma.nombre}" />
                         </p:column>
@@ -181,7 +185,8 @@
                     </p:dataTable>
                     <br /><br />
                     <h:outputText style="font-size: 3em" value="Mi portafolio:" />
-                    <p:dataList value="#{perfilController.portafolios}" var="portfolio" rowIndexVar="indice" type="none">
+                    <p:dataList value="#{perfilController.portafolios}" var="portfolio" rowIndexVar="indice" type="none"
+                                emptyMessage="No tienes registrado portafolio de trabajo">
                         <br />
                         <h:outputText style="font-size: 1.5em !important; font-weight: bold; font-style: italic" 
                                       value="Contenido No. #{indice+1}" />

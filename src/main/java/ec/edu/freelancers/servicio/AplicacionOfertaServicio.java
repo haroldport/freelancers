@@ -78,4 +78,14 @@ public class AplicacionOfertaServicio {
         return aplicacionOfertaDao.buscarPorFreelance(freelance);
     }
     
+    /**
+     * Buscar por oferta
+     * @param oferta
+     * @return
+     * @throws Exception 
+     */
+    public List<AplicacionOferta> buscarPorOferta(Ofertas oferta) throws Exception {
+        return aplicacionOfertaDao.buscarPorOferta(oferta);
+    }
+    
 }

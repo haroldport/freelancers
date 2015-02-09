@@ -74,4 +74,24 @@ public class AplicacionOfertaDao extends Generico<AplicacionOferta> {
         }
     }
     
+    /**
+     * Buscar por oferta
+     * @param oferta
+     * @return
+     * @throws Exception 
+     */
+    public List<AplicacionOferta> buscarPorOferta(Ofertas oferta) throws Exception {
+        List<AplicacionOferta> result = new ArrayList<>();
+        String jpql = "SELECT a FROM AplicacionOferta a "
+                + "WHERE a.idOferta = :oferta ";
+        Query query = em.createQuery(jpql);
+        query.setParameter("oferta", oferta);
+        result = query.getResultList();
+        if (result != null && !result.isEmpty()) {
+            return result;
+        } else {
+            return null;
+        }
+    }
+    
 }

@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -129,6 +130,8 @@ public class Freelance implements Serializable {
     private List<FormacionAcademica> formacionAcademicaList;
     @Column(name = "DESCRIPCION_PERSONAL")
     private String descripcionPersonal;
+    @Transient
+    private double porcentajeHabilidades;
 
     public Freelance() {
     }
@@ -400,6 +403,14 @@ public class Freelance implements Serializable {
 
     public void setDescripcionPersonal(String descripcionPersonal) {
         this.descripcionPersonal = descripcionPersonal;
+    }
+
+    public double getPorcentajeHabilidades() {
+        return porcentajeHabilidades;
+    }
+
+    public void setPorcentajeHabilidades(double porcentajeHabilidades) {
+        this.porcentajeHabilidades = porcentajeHabilidades;
     }
     
 

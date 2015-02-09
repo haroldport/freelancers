@@ -6,17 +6,180 @@
       xmlns:pou="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <ui:composition template="/plantillas/plantilla-inicio.xhtml">
-        <ui:define name="content">
-            <h:form id="formOferta">
-                <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+        <ui:define name="content">            
+            <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+            <br /><br />
+            <p:panel id="tab" header="Buscar Freelancers" 
+                     style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1200px">
                 <br /><br />
-                <p:panel id="tab" header="Buscar Freelancers" 
-                         style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1100px">
-                    <br /><br />
-                    <h:outputText style="font-size: 1.5em !important" value="Encuentra el profesional que necesitas. Contrata el servicio que requieras, descubre a talentosos profesionales." />
-                    <br /><br />
-                </p:panel>
-            </h:form>
+                <h:outputText style="font-size: 1.5em !important" value="Encuentra el profesional que necesitas. Contrata el servicio que requieras, descubre a talentosos profesionales." />
+                <br /><br />
+                <p:layout style="min-width:600px;min-height:900px;">
+                    <p:layoutUnit position="west" resizable="true" size="350" minSize="40" maxSize="450">
+                        <h:form id="formBusqueda">
+                            <h3>Filtros de búsqueda</h3>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="País:" /><br />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="pais" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarFreelanceController.busqueda.idPais}">
+                                    <p:ajax event="change" update=":formBusqueda:pnlProvincia, :formBusqueda:pnlCanton" 
+                                            listener="#{buscarFreelanceController.obtenerProvincias}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarFreelanceController.paises}"
+                                                   var="pais" itemValue="#{pais.idCatalogoDetalle}"
+                                                   itemLabel="#{pais.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Provincia:" /><br />
+                            <p:outputPanel id="pnlProvincia">
+                                <p:selectOneMenu id="provincia" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarFreelanceController.busqueda.idProvincia}"
+                                                 disabled="#{buscarFreelanceController.provincias.size() == 0}">
+                                    <p:ajax event="change" update=":formBusqueda:pnlCanton" 
+                                            listener="#{buscarFreelanceController.obtenerCantones}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarFreelanceController.provincias}"
+                                                   var="prov" itemValue="#{prov.idCatalogoDetalle}"
+                                                   itemLabel="#{prov.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Cantón:" /><br />
+                            <p:outputPanel id="pnlCanton">
+                                <p:selectOneMenu id="canton" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarFreelanceController.busqueda.idCanton}"
+                                                 disabled="#{buscarFreelanceController.cantones.size() == 0}">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarFreelanceController.cantones}"
+                                                   var="cant" itemValue="#{cant.idCatalogoDetalle}"
+                                                   itemLabel="#{cant.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Nivel de instrucción:" /><br />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="nivelInstruccion" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarFreelanceController.busqueda.idNivelInstruccion}">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarFreelanceController.nivelesInstruccion}"
+                                                   var="nivel" itemValue="#{nivel.idCatalogoDetalle}"
+                                                   itemLabel="#{nivel.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Área de trabajo:" /><br />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="areaTrabajo" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarFreelanceController.busqueda.idAreaTrabajo}">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarFreelanceController.areasDeTrabajo}"
+                                                   var="area" itemValue="#{area.idCatalogoDetalle}"
+                                                   itemLabel="#{area.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Capacitación:" /><br />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="areaEstudio" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarFreelanceController.busqueda.idAreaEstudio}">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarFreelanceController.areasDeEstudio}"
+                                                   var="area" itemValue="#{area.idCatalogoDetalle}"
+                                                   itemLabel="#{area.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Idioma:" /><br />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="idioma" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarFreelanceController.busqueda.idIdioma}">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarFreelanceController.idiomas}"
+                                                   var="idio" itemValue="#{idio.idCatalogoDetalle}"
+                                                   itemLabel="#{idio.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Habilidades:" />
+                            <p:dataTable id="habilidadesDisponibles" selection="#{buscarFreelanceController.listaHabilidadesSeleccionadas}" rowKey="#{habilidadD.idCatalogoDetalle}"
+                                         value="#{buscarFreelanceController.listaHabilidades}" var="habilidadD"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom" rows="10" paginator="true" rowsPerPageTemplate="10,15,20,25,30" 
+                                         style="width : 100%;text-align: left;">
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="Habilidad" filterBy="#{habilidadD.nombre}" 
+                                          filterMatchMode="contains" filterStyle="width:150px">
+                                    <h:outputText value="#{habilidadD.nombre}"/>
+                                </p:column>
+                            </p:dataTable>
+                            <br /><br />
+                            <p:commandLink style="font-size: 1.4em;font-family: 'Open Sans', sans-serif !important; margin-left: 9em" styleClass="buscar"
+                                           update=":formResultado:panelTabla" action="#{buscarFreelanceController.buscar}" value="Buscar" />
+                        </h:form>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="center">
+                        <h:form id="formResultado">
+                            <p:outputPanel id="panelTabla">
+                                <p:dataTable value="#{buscarFreelanceController.freelancersEncontrados}"
+                                             var="freelance" rendered="#{buscarFreelanceController.freelancersEncontrados.size() > 0}"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             paginatorPosition="bottom" rows="10" paginator="true"
+                                             rowsPerPageTemplate="10,15,20,25,30"
+                                             tableStyle="table-layout:auto;width:100%;">
+                                    
+                                    <p:column styleClass="wrap"
+                                              headerText="Avatar">
+                                        <h:commandLink id="linkPerfil" action="#{buscarFreelanceController.verPerfil(freelance)}" target="_blank">
+                                            <h:graphicImage id="image" styleClass="freelance-image"
+                                                            rendered="#{freelance.idImagen.idImagen > 1}"
+                                                            url="/image?id=#{freelance.idImagen.idImagen}"
+                                                            height="60" width="50" />
+                                        </h:commandLink>
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Nombre">
+                                        <h:outputText value="#{freelance.nombres} #{freelance.apellidos}" />
+                                    </p:column>                                
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Ubicación">
+                                        <h:outputText value="#{freelance.idPais.nombre}, #{freelance.idProvincia.nombre}, #{freelance.idCanton.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Edad">
+                                        <h:outputText value="#{freelance.edad}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Teléfono">
+                                        <h:outputText value="#{freelance.telefono}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Celular">
+                                        <h:outputText value="#{freelance.celular}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Correo">
+                                        <h:outputText value="#{freelance.correo}" />
+                                    </p:column>
+                                    
+                                    <p:column styleClass="wrap" rendered="#{buscarFreelanceController.listaHabilidadesSeleccionadas.size() > 0}"
+                                              headerText="% Habilidades">
+                                        <h:outputText value="#{freelance.porcentajeHabilidades}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:layoutUnit>
+                </p:layout>
+            </p:panel>            
         </ui:define>
     </ui:composition>
 </html>

@@ -218,10 +218,19 @@ h1{
 
 .Login-input-l{
     /*border-radius: 0px 15px 0px 15px;*/
-    font-size: 0.8em !important;
+    font-size: 1em !important;
     margin-bottom: 1em !important;
     margin-left: 1em !important;
     margin-top: .5em !important;	
+}
+
+.link{
+    color: blue !important;
+    font-size: 1em !important;
+}
+
+.link:hover{
+    text-decoration: underline;
 }
 
 .label {

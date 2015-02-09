@@ -5,7 +5,12 @@ import ec.edu.freelancers.modelo.Usuario;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import static java.util.Calendar.DATE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,8 +64,8 @@ public class Utilitario implements Serializable {
     protected HttpServletRequest getRequest() {
         return (HttpServletRequest) getExternalContext().getRequest();
     }
-    
-    protected static boolean compararFechas(Date fechaInicio, Date fechaFin){
+
+    protected static boolean compararFechas(Date fechaInicio, Date fechaFin) {
         Date fechaActual = new Date();
         return fechaInicio.compareTo(fechaActual) * fechaActual.compareTo(fechaFin) > 0;
     }
@@ -136,6 +141,23 @@ public class Utilitario implements Serializable {
         long dias = (fechaHasta.getTime() - fechaDesde.getTime())
                 / (24 * 60 * 60 * 1000);
         return dias;
+    }
+
+    public static int getDiffYears(Date first, Date last) {
+        Calendar a = getCalendar(first);
+        Calendar b = getCalendar(last);
+        int diff = b.get(YEAR) - a.get(YEAR);
+        if (a.get(MONTH) > b.get(MONTH)
+                || (a.get(MONTH) == b.get(MONTH) && a.get(DATE) > b.get(DATE))) {
+            diff--;
+        }
+        return diff;
+    }
+
+    public static Calendar getCalendar(Date date) {
+        Calendar cal = Calendar.getInstance(Locale.US);
+        cal.setTime(date);
+        return cal;
     }
 
     /**

@@ -5,6 +5,7 @@ import ec.edu.freelancers.modelo.Acceso;
 import ec.edu.freelancers.modelo.AccesoRol;
 import ec.edu.freelancers.modelo.AplicacionOferta;
 import ec.edu.freelancers.modelo.Estado;
+import ec.edu.freelancers.modelo.Freelance;
 import ec.edu.freelancers.modelo.HabilidadesOferta;
 import ec.edu.freelancers.modelo.LogSistema;
 import ec.edu.freelancers.modelo.Ofertas;
@@ -12,6 +13,7 @@ import ec.edu.freelancers.modelo.Usuario;
 import ec.edu.freelancers.servicio.AccesoServicio;
 import ec.edu.freelancers.servicio.AplicacionOfertaServicio;
 import ec.edu.freelancers.servicio.EstadoServicio;
+import ec.edu.freelancers.servicio.FreelanceServicio;
 import ec.edu.freelancers.servicio.LogSistemaServicio;
 import ec.edu.freelancers.servicio.OfertasServicio;
 import ec.edu.freelancers.servicio.UsuarioServicio;
@@ -70,6 +72,8 @@ public class IndexController implements Serializable {
     private AplicacionOfertaServicio aplicacionOfertaServicio;
     @EJB
     private EstadoServicio estadoServicio;
+    @EJB
+    private FreelanceServicio freelanceServicio;
 
     private String username;
     private String password;
@@ -172,10 +176,11 @@ public class IndexController implements Serializable {
         try {
             Date fechaAplicado = new Date();            
             AplicacionOferta nuevaAplicacion = null;
-            nuevaAplicacion = aplicacionOfertaServicio.buscarPorFreelanceYOferta(this.getUsuario().getFreelanceList().get(0), ofertaSeleccionada);
+            Freelance freelance = freelanceServicio.buscarPorUsuario(this.getUsuario());
+            nuevaAplicacion = aplicacionOfertaServicio.buscarPorFreelanceYOferta(freelance, ofertaSeleccionada);
             if (nuevaAplicacion == null) {
                 nuevaAplicacion = new AplicacionOferta(Boolean.FALSE, fechaAplicado, "Oferta aplicada",
-                        ofertaSeleccionada, this.getUsuario().getFreelanceList().get(0), estadoAplicado);
+                        ofertaSeleccionada, freelance, estadoAplicado);
                 aplicacionOfertaServicio.crear(nuevaAplicacion);
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Felicidades aplicaste correctamente a la oferta!!!", "");
@@ -193,7 +198,8 @@ public class IndexController implements Serializable {
 
     public void recuperarHabilidades() {
         model = new DefaultTagCloudModel();
-        for (HabilidadesOferta habilidad : ofertaSeleccionada.getHabilidadesOfertaList()) {
+        List<HabilidadesOferta> listaHabilidadesOferta = ofertasServicio.listarHabilidadesPorOferta(ofertaSeleccionada);
+        for (HabilidadesOferta habilidad : listaHabilidadesOferta) {
             model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random() * 5)));
         }
     }
