@@ -79,6 +79,8 @@ public class OfertasController extends Utilitario implements Serializable {
     private Ofertas ofertaSeleccionada;
     private Estado estadoActivo;
     private Estado estadoInactivo;
+    private Estado estadoSeleccionado;
+    private Estado estadoRechazado;
     private List<CatalogoDetalle> paises;
     private List<CatalogoDetalle> provincias;
     private List<CatalogoDetalle> cantones;
@@ -96,6 +98,7 @@ public class OfertasController extends Utilitario implements Serializable {
     private String pathDestino = getRequest().getSession().getServletContext().getRealPath("/resources/images/") + "//";
     private static final int BUFFER_SIZE = 200000;
     private TagCloudModel model;
+    private String mensaje;
 
     @PostConstruct
     public void iniciar() {
@@ -105,6 +108,8 @@ public class OfertasController extends Utilitario implements Serializable {
             imagenPorDefecto = fileServicio.obtenerFile(1);
             estadoActivo = estadoServicio.buscarPorNemonico(EstadoEnum.ACTIVO.getNemonico());
             estadoInactivo = estadoServicio.buscarPorNemonico(EstadoEnum.INACTIVO.getNemonico());
+            estadoSeleccionado = estadoServicio.buscarPorNemonico(EstadoEnum.SELECCIONADO.getNemonico()); 
+            estadoRechazado = estadoServicio.buscarPorNemonico(EstadoEnum.RECHAZADO.getNemonico());
             paises = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.PAISES.getNemonico());
             nivelesInstruccion = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.NIVEL_INSTRUCCION.getNemonico());
             initValores();
@@ -363,6 +368,7 @@ public class OfertasController extends Utilitario implements Serializable {
     
     public void seleccionarIdoneo(){
         int puntaje = 0;
+        mensaje = "";
         SortedMap<Integer, Freelance> mapaFreelance = new TreeMap<>();
         for(AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()){
             if(ao.getIdFreelance().getIdPais().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdPais().getIdCatalogoDetalle())){
@@ -401,7 +407,33 @@ public class OfertasController extends Utilitario implements Serializable {
             puntaje = 0;
         }
         Freelance freelanceSeleccionado = mapaFreelance.get(mapaFreelance.lastKey());
+        int total = ((mapaFreelance.lastKey()) * 100) / 225;
         System.out.println("Freelance seleccionado: " + freelanceSeleccionado.getApellidos());
+        for(AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()){
+            if(ao.getIdFreelance().equals(freelanceSeleccionado)){
+                ao.setSeleccionado(Boolean.TRUE);
+            }
+        }
+        mensaje = "El freelance: " + freelanceSeleccionado.getNombres().concat(" ").concat(freelanceSeleccionado.getApellidos()) +
+                " cumple con el " + total + "% de los requerimientos de la oferta.";
+    }
+    
+    public void cancelarSeleccion(){
+        for(AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()){
+            ao.setSeleccionado(Boolean.FALSE);
+        }
+        mensaje = "";
+    }
+    
+    public void confirmarSeleccion(){
+        for(AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()){
+            if(ao.getSeleccionado()){
+                ao.setIdEstado(estadoSeleccionado);
+            }else{
+                ao.setIdEstado(estadoRechazado);
+            }
+        }
+        mensaje = "";
     }
 
     public PersonaDemandante getPersonaDemandante() {
@@ -578,5 +610,29 @@ public class OfertasController extends Utilitario implements Serializable {
 
     public void setModel(TagCloudModel model) {
         this.model = model;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public Estado getEstadoSeleccionado() {
+        return estadoSeleccionado;
+    }
+
+    public void setEstadoSeleccionado(Estado estadoSeleccionado) {
+        this.estadoSeleccionado = estadoSeleccionado;
+    }
+
+    public Estado getEstadoRechazado() {
+        return estadoRechazado;
+    }
+
+    public void setEstadoRechazado(Estado estadoRechazado) {
+        this.estadoRechazado = estadoRechazado;
     }
 }

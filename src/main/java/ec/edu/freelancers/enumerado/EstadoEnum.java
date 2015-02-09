@@ -19,13 +19,13 @@ public enum EstadoEnum {
      */
     APLICADO("APL"),
     /**
-     * Estado REVISIÓN.
+     * Estado SELECCIONADO.
      */
-    REVISION("REV"),
+    SELECCIONADO("SEL"),
     /**
-     * Estado FINALIZADO.
+     * Estado RECHAZADO.
      */
-    FINALIZADO("FIN");
+    RECHAZADO("REC");
     /**
      * Nemonico.
      */

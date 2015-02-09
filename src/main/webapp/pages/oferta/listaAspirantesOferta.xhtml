@@ -54,7 +54,8 @@
                                      rowsPerPageTemplate="5,10,15,20,25,30"
                                      tableStyle="table-layout:auto;width:100%;">
 
-                            <p:column styleClass="wrap"
+                            <p:column styleClass="wrap" rendered="#{freelance.idEstado.nemonico eq 'APL' or freelance.idEstado.nemonico eq 'SEL'}"
+                                      style="#{freelance.seleccionado ? 'background : #E2E2E2' : null}"
                                       headerText="Avatar">
                                 <h:commandLink id="linkPerfil" action="#{buscarFreelanceController.verPerfil(freelance.idFreelance)}" target="_blank">
                                     <h:graphicImage id="image" styleClass="freelance-image"
@@ -64,39 +65,53 @@
                                 </h:commandLink>
                             </p:column>
 
-                            <p:column styleClass="wrap"
+                            <p:column styleClass="wrap" rendered="#{freelance.idEstado.nemonico eq 'APL' or freelance.idEstado.nemonico eq 'SEL'}"
+                                      style="#{freelance.seleccionado ? 'background : #E2E2E2' : null}"
                                       headerText="Nombre">
-                                <h:outputText value="#{freelance.idFreelance.nombres} #{freelance.idFreelance.apellidos}" />
+                                <h:outputText value="#{freelance.idFreelance.nombres} #{freelance.idFreelance.apellidos}"
+                                              style="#{freelance.seleccionado ? 'color : blue; text-decoration: underline' : null}"/>
                             </p:column>                                
 
-                            <p:column styleClass="wrap"
+                            <p:column styleClass="wrap" rendered="#{freelance.idEstado.nemonico eq 'APL' or freelance.idEstado.nemonico eq 'SEL'}"
+                                      style="#{freelance.seleccionado ? 'background : #E2E2E2' : null}"
                                       headerText="Ubicación">
-                                <h:outputText value="#{freelance.idFreelance.idPais.nombre}, #{freelance.idFreelance.idProvincia.nombre}, #{freelance.idFreelance.idCanton.nombre}" />
+                                <h:outputText value="#{freelance.idFreelance.idPais.nombre}, #{freelance.idFreelance.idProvincia.nombre}, #{freelance.idFreelance.idCanton.nombre}"
+                                              style="#{freelance.seleccionado ? 'color : blue; text-decoration: underline' : null}"/>
                             </p:column>
 
-                            <p:column styleClass="wrap"
+                            <p:column styleClass="wrap" rendered="#{freelance.idEstado.nemonico eq 'APL' or freelance.idEstado.nemonico eq 'SEL'}"
+                                      style="#{freelance.seleccionado ? 'background : #E2E2E2' : null}"
                                       headerText="Edad">
-                                <h:outputText value="#{freelance.idFreelance.edad}" />
+                                <h:outputText value="#{freelance.idFreelance.edad}"
+                                              style="#{freelance.seleccionado ? 'color : blue; text-decoration: underline' : null}"/>
                             </p:column>
 
-                            <p:column styleClass="wrap"
+                            <p:column styleClass="wrap" rendered="#{freelance.idEstado.nemonico eq 'APL' or freelance.idEstado.nemonico eq 'SEL'}"
+                                      style="#{freelance.seleccionado ? 'background : #E2E2E2' : null}"
                                       headerText="Teléfono">
-                                <h:outputText value="#{freelance.idFreelance.telefono}" />
+                                <h:outputText value="#{freelance.idFreelance.telefono}"
+                                              style="#{freelance.seleccionado ? 'color : blue; text-decoration: underline' : null}"/>
                             </p:column>
 
-                            <p:column styleClass="wrap"
+                            <p:column styleClass="wrap" rendered="#{freelance.idEstado.nemonico eq 'APL' or freelance.idEstado.nemonico eq 'SEL'}"
+                                      style="#{freelance.seleccionado ? 'background : #E2E2E2' : null}"
                                       headerText="Celular">
-                                <h:outputText value="#{freelance.idFreelance.celular}" />
+                                <h:outputText value="#{freelance.idFreelance.celular}"
+                                              style="#{freelance.seleccionado ? 'color : blue; text-decoration: underline' : null}"/>
                             </p:column>
 
-                            <p:column styleClass="wrap"
+                            <p:column styleClass="wrap" rendered="#{freelance.idEstado.nemonico eq 'APL' or freelance.idEstado.nemonico eq 'SEL'}"
+                                      style="#{freelance.seleccionado ? 'background : #E2E2E2' : null}"
                                       headerText="Correo">
-                                <h:outputText value="#{freelance.idFreelance.correo}" />
+                                <h:outputText value="#{freelance.idFreelance.correo}"
+                                              style="#{freelance.seleccionado ? 'color : blue; text-decoration: underline' : null}"/>
                             </p:column>
 
-                            <p:column styleClass="wrap"
+                            <p:column styleClass="wrap" rendered="#{freelance.idEstado.nemonico eq 'APL' or freelance.idEstado.nemonico eq 'SEL'}"
+                                      style="#{freelance.seleccionado ? 'background : #E2E2E2' : null}"
                                       headerText="% Habilidades">
-                                <h:outputText value="#{freelance.idFreelance.porcentajeHabilidades}" />
+                                <h:outputText value="#{freelance.idFreelance.porcentajeHabilidades}"
+                                              style="#{freelance.seleccionado ? 'color : blue; text-decoration: underline' : null}"/>
                             </p:column>
                         </p:dataTable>
                     </p:outputPanel>
@@ -104,9 +119,23 @@
                     <center>
                         <p:commandLink id="linkSeleccion" style="font-size: 1.4em;font-family: 'Open Sans', sans-serif !important;" styleClass="buscar" 
                                        update=":formAspirante" action="#{ofertasController.seleccionarIdoneo}"
+                                       disabled="#{ofertasController.mensaje != null and ofertasController.mensaje ne ''}"
                                        value="Seleccionar idoneo" rendered="#{ofertasController.ofertaSeleccionada.aplicacionOfertaList.size() > 1}" />
                         <br /><br />
                     </center>
+                    <br />
+                    <h:outputText style="font-size: 1.3em !important" value="#{ofertasController.mensaje}"
+                                  rendered="#{ofertasController.mensaje != null and ofertasController.mensaje ne ''}"/>
+                    <br /><br />
+                    <h:panelGrid columns="2">
+                        <p:commandLink id="linkContratar" style="font-size: 1em;font-family: 'Open Sans', sans-serif !important;" styleClass="buscar" 
+                                       update=":formAspirante" action="#{ofertasController.confirmarSeleccion}"
+                                       value="Seleccionar Freelance" rendered="#{ofertasController.mensaje != null and ofertasController.mensaje ne ''}" />
+                        <p:commandLink id="linkCancelar" style="font-size: 1em;font-family: 'Open Sans', sans-serif !important;" styleClass="buscar" 
+                                       update=":formAspirante" action="#{ofertasController.cancelarSeleccion}"
+                                       value="Cancelar" rendered="#{ofertasController.mensaje != null and ofertasController.mensaje ne ''}" />
+                    </h:panelGrid>
+                    <br /><br />
                 </p:panel>
             </h:form>
         </ui:define>
