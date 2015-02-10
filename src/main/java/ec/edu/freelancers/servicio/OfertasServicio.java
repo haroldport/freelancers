@@ -78,6 +78,18 @@ public class OfertasServicio {
     }
     
     /**
+     * Editar solo el estado
+     * @param oferta 
+     */
+    public void editarEstado(Ofertas oferta){
+        try {
+            ofertasDao.edit(oferta);
+        } catch (Exception ex) {
+            Logger.getLogger(OfertasServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
      * Buscar por habilidad y oferta
      * @param habilidad
      * @param oferta

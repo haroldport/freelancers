@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -81,6 +82,7 @@ public class OfertasController extends Utilitario implements Serializable {
     private Estado estadoInactivo;
     private Estado estadoSeleccionado;
     private Estado estadoRechazado;
+    private Estado estadoFinalizado;
     private List<CatalogoDetalle> paises;
     private List<CatalogoDetalle> provincias;
     private List<CatalogoDetalle> cantones;
@@ -99,21 +101,24 @@ public class OfertasController extends Utilitario implements Serializable {
     private static final int BUFFER_SIZE = 200000;
     private TagCloudModel model;
     private String mensaje;
+    private boolean mostrarBoton;
 
     @PostConstruct
     public void iniciar() {
-        try {            
+        try {
             personaDemandante = new PersonaDemandante();
             personaDemandante = personaDemandanteServicio.buscarPorUsuario(this.getUsuario());
             imagenPorDefecto = fileServicio.obtenerFile(1);
             estadoActivo = estadoServicio.buscarPorNemonico(EstadoEnum.ACTIVO.getNemonico());
             estadoInactivo = estadoServicio.buscarPorNemonico(EstadoEnum.INACTIVO.getNemonico());
-            estadoSeleccionado = estadoServicio.buscarPorNemonico(EstadoEnum.SELECCIONADO.getNemonico()); 
+            estadoSeleccionado = estadoServicio.buscarPorNemonico(EstadoEnum.SELECCIONADO.getNemonico());
             estadoRechazado = estadoServicio.buscarPorNemonico(EstadoEnum.RECHAZADO.getNemonico());
+            estadoFinalizado = estadoServicio.buscarPorNemonico(EstadoEnum.FINALIZADO.getNemonico());
             paises = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.PAISES.getNemonico());
             nivelesInstruccion = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.NIVEL_INSTRUCCION.getNemonico());
             initValores();
             this.setEditarOferta(Boolean.FALSE);
+            setMostrarBoton(Boolean.FALSE);
             obtenerHabilidadesActuales();
             obtenerProvincias();
             obtenerCantones();
@@ -191,7 +196,7 @@ public class OfertasController extends Utilitario implements Serializable {
         return output;
     }
 
-    public void initValores() {        
+    public void initValores() {
         listaOfertas = new ArrayList<>();
         nuevaOferta = new Ofertas();
         nuevaOferta.setIdPersonaDemandante(personaDemandante);
@@ -203,20 +208,22 @@ public class OfertasController extends Utilitario implements Serializable {
         obtenerListaOfertas();
         listaHabilidadesParaGuardar = new ArrayList<>();
     }
-    
-    private void obtenerListaOfertas(){
+
+    private void obtenerListaOfertas() {
         int cont;
-        List<Ofertas> listaOfertasTemp = ofertasServicio.listarOfertasPorPersonaDemandante(personaDemandante);
-        for(Ofertas o : listaOfertasTemp){
+        listaOfertas = new ArrayList<>();
+        List<Ofertas> listaOfertasTemp = new ArrayList<>();
+        listaOfertasTemp = ofertasServicio.listarOfertasPorPersonaDemandante(personaDemandante);
+        for (Ofertas o : listaOfertasTemp) {
             try {
                 List<AplicacionOferta> aplicaciones = new ArrayList<>();
                 List<AplicacionOferta> aplicacionesTemp = aplicacionOfertaServicio.buscarPorOferta(o);
-                for(AplicacionOferta a : aplicacionesTemp){
+                for (AplicacionOferta a : aplicacionesTemp) {
                     cont = 0;
-                    for(HabilidadesOferta ho : o.getHabilidadesOfertaList()){
+                    for (HabilidadesOferta ho : o.getHabilidadesOfertaList()) {
                         List<Habilidades> habilidadesFreelance = habilidadesServicio.buscarPorFreelance(a.getIdFreelance());
-                        for(Habilidades h : habilidadesFreelance){
-                            if(ho.getIdNombreHabilidad().equals(h.getIdNombreHabilidad())){
+                        for (Habilidades h : habilidadesFreelance) {
+                            if (ho.getIdNombreHabilidad().equals(h.getIdNombreHabilidad())) {
                                 cont++;
                             }
                         }
@@ -231,7 +238,7 @@ public class OfertasController extends Utilitario implements Serializable {
             }
         }
     }
-    
+
     private double porcentajeHabilidades(int total, int cantidadObtenida) {
         double resultado = (cantidadObtenida * 100) / total;
         return resultado;
@@ -351,13 +358,16 @@ public class OfertasController extends Utilitario implements Serializable {
             Logger.getLogger(OfertasController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-    
-    public String verAspirantesOferta(Ofertas ofertaElegida){
+
+    public String verAspirantesOferta(Ofertas ofertaElegida) {
         setOfertaSeleccionada(ofertaElegida);
         recuperarHabilidades();
+        if (ofertaSeleccionada.getAplicacionOfertaList().size() > 1) {
+            this.setMostrarBoton(Boolean.TRUE);
+        }
         return "/faces/pages/oferta/listaAspirantesOferta.xhtml?faces-redirect=true";
     }
-    
+
     public void recuperarHabilidades() {
         model = new DefaultTagCloudModel();
         List<HabilidadesOferta> listaHabilidadesOferta = ofertasServicio.listarHabilidadesPorOferta(ofertaSeleccionada);
@@ -365,75 +375,90 @@ public class OfertasController extends Utilitario implements Serializable {
             model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random() * 5)));
         }
     }
-    
-    public void seleccionarIdoneo(){
+
+    public void seleccionarIdoneo() {
         int puntaje = 0;
         mensaje = "";
         SortedMap<Integer, Freelance> mapaFreelance = new TreeMap<>();
-        for(AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()){
-            if(ao.getIdFreelance().getIdPais().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdPais().getIdCatalogoDetalle())){
+        for (AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()) {
+            if (ao.getIdFreelance().getIdPais().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdPais().getIdCatalogoDetalle())) {
                 puntaje += 25;
             }
-            if(ao.getIdFreelance().getIdProvincia().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdProvincia().getIdCatalogoDetalle())){
+            if (ao.getIdFreelance().getIdProvincia().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdProvincia().getIdCatalogoDetalle())) {
                 puntaje += 25;
             }
-            if(ao.getIdFreelance().getIdCanton().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdCanton().getIdCatalogoDetalle())){
+            if (ao.getIdFreelance().getIdCanton().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdCanton().getIdCatalogoDetalle())) {
                 puntaje += 25;
             }
             List<FormacionAcademica> formaciones = formacionAcademicaServicio.listarFormacionesPorFreelance(ao.getIdFreelance());
-            for(FormacionAcademica f : formaciones){
-                if(f.getIdNivelInstruccion().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdNivelInstruccion().getIdCatalogoDetalle())){
+            for (FormacionAcademica f : formaciones) {
+                if (f.getIdNivelInstruccion().getIdCatalogoDetalle().equals(ofertaSeleccionada.getIdNivelInstruccion().getIdCatalogoDetalle())) {
                     puntaje += 50;
                 }
             }
             List<Experiencia> experiencias = experienciaServicio.listarExperienciasPorFreelance(ao.getIdFreelance());
             int anios = 0;
-            for(Experiencia e : experiencias){
+            for (Experiencia e : experiencias) {
                 Date fechaHasta = new Date();
-                if(e.getFechaHasta() != null){
+                if (e.getFechaHasta() != null) {
                     fechaHasta = e.getFechaHasta();
                 }
                 anios += getDiffYears(e.getFechaDesde(), fechaHasta);
             }
-            System.out.println("Anios: " + anios);
-            if(Math.abs(ofertaSeleccionada.getAniosExperiencia() - anios) <= 1){
+            if (Math.abs(ofertaSeleccionada.getAniosExperiencia() - anios) <= 1) {
                 puntaje += 50;
             }
-            if(ao.getIdFreelance().getPorcentajeHabilidades() > 50){
+            if (ao.getIdFreelance().getPorcentajeHabilidades() > 50) {
                 puntaje += 50;
             }
-            System.out.println("Freelance: " + ao.getIdFreelance().getApellidos() + " - Puntaje: " + puntaje);
             mapaFreelance.put(puntaje, ao.getIdFreelance());
             puntaje = 0;
         }
         Freelance freelanceSeleccionado = mapaFreelance.get(mapaFreelance.lastKey());
         int total = ((mapaFreelance.lastKey()) * 100) / 225;
-        System.out.println("Freelance seleccionado: " + freelanceSeleccionado.getApellidos());
-        for(AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()){
-            if(ao.getIdFreelance().equals(freelanceSeleccionado)){
+        for (AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()) {
+            if (ao.getIdFreelance().equals(freelanceSeleccionado)) {
                 ao.setSeleccionado(Boolean.TRUE);
             }
         }
-        mensaje = "El freelance: " + freelanceSeleccionado.getNombres().concat(" ").concat(freelanceSeleccionado.getApellidos()) +
-                " cumple con el " + total + "% de los requerimientos de la oferta.";
+        mensaje = "El freelance: " + freelanceSeleccionado.getNombres().concat(" ").concat(freelanceSeleccionado.getApellidos())
+                + " cumple con el " + total + "% de los requerimientos de la oferta.";
     }
-    
-    public void cancelarSeleccion(){
-        for(AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()){
+
+    public void cancelarSeleccion() {
+        for (AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()) {
             ao.setSeleccionado(Boolean.FALSE);
         }
         mensaje = "";
     }
-    
-    public void confirmarSeleccion(){
-        for(AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()){
-            if(ao.getSeleccionado()){
+
+    public void confirmarSeleccion() {
+        Iterator<AplicacionOferta> it = ofertaSeleccionada.getAplicacionOfertaList().iterator();
+        while (it.hasNext()) {
+            AplicacionOferta ao = (AplicacionOferta) it.next();
+            if (ao.getSeleccionado()) {
                 ao.setIdEstado(estadoSeleccionado);
-            }else{
+                ao.setComentario("Freelance seleccionado para la oferta");
+            } else {
                 ao.setIdEstado(estadoRechazado);
+                ao.setComentario("No fue seleccionado en esta oferta");
+                it.remove();
+            }
+            aplicacionOfertaServicio.editar(ao);
+        }
+        ofertaSeleccionada.setIdEstado(estadoFinalizado);
+        ofertasServicio.editarEstado(ofertaSeleccionada);
+        obtenerListaOfertas();
+        setMostrarBoton(Boolean.FALSE);
+        mensaje = "";
+    }
+
+    public void seleccionarAspirante(AplicacionOferta aof) {
+        for (AplicacionOferta ao : ofertaSeleccionada.getAplicacionOfertaList()) {
+            if (ao.getIdFreelance().equals(aof.getIdFreelance())) {
+                ao.setSeleccionado(Boolean.TRUE);
             }
         }
-        mensaje = "";
     }
 
     public PersonaDemandante getPersonaDemandante() {
@@ -635,4 +660,21 @@ public class OfertasController extends Utilitario implements Serializable {
     public void setEstadoRechazado(Estado estadoRechazado) {
         this.estadoRechazado = estadoRechazado;
     }
+
+    public boolean isMostrarBoton() {
+        return mostrarBoton;
+    }
+
+    public void setMostrarBoton(boolean mostrarBoton) {
+        this.mostrarBoton = mostrarBoton;
+    }
+
+    public Estado getEstadoFinalizado() {
+        return estadoFinalizado;
+    }
+
+    public void setEstadoFinalizado(Estado estadoFinalizado) {
+        this.estadoFinalizado = estadoFinalizado;
+    }
+
 }

@@ -32,7 +32,7 @@ public class OfertasDao extends Generico<Ofertas> {
      * @return 
      */
     public List<Ofertas> listarOfertasPorPersonaDemandante(PersonaDemandante personaDemandante) {
-        String sql = "SELECT o FROM Ofertas o WHERE o.idEstado.idEstado = 1 AND o.idPersonaDemandante = :personaDemandante ORDER BY o.idOferta";
+        String sql = "SELECT o FROM Ofertas o WHERE o.idEstado.idEstado IN (1,6) AND o.idPersonaDemandante = :personaDemandante ORDER BY o.idOferta";
         return this.getEntityManager().createQuery(sql).setParameter("personaDemandante", personaDemandante).getResultList();
     }
     

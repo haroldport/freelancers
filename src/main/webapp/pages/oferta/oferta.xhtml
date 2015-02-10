@@ -298,11 +298,16 @@
                                           headerText="Presupuesto">
                                     <h:outputText value="$ #{oferta.presupuesto}" />
                                 </p:column>
+                                
+                                <p:column styleClass="wrap"
+                                          headerText="Estado">
+                                    <h:outputText value="#{oferta.idEstado.nombre}" />
+                                </p:column>
 
                                 <p:column styleClass="wrap"
                                           headerText="No. Aplicaciones">
                                     <center>
-                                        <p:commandLink id="linkAspirantes" disabled="#{oferta.aplicacionOfertaList.size() == 0}"
+                                        <p:commandLink id="linkAspirantes" disabled="#{oferta.aplicacionOfertaList.size() == 0 or oferta.idEstado.idEstado == 6}"
                                                        ajax="false" immediate="true"
                                                        action="#{ofertasController.verAspirantesOferta(oferta)}">
                                             <h:outputText value="#{oferta.aplicacionOfertaList.size()}" style="color: blue; border-bottom: 1px solid blue; font-size: 1em" />

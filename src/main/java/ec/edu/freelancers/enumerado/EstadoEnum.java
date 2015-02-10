@@ -25,7 +25,11 @@ public enum EstadoEnum {
     /**
      * Estado RECHAZADO.
      */
-    RECHAZADO("REC");
+    RECHAZADO("REC"),
+    /**
+     * Estado FINALIZADO.
+     */
+    FINALIZADO("FIN");
     /**
      * Nemonico.
      */
