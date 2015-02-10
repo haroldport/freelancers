@@ -32,27 +32,15 @@ public class Imagen implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "ID_IMAGEN")
     private Integer idImagen;
-    @Basic(optional = false)
-    @NotNull
     @Lob
     @Column(name = "ARCHIVO")
     private byte[] archivo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "TIPO_ARCHIVO")
     private String tipoArchivo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "NOMBRE")
     private String nombre;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 4)
     @Column(name = "EXTENSION")
     private String extension;
     @OneToMany(mappedBy = "idImagen")

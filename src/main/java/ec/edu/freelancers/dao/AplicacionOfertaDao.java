@@ -41,8 +41,7 @@ public class AplicacionOfertaDao extends Generico<AplicacionOferta> {
         List<AplicacionOferta> result = new ArrayList<>();
         String jpql = "SELECT a FROM AplicacionOferta a "
                 + "WHERE a.idOferta = :oferta "
-                + "AND a.idFreelance = :freelance "
-                + "AND a.idEstado.idEstado = 3";
+                + "AND a.idFreelance = :freelance ";
         Query query = em.createQuery(jpql);
         query.setParameter("oferta", oferta);
         query.setParameter("freelance", freelance);

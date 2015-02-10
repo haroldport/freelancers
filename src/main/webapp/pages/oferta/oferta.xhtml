@@ -253,12 +253,7 @@
                                                     rendered="#{oferta.idImagen.idImagen > 1}"
                                                     url="/image?id=#{oferta.idImagen.idImagen}"
                                                     width="50" height="50" />
-                                </p:column>
-
-                                <p:column styleClass="wrap"
-                                          headerText="Provincia">
-                                    <h:outputText value="#{oferta.idProvincia.nombre}" />
-                                </p:column>                                
+                                </p:column>                              
 
                                 <p:column styleClass="wrap"
                                           headerText="Cantón">
@@ -273,11 +268,6 @@
                                 <p:column styleClass="wrap"
                                           headerText="Nombre">
                                     <h:outputText value="#{oferta.nombre}" />
-                                </p:column>
-
-                                <p:column styleClass="wrap"
-                                          headerText="Años de experiencia">
-                                    <h:outputText value="#{oferta.aniosExperiencia}" />
                                 </p:column>
 
                                 <p:column styleClass="wrap"
@@ -298,10 +288,20 @@
                                           headerText="Presupuesto">
                                     <h:outputText value="$ #{oferta.presupuesto}" />
                                 </p:column>
-                                
+
                                 <p:column styleClass="wrap"
                                           headerText="Estado">
                                     <h:outputText value="#{oferta.idEstado.nombre}" />
+                                </p:column>
+
+                                <p:column styleClass="wrap"
+                                          headerText="Freelance seleccionado">
+                                    <h:commandLink id="linkAvatar" immediate="true" action="#{buscarFreelanceController.verPerfil(oferta.freelanceSeleccionado)}" target="_blank">
+                                        <h:graphicImage id="imageAvatar" styleClass="freelance-image"
+                                                        rendered="#{oferta.freelanceSeleccionado.idImagen.idImagen > 1}"
+                                                        url="/image?id=#{oferta.freelanceSeleccionado.idImagen.idImagen}"
+                                                        height="50" width="40" />
+                                    </h:commandLink>
                                 </p:column>
 
                                 <p:column styleClass="wrap"

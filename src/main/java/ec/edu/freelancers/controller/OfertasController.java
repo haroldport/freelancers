@@ -218,20 +218,25 @@ public class OfertasController extends Utilitario implements Serializable {
             try {
                 List<AplicacionOferta> aplicaciones = new ArrayList<>();
                 List<AplicacionOferta> aplicacionesTemp = aplicacionOfertaServicio.buscarPorOferta(o);
-                for (AplicacionOferta a : aplicacionesTemp) {
-                    cont = 0;
-                    for (HabilidadesOferta ho : o.getHabilidadesOfertaList()) {
-                        List<Habilidades> habilidadesFreelance = habilidadesServicio.buscarPorFreelance(a.getIdFreelance());
-                        for (Habilidades h : habilidadesFreelance) {
-                            if (ho.getIdNombreHabilidad().equals(h.getIdNombreHabilidad())) {
-                                cont++;
+                if (aplicacionesTemp != null) {
+                    for (AplicacionOferta a : aplicacionesTemp) {
+                        if (a.getSeleccionado()) {
+                            o.setFreelanceSeleccionado(a.getIdFreelance());
+                        }
+                        cont = 0;
+                        for (HabilidadesOferta ho : o.getHabilidadesOfertaList()) {
+                            List<Habilidades> habilidadesFreelance = habilidadesServicio.buscarPorFreelance(a.getIdFreelance());
+                            for (Habilidades h : habilidadesFreelance) {
+                                if (ho.getIdNombreHabilidad().equals(h.getIdNombreHabilidad())) {
+                                    cont++;
+                                }
                             }
                         }
+                        a.getIdFreelance().setPorcentajeHabilidades(porcentajeHabilidades(o.getHabilidadesOfertaList().size(), cont));
+                        aplicaciones.add(a);
                     }
-                    a.getIdFreelance().setPorcentajeHabilidades(porcentajeHabilidades(o.getHabilidadesOfertaList().size(), cont));
-                    aplicaciones.add(a);
+                    o.setAplicacionOfertaList(aplicaciones);
                 }
-                o.setAplicacionOfertaList(aplicaciones);
                 listaOfertas.add(o);
             } catch (Exception ex) {
                 Logger.getLogger(OfertasController.class.getName()).log(Level.SEVERE, null, ex);
@@ -450,6 +455,8 @@ public class OfertasController extends Utilitario implements Serializable {
         ofertasServicio.editarEstado(ofertaSeleccionada);
         obtenerListaOfertas();
         setMostrarBoton(Boolean.FALSE);
+        ponerMensajeInfo("Felicidades seleccionaste al Freelance adecuado para tu trabajo, "
+                + "ponte en contacto con él para que arreglen detalles", "");
         mensaje = "";
     }
 

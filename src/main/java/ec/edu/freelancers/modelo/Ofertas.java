@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -35,19 +36,12 @@ public class Ofertas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "ID_OFERTA")
     private Integer idOferta;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "NOMBRE")
     private String nombre;
-    @Size(max = 255)
     @Column(name = "DESCRIPCION")
     private String descripcion;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ANIOS_EXPERIENCIA")
     private int aniosExperiencia;
     @Column(name = "TIEMPO_ENTREGA")
@@ -74,13 +68,9 @@ public class Ofertas implements Serializable {
     @JoinColumn(name = "ID_CANTON", referencedColumnName = "ID_CATALOGO_DETALLE")
     @ManyToOne
     private CatalogoDetalle idCanton;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_INICIO_PUBLICACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaInicioPublicacion;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_FIN_PUBLICACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaFinPublicacion;
@@ -91,6 +81,8 @@ public class Ofertas implements Serializable {
     private CatalogoDetalle idNivelInstruccion;
     @Column(name = "ACTIVIDADES")
     private String actividades;
+    @Transient
+    private Freelance freelanceSeleccionado;
 
     public Ofertas() {
     }
@@ -250,6 +242,16 @@ public class Ofertas implements Serializable {
     public void setActividades(String actividades) {
         this.actividades = actividades;
     }
+
+    public Freelance getFreelanceSeleccionado() {
+        return freelanceSeleccionado;
+    }
+
+    public void setFreelanceSeleccionado(Freelance freelanceSeleccionado) {
+        this.freelanceSeleccionado = freelanceSeleccionado;
+    }
+    
+    
 
     @Override
     public int hashCode() {

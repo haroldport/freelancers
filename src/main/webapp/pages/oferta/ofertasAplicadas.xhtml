@@ -46,14 +46,25 @@
                         </p:column>
 
                         <p:column styleClass="wrap"
-                                  headerText="Estado">
+                                  headerText="Estado Aplicación">
                             <h:outputText value="#{oferta.idEstado.nombre}" />
+                        </p:column>
+                        
+                        <p:column styleClass="wrap"
+                                  headerText="Estado Oferta">
+                            <h:outputText value="#{indexController.dentroDeRango(oferta.idOferta.fechaInicioPublicacion, oferta.idOferta.fechaFinPublicacion) ? oferta.idOferta.idEstado.nombre : 'CADUCADA'}" />
+                        </p:column>
+                        
+                        <p:column styleClass="wrap"
+                                  headerText="Comentario">
+                            <h:outputText value="#{oferta.comentario}" />
                         </p:column>
 
                         <p:column headerText="Eliminar"
                                   styleClass="classBtn">
                             <p:commandButton id="cbEliminar" icon="ui-icon-trash"
-                                             update=":formOferta" process="@this"
+                                             update=":formOferta" process="@this" disabled="#{oferta.idEstado.nemonico eq 'SEL' or oferta.idOferta.idEstado.nemonico eq 'FIN' or 
+                                             !indexController.dentroDeRango(oferta.idOferta.fechaInicioPublicacion, oferta.idOferta.fechaFinPublicacion)}"
                                              actionListener="#{ofertasAplicadasController.seleccionarOferta(oferta)}"
                                              oncomplete="dlgEliminar.show()" />
                             <p:tooltip for="cbEliminar"

@@ -140,6 +140,12 @@
                                 </p:outputPanel>
                             </div>
                         </p:dataGrid>  
+                        <br />
+                        <p:commandLink style="font-size: 1em" styleClass="buscar" 
+                                       rendered="#{indexController.listaOfertas.size() eq 10}"
+                                       process="@this :formBusqueda" update=":formBusqueda"
+                                       value="Más Ofertas" action="#{indexController.busqueda}" />
+                        <br />
                     </h:form>
                 </div>
 
