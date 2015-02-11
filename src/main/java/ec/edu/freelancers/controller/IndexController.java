@@ -160,8 +160,12 @@ public class IndexController implements Serializable {
         return "/faces/pages/perfil/perfil.xhtml?faces-redirect=true";
     }
     
-    public String busqueda() {
+    public String busquedaFreelance() {
         return "/faces/pages/busqueda/buscarFreelance.xhtml?faces-redirect=true";
+    }
+    
+    public String busquedaOferta() {
+        return "/faces/pages/busqueda/buscarOferta.xhtml?faces-redirect=true";
     }
 
     public String verOferta(Ofertas oferta) {

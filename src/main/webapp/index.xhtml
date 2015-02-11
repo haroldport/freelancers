@@ -112,7 +112,7 @@
                             profesionales.</p>
                         <p:commandLink style="font-size: 1em" styleClass="buscar" 
                                        process="@this :formBusqueda" update=":formBusqueda"
-                                       value="Buscar freelance" action="#{indexController.busqueda}" />
+                                       value="Buscar freelance" action="#{indexController.busquedaFreelance}" />
                     </h:form>
                 </div>
 
@@ -141,10 +141,12 @@
                             </div>
                         </p:dataGrid>  
                         <br />
-                        <p:commandLink style="font-size: 1em" styleClass="buscar" 
-                                       rendered="#{indexController.listaOfertas.size() eq 10}"
-                                       process="@this :formBusqueda" update=":formBusqueda"
-                                       value="Más Ofertas" action="#{indexController.busqueda}" />
+                        <center>
+                            <p:commandLink style="font-size: 1em" styleClass="buscarI" 
+                                           rendered="#{indexController.listaOfertas.size() eq 10}"
+                                           process="@this :formBusqueda" update=":formBusqueda"
+                                           value="Más Ofertas" action="#{indexController.busquedaOferta}" />
+                        </center>
                         <br />
                     </h:form>
                 </div>

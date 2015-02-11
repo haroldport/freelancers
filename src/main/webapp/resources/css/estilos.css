@@ -125,6 +125,23 @@ h1{
     background: #70B8F8 !important;
 }
 
+.buscarI{
+    background: #70B8F8 !important;
+    border: 1px solid white !important;
+    border-radius: 2em !important;
+    color: white !important;
+    margin-right: .5em !important;
+    padding: .5em 1em !important;
+    text-decoration: none !important;
+    transition: 0.5s all ease-in-out !important;
+    -webkit-transition: 0.5s all ease-in-out !important;
+    -moz-transition: 0.5s all ease-in-out !important;
+}
+
+.buscarI:hover{
+    background: orange !important;
+}
+
 .oferta{
     margin-top: 10em !important;
     overflow: hidden !important;

@@ -137,4 +137,27 @@ public class OfertasServicio {
         return ofertasDao.listarTodas();
     }
     
+    /**
+     * Listar ofertas activas
+     * @return 
+     */
+    public List<Ofertas> listarActivas() {
+        return ofertasDao.listarActivas();
+    }
+    
+    /**
+     * Buscar en base a parametros
+     * @param idPais
+     * @param idProvincia
+     * @param idCanton
+     * @param idNivelInstruccion
+     * @param nombreOferta
+     * @return
+     * @throws Exception 
+     */
+    public List<Ofertas> buscarEnBaseAParametros(int idPais, int idProvincia, 
+            int idCanton, int idNivelInstruccion, String nombreOferta) throws Exception {
+        return ofertasDao.buscarEnBaseAParametros(idPais, idProvincia, idCanton, idNivelInstruccion, nombreOferta);
+    }
+    
 }

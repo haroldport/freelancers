@@ -13,6 +13,7 @@ public class BusquedaDto {
     private int idAreaTrabajo;
     private int idAreaEstudio;
     private int idIdioma;
+    private String nombre;
 
     public BusquedaDto(int idPais, int idProvincia, int idCanton, 
             int idNivelInstruccion, int idAreaTrabajo, int idAreaEstudio,
@@ -24,6 +25,14 @@ public class BusquedaDto {
         this.idAreaTrabajo = idAreaTrabajo;
         this.idAreaEstudio = idAreaEstudio;
         this.idIdioma = idIdioma;
+    }
+
+    public BusquedaDto(int idPais, int idProvincia, int idCanton, int idNivelInstruccion, String nombre) {
+        this.idPais = idPais;
+        this.idProvincia = idProvincia;
+        this.idCanton = idCanton;
+        this.idNivelInstruccion = idNivelInstruccion;
+        this.nombre = nombre;
     }
 
     public int getIdPais() {
@@ -80,6 +89,14 @@ public class BusquedaDto {
 
     public void setIdIdioma(int idIdioma) {
         this.idIdioma = idIdioma;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     
 }

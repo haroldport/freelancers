@@ -1,0 +1,158 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-inicio.xhtml">
+        <ui:define name="content">            
+            <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+            <br /><br />
+            <p:panel id="tab" header="Buscar Ofertas" 
+                     style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1200px">
+                <br /><br />
+                <h:outputText style="font-size: 1.5em !important" value="Busca ofertas en base a tus capacidades, genera más ingresos y mejora tu reputación en la comunidad." />
+                <br /><br />
+                <p:layout style="min-width:600px;min-height:900px;">
+                    <p:layoutUnit position="west" resizable="true" size="350" minSize="40" maxSize="450">
+                        <h:form id="formBusqueda">
+                            <h3>Filtros de búsqueda</h3>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Nombre:" /><br />
+                            <p:inputText style="margin-left: 10px;" size="51" value="#{buscarOfertaController.busqueda.nombre}" /><br />
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="País:" /><br />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="pais" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarOfertaController.busqueda.idPais}">
+                                    <p:ajax event="change" update=":formBusqueda:pnlProvincia, :formBusqueda:pnlCanton" 
+                                            listener="#{buscarOfertaController.obtenerProvincias}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarOfertaController.paises}"
+                                                   var="pais" itemValue="#{pais.idCatalogoDetalle}"
+                                                   itemLabel="#{pais.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Provincia:" /><br />
+                            <p:outputPanel id="pnlProvincia">
+                                <p:selectOneMenu id="provincia" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarOfertaController.busqueda.idProvincia}"
+                                                 disabled="#{buscarOfertaController.provincias.size() == 0}">
+                                    <p:ajax event="change" update=":formBusqueda:pnlCanton" 
+                                            listener="#{buscarOfertaController.obtenerCantones}" />
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarOfertaController.provincias}"
+                                                   var="prov" itemValue="#{prov.idCatalogoDetalle}"
+                                                   itemLabel="#{prov.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Cantón:" /><br />
+                            <p:outputPanel id="pnlCanton">
+                                <p:selectOneMenu id="canton" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarOfertaController.busqueda.idCanton}"
+                                                 disabled="#{buscarOfertaController.cantones.size() == 0}">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarOfertaController.cantones}"
+                                                   var="cant" itemValue="#{cant.idCatalogoDetalle}"
+                                                   itemLabel="#{cant.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Nivel de instrucción:" /><br />
+                            <p:outputPanel>
+                                <p:selectOneMenu id="nivelInstruccion" style="margin-left: 10px; width: 280px;"
+                                                 value="#{buscarOfertaController.busqueda.idNivelInstruccion}">
+                                    <f:selectItem itemValue="" itemLabel="-- Seleccione --" />
+                                    <f:selectItems value="#{buscarOfertaController.nivelesInstruccion}"
+                                                   var="nivel" itemValue="#{nivel.idCatalogoDetalle}"
+                                                   itemLabel="#{nivel.nombre}" />
+                                </p:selectOneMenu>
+                            </p:outputPanel>
+                            <br />
+                            <h:outputLabel style="float: left; font-weight: bold; font-size: 1em; margin-left: 0.8em" value="Habilidades:" />
+                            <p:dataTable id="habilidadesDisponibles" selection="#{buscarOfertaController.listaHabilidadesSeleccionadas}" rowKey="#{habilidadD.idCatalogoDetalle}"
+                                         value="#{buscarOfertaController.listaHabilidades}" var="habilidadD"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom" rows="10" paginator="true" rowsPerPageTemplate="10,15,20,25,30" 
+                                         style="width : 100%;text-align: left;">
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="Habilidad" filterBy="#{habilidadD.nombre}" 
+                                          filterMatchMode="contains" filterStyle="width:150px">
+                                    <h:outputText value="#{habilidadD.nombre}"/>
+                                </p:column>
+                            </p:dataTable>
+                            <br /><br />
+                            <p:commandLink style="font-size: 1.4em;font-family: 'Open Sans', sans-serif !important; margin-left: 9em" styleClass="buscar"
+                                           update=":formResultado:panelTabla" action="#{buscarOfertaController.buscar}" value="Buscar" />
+                        </h:form>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="center">
+                        <h:form id="formResultado">
+                            <p:outputPanel id="panelTabla">
+                                <p:dataTable value="#{buscarOfertaController.ofertasEncontradas}"
+                                             var="oferta" rendered="#{buscarOfertaController.ofertasEncontradas.size() > 0}"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             paginatorPosition="bottom" rows="10" paginator="true"
+                                             rowsPerPageTemplate="10,15,20,25,30"
+                                             tableStyle="table-layout:auto;width:100%;">
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Imagen">
+                                        <h:commandLink id="linkPerfil" action="#{indexController.verOferta(oferta)}" target="_blank">
+                                            <h:graphicImage id="image" styleClass="freelance-image"
+                                                            rendered="#{oferta.idImagen.idImagen > 1}"
+                                                            url="/image?id=#{oferta.idImagen.idImagen}"
+                                                            height="60" width="50" />
+                                        </h:commandLink>
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Cantón">
+                                        <h:outputText value="#{oferta.idCanton.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Nivel de instrucción">
+                                        <h:outputText value="#{oferta.idNivelInstruccion.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Nombre">
+                                        <h:outputText value="#{oferta.nombre}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Fecha inicio publicación">
+                                        <h:outputText value="#{oferta.fechaInicioPublicacion}">
+                                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Fecha fin publicación">
+                                        <h:outputText value="#{oferta.fechaFinPublicacion}">
+                                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column styleClass="wrap"
+                                              headerText="Presupuesto">
+                                        <h:outputText value="$ #{oferta.presupuesto}" />
+                                    </p:column>
+
+                                    <p:column styleClass="wrap" rendered="#{buscarOfertaController.listaHabilidadesSeleccionadas.size() > 0}"
+                                              headerText="% Habilidades">
+                                        <h:outputText value="#{oferta.porcentajeHabilidades}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:layoutUnit>
+                </p:layout>
+            </p:panel>            
+        </ui:define>
+    </ui:composition>
+</html>
