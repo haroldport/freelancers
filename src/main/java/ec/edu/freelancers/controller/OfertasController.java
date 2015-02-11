@@ -12,6 +12,7 @@ import ec.edu.freelancers.modelo.Habilidades;
 import ec.edu.freelancers.modelo.HabilidadesOferta;
 import ec.edu.freelancers.modelo.Imagen;
 import ec.edu.freelancers.modelo.Ofertas;
+import ec.edu.freelancers.modelo.Opiniones;
 import ec.edu.freelancers.modelo.PersonaDemandante;
 import ec.edu.freelancers.servicio.AplicacionOfertaServicio;
 import ec.edu.freelancers.servicio.CatalogoDetalleServicio;
@@ -21,6 +22,7 @@ import ec.edu.freelancers.servicio.FileServicio;
 import ec.edu.freelancers.servicio.FormacionAcademicaServicio;
 import ec.edu.freelancers.servicio.HabilidadesServicio;
 import ec.edu.freelancers.servicio.OfertasServicio;
+import ec.edu.freelancers.servicio.OpinionesServicio;
 import ec.edu.freelancers.servicio.PersonaDemandanteServicio;
 import ec.edu.freelancers.utilitario.Utilitario;
 import java.io.File;
@@ -72,6 +74,8 @@ public class OfertasController extends Utilitario implements Serializable {
     private FormacionAcademicaServicio formacionAcademicaServicio;
     @EJB
     private ExperienciaServicio experienciaServicio;
+    @EJB
+    private OpinionesServicio opinionesServicio;
 
     private PersonaDemandante personaDemandante;
     private Imagen imagenPorDefecto;
@@ -102,6 +106,8 @@ public class OfertasController extends Utilitario implements Serializable {
     private TagCloudModel model;
     private String mensaje;
     private boolean mostrarBoton;
+    private Ofertas ofertaPorCalificarFreelance;
+    private List<Opiniones> listaOpiniones;
 
     @PostConstruct
     public void iniciar() {
@@ -115,7 +121,7 @@ public class OfertasController extends Utilitario implements Serializable {
             estadoRechazado = estadoServicio.buscarPorNemonico(EstadoEnum.RECHAZADO.getNemonico());
             estadoFinalizado = estadoServicio.buscarPorNemonico(EstadoEnum.FINALIZADO.getNemonico());
             paises = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.PAISES.getNemonico());
-            nivelesInstruccion = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.NIVEL_INSTRUCCION.getNemonico());
+            nivelesInstruccion = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.NIVEL_INSTRUCCION.getNemonico());            
             initValores();
             this.setEditarOferta(Boolean.FALSE);
             setMostrarBoton(Boolean.FALSE);
@@ -371,6 +377,12 @@ public class OfertasController extends Utilitario implements Serializable {
             this.setMostrarBoton(Boolean.TRUE);
         }
         return "/faces/pages/oferta/listaAspirantesOferta.xhtml?faces-redirect=true";
+    }
+    
+    public String calificarFreelance(Ofertas ofertaCalificar){
+        setOfertaPorCalificarFreelance(ofertaCalificar);
+        listaOpiniones = opinionesServicio.listarOpiniones();
+        return "/faces/pages/perfil/calificarFreelance.xhtml?faces-redirect=true";
     }
 
     public void recuperarHabilidades() {
@@ -682,6 +694,22 @@ public class OfertasController extends Utilitario implements Serializable {
 
     public void setEstadoFinalizado(Estado estadoFinalizado) {
         this.estadoFinalizado = estadoFinalizado;
+    }
+
+    public Ofertas getOfertaPorCalificarFreelance() {
+        return ofertaPorCalificarFreelance;
+    }
+
+    public void setOfertaPorCalificarFreelance(Ofertas ofertaPorCalificarFreelance) {
+        this.ofertaPorCalificarFreelance = ofertaPorCalificarFreelance;
+    }
+
+    public List<Opiniones> getListaOpiniones() {
+        return listaOpiniones;
+    }
+
+    public void setListaOpiniones(List<Opiniones> listaOpiniones) {
+        this.listaOpiniones = listaOpiniones;
     }
 
 }

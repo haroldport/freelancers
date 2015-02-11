@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui">
+    <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
+        <ui:define name="content">            
+            <p:growl id="messages" showDetail="false" life="5000" autoUpdate="true" />
+            <br /><br />
+            <p:panel id="tab" header="Calificar a Freelance: #{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.nombres} 
+                     #{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.apellidos} dentro de la oferta: 
+                     #{ofertasController.ofertaPorCalificarFreelance.nombre}" 
+                     style="font-size: 12px; margin: -2.8em auto 0 auto; width: 1000px">
+                <br /><br />
+                <center>
+                    <h:outputText style="font-size: 1.5em !important" value="Por favor califica al Freelance en base a los resultados obtenidos en el trabajo realizado" />
+                    <br /><br />
+                    <h:form id="formCalificar">
+                        <h:panelGrid columns="3">
+                            <p:panel header="Información Freelance">
+                                <h:panelGrid columns="3">
+                                    <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Username:" />
+                                    <p:spacer width="10" height="30" />
+                                    <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.idUsuario.username}" />
+                                    <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Ubicación:" />
+                                    <p:spacer width="10" height="30" />
+                                    <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.idCanton.nombre}, 
+                                                  #{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.idProvincia.nombre}, #{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.idPais.nombre}" />
+                                    <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Nombres:" />
+                                    <p:spacer width="10" height="30" />
+                                    <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.nombres} #{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.apellidos}" />
+                                    <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Dirección:" />
+                                    <p:spacer width="10" height="30" />
+                                    <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.callePrincipal} 
+                                                  #{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.numeroCasa} Y #{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.calleSecundaria}. Ref. #{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.referencia}" />                        
+                                    <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Correo:" />
+                                    <p:spacer width="10" height="30" />
+                                    <h:outputText style="font-size: 1.2em !important" value="#{ofertasController.ofertaPorCalificarFreelance.freelanceSeleccionado.correo}" />
+                                </h:panelGrid>
+                            </p:panel>
+                            <p:spacer width="30" height="30" />
+                            <p:panel header="Calificar">
+                                <p:dataGrid id="opiniones" var="opinion" styleClass="calificar" emptyMessage="No hay criterios de calificación disponibles"
+                                            value="#{ofertasController.listaOpiniones}" columns="1">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputText style="font-size: 1.3em !important" styleClass="label" value="#{opinion.descripcion}:" />
+                                        <p:rating value="#{opinion.calificacion}" />
+                                    </h:panelGrid>
+                                </p:dataGrid>
+                                <center>
+                                    <p:commandLink id="linkCalificar" style="font-size: 1.2em" styleClass="buscar" update=":formCalificar"
+                                                   value="Calificar" action="#{indexController.verOferta(oferta)}" />
+                                </center>
+                                <br />
+                            </p:panel>
+                        </h:panelGrid>
+                        <br /><br />
+                    </h:form>
+                </center>
+            </p:panel>            
+        </ui:define>
+    </ui:composition>
+</html>

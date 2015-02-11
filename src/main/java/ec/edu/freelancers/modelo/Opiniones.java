@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -53,6 +54,8 @@ public class Opiniones implements Serializable {
     @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO")
     @ManyToOne
     private Estado idEstado;
+    @Transient
+    private Integer calificacion;
 
     public Opiniones() {
     }
@@ -89,6 +92,14 @@ public class Opiniones implements Serializable {
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public Integer getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(Integer calificacion) {
+        this.calificacion = calificacion;
     }
 
     @XmlTransient

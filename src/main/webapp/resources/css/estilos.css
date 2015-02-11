@@ -190,6 +190,12 @@ h1{
    margin-bottom: 0.5em;
 }
 
+.calificar>.ui-datagrid-content {
+   border: none;
+   font-family: 'Open Sans', sans-serif !important;
+   margin-bottom: 0.5em;
+}
+
 .freelance-destacados{
     padding: 1em !important;
     text-align: center !important;

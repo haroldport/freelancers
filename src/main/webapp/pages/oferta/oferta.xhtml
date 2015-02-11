@@ -3,8 +3,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:pou="http://primefaces.org/ui"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:pou="http://primefaces.org/ui">
     <ui:composition template="/plantillas/plantilla-sin-menu.xhtml">
         <ui:define name="content">
             <h:form id="formOferta" enctype="multipart/form-data">
@@ -301,6 +300,14 @@
                                                         rendered="#{oferta.freelanceSeleccionado.idImagen.idImagen > 1}"
                                                         url="/image?id=#{oferta.freelanceSeleccionado.idImagen.idImagen}"
                                                         height="50" width="40" />
+                                    </h:commandLink>
+                                </p:column>
+                                
+                                <p:column headerText="Calificar" styleClass="classBtn">
+                                    <h:commandLink immediate="true" 
+                                                   rendered="#{oferta.freelanceSeleccionado != null}"
+                                                   action="#{ofertasController.calificarFreelance(oferta)}">
+                                        <h:graphicImage library="images" name="note.png" height="48" width="48" />
                                     </h:commandLink>
                                 </p:column>
 
