@@ -207,11 +207,11 @@ h1{
     min-height: 100px !important;
     padding: 0 !important;
     text-align: left !important;
-    width: 25% !important;
+    width: 33% !important;
 }
 
 .freelance-image{
-    border: 1px solid #e1e1e1 !important;
+    border: 2px solid orange !important;
     border-radius: 50% !important;
     margin-right: 0 !important;
     width: 70px !important;

@@ -126,7 +126,7 @@ public class OfertasController extends Utilitario implements Serializable {
             estadoRechazado = estadoServicio.buscarPorNemonico(EstadoEnum.RECHAZADO.getNemonico());
             estadoFinalizado = estadoServicio.buscarPorNemonico(EstadoEnum.FINALIZADO.getNemonico());
             paises = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.PAISES.getNemonico());
-            nivelesInstruccion = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.NIVEL_INSTRUCCION.getNemonico());            
+            nivelesInstruccion = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.NIVEL_INSTRUCCION.getNemonico());
             initValores();
             setEditarOferta(Boolean.FALSE);
             setMostrarCalificacion(Boolean.TRUE);
@@ -238,9 +238,11 @@ public class OfertasController extends Utilitario implements Serializable {
                         cont = 0;
                         for (HabilidadesOferta ho : o.getHabilidadesOfertaList()) {
                             List<Habilidades> habilidadesFreelance = habilidadesServicio.buscarPorFreelance(a.getIdFreelance());
-                            for (Habilidades h : habilidadesFreelance) {
-                                if (ho.getIdNombreHabilidad().equals(h.getIdNombreHabilidad())) {
-                                    cont++;
+                            if (habilidadesFreelance != null) {
+                                for (Habilidades h : habilidadesFreelance) {
+                                    if (ho.getIdNombreHabilidad().equals(h.getIdNombreHabilidad())) {
+                                        cont++;
+                                    }
                                 }
                             }
                         }
@@ -384,28 +386,28 @@ public class OfertasController extends Utilitario implements Serializable {
         }
         return "/faces/pages/oferta/listaAspirantesOferta.xhtml?faces-redirect=true";
     }
-    
-    public String calificarFreelance(Ofertas ofertaCalificar) throws Exception{
+
+    public String calificarFreelance(Ofertas ofertaCalificar) throws Exception {
         listaOpiniones = new ArrayList<>();
         setOfertaPorCalificarFreelance(ofertaCalificar);
-        List<OpinionFreelance> listaOpinionesFreelance = opinionFreelanceServicio.buscarPorFreelancePersonaYOferta(ofertaCalificar.getFreelanceSeleccionado(), 
+        List<OpinionFreelance> listaOpinionesFreelance = opinionFreelanceServicio.buscarPorFreelancePersonaYOferta(ofertaCalificar.getFreelanceSeleccionado(),
                 personaDemandante, ofertaPorCalificarFreelance);
-        if(listaOpinionesFreelance != null){
-            for(OpinionFreelance of : listaOpinionesFreelance){
+        if (listaOpinionesFreelance != null) {
+            for (OpinionFreelance of : listaOpinionesFreelance) {
                 of.getIdOpinion().setCalificacion(of.getRanking().intValue());
                 listaOpiniones.add(of.getIdOpinion());
             }
-            setMostrarCalificacion(Boolean.FALSE);            
-        }else{
+            setMostrarCalificacion(Boolean.FALSE);
+        } else {
             listaOpiniones = opinionesServicio.listarOpiniones();
             setMostrarCalificacion(Boolean.TRUE);
-        }        
+        }
         return "/faces/pages/perfil/calificarFreelance.xhtml?faces-redirect=true";
     }
-    
-    public void guardarRanking(){
-        for(Opiniones o : listaOpiniones){
-            OpinionFreelance opinionFreelance = new OpinionFreelance(o.getCalificacion().longValue(), personaDemandante, o, 
+
+    public void guardarRanking() {
+        for (Opiniones o : listaOpiniones) {
+            OpinionFreelance opinionFreelance = new OpinionFreelance(o.getCalificacion().longValue(), personaDemandante, o,
                     ofertaPorCalificarFreelance.getFreelanceSeleccionado(), ofertaPorCalificarFreelance);
             opinionFreelanceServicio.crear(opinionFreelance);
         }

@@ -1,5 +1,6 @@
 package ec.edu.freelancers.controller;
 
+import ec.edu.freelancers.dto.RankingDto;
 import ec.edu.freelancers.enumerado.EstadoEnum;
 import ec.edu.freelancers.modelo.Acceso;
 import ec.edu.freelancers.modelo.AccesoRol;
@@ -16,6 +17,7 @@ import ec.edu.freelancers.servicio.EstadoServicio;
 import ec.edu.freelancers.servicio.FreelanceServicio;
 import ec.edu.freelancers.servicio.LogSistemaServicio;
 import ec.edu.freelancers.servicio.OfertasServicio;
+import ec.edu.freelancers.servicio.OpinionFreelanceServicio;
 import ec.edu.freelancers.servicio.UsuarioServicio;
 import ec.edu.freelancers.utilitario.Crypt;
 import java.io.Serializable;
@@ -74,6 +76,8 @@ public class IndexController implements Serializable {
     private EstadoServicio estadoServicio;
     @EJB
     private FreelanceServicio freelanceServicio;
+    @EJB
+    private OpinionFreelanceServicio opinionFreelanceServicio;
 
     private String username;
     private String password;
@@ -90,6 +94,7 @@ public class IndexController implements Serializable {
     private Ofertas ofertaSeleccionada;
     private TagCloudModel model;
     private Estado estadoAplicado;
+    private List<RankingDto> freelancersRankeados;
 
     @ManagedProperty(value = "#{personaDemandanteController}")
     private PersonaDemandanteController personaDemandanteController;
@@ -104,6 +109,7 @@ public class IndexController implements Serializable {
             estadoAplicado = estadoServicio.buscarPorNemonico(EstadoEnum.APLICADO.getNemonico());
             usuarioRegistro = usuarioServicio.obtenerUsuarioPorUsername("usuario_registro");
             listaOfertas = ofertasServicio.listarTodas();
+            freelancersRankeados = opinionFreelanceServicio.buscarTotalesPorFreelance();
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -151,8 +157,9 @@ public class IndexController implements Serializable {
         }
     }
 
-    public String inicio() {
+    public String inicio() throws Exception {
         listaOfertas = ofertasServicio.listarTodas();
+        freelancersRankeados = opinionFreelanceServicio.buscarTotalesPorFreelance();
         return "/index.xhtml?faces-redirect=true";
     }
 
@@ -456,4 +463,13 @@ public class IndexController implements Serializable {
     public void setEstadoAplicado(Estado estadoAplicado) {
         this.estadoAplicado = estadoAplicado;
     }
+
+    public List<RankingDto> getFreelancersRankeados() {
+        return freelancersRankeados;
+    }
+
+    public void setFreelancersRankeados(List<RankingDto> freelancersRankeados) {
+        this.freelancersRankeados = freelancersRankeados;
+    }
+    
 }

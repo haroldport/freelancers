@@ -46,6 +46,15 @@ public class OpinionFreelanceServicio {
     }
     
     /**
+     * Buscar los 9 freelancers mejores rankeados
+     * @return
+     * @throws Exception 
+     */
+    public List<RankingDto> buscarTotalesPorFreelance() throws Exception {
+        return opinionFreelanceDao.buscarTotalesPorFreelance();
+    }
+    
+    /**
      * Crear calificacion de freelance
      * @param opinionFreelance 
      */

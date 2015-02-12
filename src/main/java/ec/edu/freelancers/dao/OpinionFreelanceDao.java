@@ -80,4 +80,26 @@ public class OpinionFreelanceDao extends Generico<OpinionFreelance> {
         }
     }
     
+    /**
+     * Buscar los 9 freelancers mejores rankeados
+     * @return
+     * @throws Exception 
+     */
+    public List<RankingDto> buscarTotalesPorFreelance() throws Exception {
+        List<RankingDto> result = new ArrayList<>();
+        String jpql = "SELECT NEW ec.edu.freelancers.dto.RankingDto(SUM(o.ranking),o.idFreelance) "
+                + "FROM OpinionFreelance o "
+                + "GROUP BY o.idFreelance "
+                + "HAVING SUM(o.ranking) > 0 "
+                + "ORDER BY SUM(o.ranking) DESC";
+        Query query = em.createQuery(jpql);
+        query.setMaxResults(6);
+        result = query.getResultList();
+        if (result != null && !result.isEmpty()) {
+            return result;
+        } else {
+            return null;
+        }
+    }
+    
 }

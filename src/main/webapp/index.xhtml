@@ -153,76 +153,29 @@
 
                 <div class="freelance-destacados">
                     <h2 class="freelance-titulo">Freelancers destacados</h2>
-                    <p class="freelance-descripcion">Top 9 de los freelancers más
-                        rankeados.</p>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Andrés Cepeda</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Pedro Ortiz</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Carlos Paredes</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Juan Silva</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Marcos Mondaíni</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Pedro Quiñónez</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Ismael Rivera</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Hector Lavoe</h5>
-                    </div>
-                    <div class="freelance-item">
-                        <div class="contenedor-image">
-                            <p:graphicImage styleClass="freelance-image" library="images"
-                                            name="avatar.jpg" />
-                        </div>
-                        <h5 class="freelance-nombre">Arturo Acosta</h5>
-                    </div>
+                    <p class="freelance-descripcion">Top 6 de los freelancers más rankeados.</p>
+                    <h:form id="formVerFreelance">
+                        <p:dataGrid id="freelancers" var="freelance" styleClass="oferta-panel" emptyMessage="No hay Freelancers destacados en este momento"
+                                    value="#{indexController.freelancersRankeados}" columns="3">
+                            <div class="freelance-item">
+                                <h:panelGrid columns="3">
+                                    <h:commandLink id="linkPerfil" action="#{buscarFreelanceController.verPerfil(freelance.freelance)}">
+                                        <h:graphicImage id="image" styleClass="freelance-image"
+                                                        rendered="#{freelance.freelance.idImagen.idImagen > 1}"
+                                                        url="/image?id=#{freelance.freelance.idImagen.idImagen}" 
+                                                        height="70" width="60" />
+                                    </h:commandLink> 
+                                    <p:spacer height="20" width="15" />
+                                    <h5 class="freelance-nombre">#{freelance.freelance.idUsuario.username}</h5>
+                                </h:panelGrid>
+                            </div>
+                        </p:dataGrid>
+                    </h:form>
                 </div>
             </div>
             <div class="footer">
                 <p>Powered by Luis Rizzo y Luis Córdova</p>
-                <p>Copyright - Todos los derechos reservados 2014</p>
+                <p>Copyright - Todos los derechos reservados 2015</p>
             </div>
 
             <p:dialog styleClass="Login-dialogo" id="dlgLogin" widgetVar="dlg"

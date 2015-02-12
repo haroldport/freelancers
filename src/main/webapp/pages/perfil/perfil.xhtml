@@ -26,10 +26,10 @@
                                 <p:dataGrid id="opiniones" var="opinion" styleClass="calificar" emptyMessage="Aún no has sido calificado por nadie"
                                             value="#{perfilController.calificaciones}" columns="1">
                                     <h:panelGrid columns="3">
-                                        <h:outputText style="font-size: 1.3em !important; float: left !important" styleClass="label" 
+                                        <h:outputText style="font-size: 1.2em !important; float: left !important" styleClass="label" 
                                                       value="#{opinion.opinion.descripcion}:" />
                                         <p:spacer width="10" height="12" />
-                                        <h:outputText style="font-size: 1.3em !important" value="#{opinion.subtotal} puntos" />
+                                        <h:outputText style="font-size: 1.2em !important" value="#{opinion.subtotal} puntos" />
                                     </h:panelGrid>
                                 </p:dataGrid>
                                 <h:panelGrid columns="3">
