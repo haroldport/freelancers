@@ -1,5 +1,6 @@
 package ec.edu.freelancers.controller;
 
+import ec.edu.freelancers.dto.RankingDto;
 import ec.edu.freelancers.modelo.Capacitacion;
 import ec.edu.freelancers.modelo.Experiencia;
 import ec.edu.freelancers.modelo.FormacionAcademica;
@@ -14,6 +15,7 @@ import ec.edu.freelancers.servicio.FormacionAcademicaServicio;
 import ec.edu.freelancers.servicio.FreelanceServicio;
 import ec.edu.freelancers.servicio.HabilidadesServicio;
 import ec.edu.freelancers.servicio.IdiomaServicio;
+import ec.edu.freelancers.servicio.OpinionFreelanceServicio;
 import ec.edu.freelancers.servicio.PortfolioServicio;
 import ec.edu.freelancers.utilitario.Utilitario;
 import java.io.Serializable;
@@ -53,6 +55,8 @@ public class PerfilController extends Utilitario implements Serializable {
     private PortfolioServicio portfolioServicio;
     @EJB
     private HabilidadesServicio habilidadesServicio;
+    @EJB
+    private OpinionFreelanceServicio opinionFreelanceServicio;
 
     private Freelance freelance;
     private TagCloudModel model;
@@ -61,7 +65,9 @@ public class PerfilController extends Utilitario implements Serializable {
     private List<Experiencia> experiencias;
     private List<Idioma> idiomas;
     private List<Portfolio> portafolios;
+    private List<RankingDto> calificaciones;
     private Integer idFreelance;
+    private Long totalRanking;
 
     @PostConstruct
     public void iniciar() {
@@ -107,12 +113,19 @@ public class PerfilController extends Utilitario implements Serializable {
         }
     }
 
-    public void recuperarHojaVida() {
+    public void recuperarHojaVida() throws Exception {
         portafolios = new ArrayList<>();
+        totalRanking = 0L;
         formacionesAcademica = formacionAcademicaServicio.listarFormacionesPorFreelance(freelance);
         capacitaciones = capacitacionServicio.listarCapacitacionesPorFreelance(freelance);
         experiencias = experienciaServicio.listarExperienciasPorFreelance(freelance);
         idiomas = idiomaServicio.listarIdiomasPorFreelance(freelance);
+        calificaciones = opinionFreelanceServicio.buscarSubtotalesPorFreelance(freelance);
+        if(calificaciones != null){
+            for(RankingDto r : calificaciones){
+                totalRanking += r.getSubtotal();
+            }            
+        }
         List<Portfolio> portafoliosTemp = portfolioServicio.listarPortfolioPorFreelance(freelance);
         for(Portfolio p : portafoliosTemp){
             List<ImagenPortfolio> listaImagenes = portfolioServicio.listarPorPortfolio(p);
@@ -175,6 +188,22 @@ public class PerfilController extends Utilitario implements Serializable {
 
     public void setPortafolios(List<Portfolio> portafolios) {
         this.portafolios = portafolios;
+    }
+
+    public List<RankingDto> getCalificaciones() {
+        return calificaciones;
+    }
+
+    public void setCalificaciones(List<RankingDto> calificaciones) {
+        this.calificaciones = calificaciones;
+    }
+
+    public Long getTotalRanking() {
+        return totalRanking;
+    }
+
+    public void setTotalRanking(Long totalRanking) {
+        this.totalRanking = totalRanking;
     }
 
 }

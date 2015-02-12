@@ -22,6 +22,24 @@
                                             rendered="#{perfilController.freelance.idImagen.idImagen > 1}"
                                             url="/image?id=#{perfilController.freelance.idImagen.idImagen}"
                                             width="350" height="250" />
+                            <p:panel header="Ranking">
+                                <p:dataGrid id="opiniones" var="opinion" styleClass="calificar" emptyMessage="Aún no has sido calificado por nadie"
+                                            value="#{perfilController.calificaciones}" columns="1">
+                                    <h:panelGrid columns="3">
+                                        <h:outputText style="font-size: 1.3em !important; float: left !important" styleClass="label" 
+                                                      value="#{opinion.opinion.descripcion}:" />
+                                        <p:spacer width="10" height="12" />
+                                        <h:outputText style="font-size: 1.3em !important" value="#{opinion.subtotal} puntos" />
+                                    </h:panelGrid>
+                                </p:dataGrid>
+                                <h:panelGrid columns="3">
+                                    <h:outputText style="font-size: 1.3em !important; float: left !important; font-family: 'Open Sans', 
+                                                  sans-serif !important; margin-left: 0.3em" styleClass="label" 
+                                                  value="Total:" />
+                                    <p:spacer width="10" height="12" />
+                                    <h:outputText style="font-size: 1.3em !important; font-family: 'Open Sans', sans-serif !important;" value="#{perfilController.totalRanking} puntos" />
+                                </h:panelGrid>
+                            </p:panel>
                         </p:outputPanel>
                         <p:outputPanel style="margin-left: 3em" id="pnlDescripcion">
                             <h:outputText style="font-size: 5em" value="#{perfilController.freelance.idUsuario.username}" />

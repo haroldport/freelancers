@@ -44,12 +44,17 @@
                                             value="#{ofertasController.listaOpiniones}" columns="1">
                                     <h:panelGrid columns="2" cellpadding="5">
                                         <h:outputText style="font-size: 1.3em !important" styleClass="label" value="#{opinion.descripcion}:" />
-                                        <p:rating value="#{opinion.calificacion}" />
+                                        <p:rating value="#{opinion.calificacion}" required="true" disabled="#{!ofertasController.mostrarCalificacion}"
+                                                  requiredMessage="El criterio de calificación: #{opinion.descripcion}, es obligatorio" />
                                     </h:panelGrid>
                                 </p:dataGrid>
+                                <br />
+                                <h:outputText style="font-size: 1.3em !important; color: orange !important" styleClass="label" value="Ya calificaste al Freelance en esta oferta" 
+                                              rendered="#{!ofertasController.mostrarCalificacion}" />
                                 <center>
                                     <p:commandLink id="linkCalificar" style="font-size: 1.2em" styleClass="buscar" update=":formCalificar"
-                                                   value="Calificar" action="#{indexController.verOferta(oferta)}" />
+                                                   rendered="#{ofertasController.mostrarCalificacion}"
+                                                   value="Calificar" action="#{ofertasController.guardarRanking}" />
                                 </center>
                                 <br />
                             </p:panel>

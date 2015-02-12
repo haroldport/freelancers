@@ -12,6 +12,7 @@ import ec.edu.freelancers.modelo.Habilidades;
 import ec.edu.freelancers.modelo.HabilidadesOferta;
 import ec.edu.freelancers.modelo.Imagen;
 import ec.edu.freelancers.modelo.Ofertas;
+import ec.edu.freelancers.modelo.OpinionFreelance;
 import ec.edu.freelancers.modelo.Opiniones;
 import ec.edu.freelancers.modelo.PersonaDemandante;
 import ec.edu.freelancers.servicio.AplicacionOfertaServicio;
@@ -22,6 +23,7 @@ import ec.edu.freelancers.servicio.FileServicio;
 import ec.edu.freelancers.servicio.FormacionAcademicaServicio;
 import ec.edu.freelancers.servicio.HabilidadesServicio;
 import ec.edu.freelancers.servicio.OfertasServicio;
+import ec.edu.freelancers.servicio.OpinionFreelanceServicio;
 import ec.edu.freelancers.servicio.OpinionesServicio;
 import ec.edu.freelancers.servicio.PersonaDemandanteServicio;
 import ec.edu.freelancers.utilitario.Utilitario;
@@ -76,6 +78,8 @@ public class OfertasController extends Utilitario implements Serializable {
     private ExperienciaServicio experienciaServicio;
     @EJB
     private OpinionesServicio opinionesServicio;
+    @EJB
+    private OpinionFreelanceServicio opinionFreelanceServicio;
 
     private PersonaDemandante personaDemandante;
     private Imagen imagenPorDefecto;
@@ -108,6 +112,7 @@ public class OfertasController extends Utilitario implements Serializable {
     private boolean mostrarBoton;
     private Ofertas ofertaPorCalificarFreelance;
     private List<Opiniones> listaOpiniones;
+    private boolean mostrarCalificacion;
 
     @PostConstruct
     public void iniciar() {
@@ -123,7 +128,8 @@ public class OfertasController extends Utilitario implements Serializable {
             paises = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.PAISES.getNemonico());
             nivelesInstruccion = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.NIVEL_INSTRUCCION.getNemonico());            
             initValores();
-            this.setEditarOferta(Boolean.FALSE);
+            setEditarOferta(Boolean.FALSE);
+            setMostrarCalificacion(Boolean.TRUE);
             setMostrarBoton(Boolean.FALSE);
             obtenerHabilidadesActuales();
             obtenerProvincias();
@@ -379,10 +385,32 @@ public class OfertasController extends Utilitario implements Serializable {
         return "/faces/pages/oferta/listaAspirantesOferta.xhtml?faces-redirect=true";
     }
     
-    public String calificarFreelance(Ofertas ofertaCalificar){
+    public String calificarFreelance(Ofertas ofertaCalificar) throws Exception{
+        listaOpiniones = new ArrayList<>();
         setOfertaPorCalificarFreelance(ofertaCalificar);
-        listaOpiniones = opinionesServicio.listarOpiniones();
+        List<OpinionFreelance> listaOpinionesFreelance = opinionFreelanceServicio.buscarPorFreelancePersonaYOferta(ofertaCalificar.getFreelanceSeleccionado(), 
+                personaDemandante, ofertaPorCalificarFreelance);
+        if(listaOpinionesFreelance != null){
+            for(OpinionFreelance of : listaOpinionesFreelance){
+                of.getIdOpinion().setCalificacion(of.getRanking().intValue());
+                listaOpiniones.add(of.getIdOpinion());
+            }
+            setMostrarCalificacion(Boolean.FALSE);            
+        }else{
+            listaOpiniones = opinionesServicio.listarOpiniones();
+            setMostrarCalificacion(Boolean.TRUE);
+        }        
         return "/faces/pages/perfil/calificarFreelance.xhtml?faces-redirect=true";
+    }
+    
+    public void guardarRanking(){
+        for(Opiniones o : listaOpiniones){
+            OpinionFreelance opinionFreelance = new OpinionFreelance(o.getCalificacion().longValue(), personaDemandante, o, 
+                    ofertaPorCalificarFreelance.getFreelanceSeleccionado(), ofertaPorCalificarFreelance);
+            opinionFreelanceServicio.crear(opinionFreelance);
+        }
+        setMostrarCalificacion(Boolean.FALSE);
+        ponerMensajeInfo("Tu calificación se guardó correctamente!!!", "");
     }
 
     public void recuperarHabilidades() {
@@ -710,6 +738,14 @@ public class OfertasController extends Utilitario implements Serializable {
 
     public void setListaOpiniones(List<Opiniones> listaOpiniones) {
         this.listaOpiniones = listaOpiniones;
+    }
+
+    public boolean isMostrarCalificacion() {
+        return mostrarCalificacion;
+    }
+
+    public void setMostrarCalificacion(boolean mostrarCalificacion) {
+        this.mostrarCalificacion = mostrarCalificacion;
     }
 
 }

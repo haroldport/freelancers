@@ -29,9 +29,9 @@ public class OpinionFreelance implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_OPINION_FREELANCE")
-    private Integer idOpinionFreelance;
+    private Long idOpinionFreelance;
     @Column(name = "RANKING")
-    private Integer ranking;
+    private Long ranking;
     @JoinColumn(name = "ID_PERSONA_DEMANDANTE", referencedColumnName = "ID_PERSONA_DEMANDANTE")
     @ManyToOne
     private PersonaDemandante idPersonaDemandante;
@@ -41,27 +41,38 @@ public class OpinionFreelance implements Serializable {
     @JoinColumn(name = "ID_FREELANCE", referencedColumnName = "ID_FREELANCE")
     @ManyToOne
     private Freelance idFreelance;
+    @JoinColumn(name = "ID_OFERTA", referencedColumnName = "ID_OFERTA")
+    @ManyToOne
+    private Ofertas idOferta;
 
     public OpinionFreelance() {
     }
 
-    public OpinionFreelance(Integer idOpinionFreelance) {
+    public OpinionFreelance(Long idOpinionFreelance) {
         this.idOpinionFreelance = idOpinionFreelance;
     }
 
-    public Integer getIdOpinionFreelance() {
+    public OpinionFreelance(Long ranking, PersonaDemandante idPersonaDemandante, Opiniones idOpinion, Freelance idFreelance, Ofertas idOferta) {
+        this.ranking = ranking;
+        this.idPersonaDemandante = idPersonaDemandante;
+        this.idOpinion = idOpinion;
+        this.idFreelance = idFreelance;
+        this.idOferta = idOferta;
+    }
+
+    public Long getIdOpinionFreelance() {
         return idOpinionFreelance;
     }
 
-    public void setIdOpinionFreelance(Integer idOpinionFreelance) {
+    public void setIdOpinionFreelance(Long idOpinionFreelance) {
         this.idOpinionFreelance = idOpinionFreelance;
     }
 
-    public Integer getRanking() {
+    public Long getRanking() {
         return ranking;
     }
 
-    public void setRanking(Integer ranking) {
+    public void setRanking(Long ranking) {
         this.ranking = ranking;
     }
 
@@ -87,6 +98,14 @@ public class OpinionFreelance implements Serializable {
 
     public void setIdFreelance(Freelance idFreelance) {
         this.idFreelance = idFreelance;
+    }
+
+    public Ofertas getIdOferta() {
+        return idOferta;
+    }
+
+    public void setIdOferta(Ofertas idOferta) {
+        this.idOferta = idOferta;
     }
 
     @Override
