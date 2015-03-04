@@ -57,9 +57,9 @@
                                 <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Nombres:" />
                                 <p:spacer width="10" height="30" />
                                 <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.nombres} #{perfilController.freelance.apellidos}" />
-                                <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Dirección:" />
-                                <p:spacer width="10" height="30" />
-                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.callePrincipal} 
+                                <h:outputText rendered="#{perfilController.freelance.direccionVisible}" style="font-size: 1.2em !important" styleClass="label" value="Dirección:" />
+                                <p:spacer rendered="#{perfilController.freelance.direccionVisible}" width="10" height="30" />
+                                <h:outputText rendered="#{perfilController.freelance.direccionVisible}" style="font-size: 1.2em !important" value="#{perfilController.freelance.callePrincipal} 
                                               #{perfilController.freelance.numeroCasa} Y #{perfilController.freelance.calleSecundaria}. Ref. #{perfilController.freelance.referencia}" />
                                 <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Nacimiento:" />
                                 <p:spacer width="10" height="30" />

@@ -108,6 +108,18 @@ h1{
     margin-bottom: 2em !important;
 }
 
+.contadorVisitas{
+    background: orange !important;
+    border: 1px solid white !important;
+    border-radius: 50% !important;
+    color: white !important;
+    font-size: 1.5em;
+    padding: .5em !important;
+    text-decoration: none !important;
+    text-align: center;
+    width: 5%;
+}
+
 .buscar{
     background: orange !important;
     border: 1px solid white !important;
@@ -412,3 +424,11 @@ ul.ui-menu-child {
 }
 
 .pfTagCloud { width: 500px !important;}
+
+.fl-footer-site-stat-val {
+    font-size: 18px;
+    color: #464a53;
+    display: inline-block;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
+}

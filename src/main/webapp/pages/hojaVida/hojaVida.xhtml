@@ -184,6 +184,11 @@
                                              style="text-transform: uppercase" onchange="toUpperCase(this)" />
                             </p:outputPanel>
                             <p:spacer height="10" width="20" />
+                            <h:outputLabel styleClass="label" value="Dirección visible en el perfil?" />
+                            <p:outputPanel>
+                                <p:selectBooleanCheckbox style="margin-left: 10px" value="#{infoPersonalController.freelance.direccionVisible}" />
+                            </p:outputPanel>
+                            <p:spacer height="10" width="20" />
                             <h:outputLabel styleClass="label" value="Estado civil:" />
                             <p:outputPanel>
                                 <p:selectOneMenu id="estCivil" style="margin-left: 10px; width: 225px;"

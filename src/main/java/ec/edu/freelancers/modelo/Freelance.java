@@ -132,6 +132,8 @@ public class Freelance implements Serializable {
     private String descripcionPersonal;
     @Transient
     private double porcentajeHabilidades;
+    @Column(name = "DIRECCION_VISIBLE")
+    private boolean direccionVisible;
 
     public Freelance() {
     }
@@ -412,7 +414,14 @@ public class Freelance implements Serializable {
     public void setPorcentajeHabilidades(double porcentajeHabilidades) {
         this.porcentajeHabilidades = porcentajeHabilidades;
     }
-    
+
+    public boolean isDireccionVisible() {
+        return direccionVisible;
+    }
+
+    public void setDireccionVisible(boolean direccionVisible) {
+        this.direccionVisible = direccionVisible;
+    }
 
     @Override
     public int hashCode() {

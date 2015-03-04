@@ -89,7 +89,11 @@
                             </ul>
                         </h:form>
                     </div>
+                </div>  
+                <div align="right">                 
+                    <span id="counter" class="buscar"></span>
                 </div>
+                <br />
                 <div id="slider-top">
                     <ul class="rslides">
                         <li><p:graphicImage styleClass="imgSlider" library="photos"
@@ -172,6 +176,15 @@
                         </p:dataGrid>
                     </h:form>
                 </div>
+            </div>   
+            <div align="right">     
+                <h:panelGrid columns="5">
+                    <p:graphicImage library="images" name="Facebook.png" title="FanPage de Facebook" />
+                    <p:spacer width="5" height="5" />
+                    <p:graphicImage library="images" name="Twitter.png" title="Siguenos en Twitter" />
+                    <p:spacer width="5" height="5" />
+                    <p:graphicImage library="images" name="GooglePlus.png" title="Siguenos en Google+" />
+                </h:panelGrid>
             </div>
             <div class="footer">
                 <p>Powered by Luis Rizzo y Luis Córdova</p>
@@ -569,24 +582,36 @@
             </p:dialog>
 
             <script>
-                $('#slider-top .rslides').responsiveSlides();
-                function verificarRegistro(xhr, status, args) {
+                $(function () {
+                update_visit_count();
+                }); 
+                    $('#slider-top .rslides').responsiveSlides();
+                            function verificarRegistro(xhr, status, args) {
                     if (args.validationFailed || !args.registro) {
                         dlg1.jq.effect("shake", {
-                            times: 5
-                        }, 100);
+                times: 5
+                }, 100);
                     } else {
-                        dlg1.hide();
+                    dlg1.hide();
                     }
                 }
-                function handleLoginRequest(xhr, status, args) {
+                            function handleLoginRequest(xhr, status, args) {
                     if (args.validationFailed || !args.clave) {
                         dlgClave.jq.effect("shake", {
-                            times: 5
-                        }, 100);
+                    times: 5
+                }, 100);
                     } else {
-                        dlgClave.hide();
-                    }
+                    dlgClave.hide();
+                        }
+                }
+
+                function update_visit_count() {
+                        if (localStorage.pagecount) {
+                    localStorage.pagecount = Number(localStorage.pagecount) + 1;
+                    } else {
+                localStorage.pagecount = 1;
+        }
+                    $("#counter").html("No. de Visitas: " + localStorage.pagecount);
                 }
             </script>
 
