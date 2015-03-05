@@ -74,7 +74,18 @@
                                 <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.celular}" />
                                 <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Correo:" />
                                 <p:spacer width="10" height="30" />
-                                <h:outputText style="font-size: 1.2em !important" value="#{perfilController.freelance.correo}" />
+                                <h:panelGrid columns="3">
+                                    <h:outputLink style="height: 40px"
+                                                  value="mailto:#{perfilController.freelance.correo}?Subject=Contactar%20Freelance">
+                                        <h:outputText style="font-size: 1.2em !important; text-decoration: underline; color: blue" value="#{perfilController.freelance.correo}" />
+                                    </h:outputLink>
+                                    <p:graphicImage id="ayuda" library="images" name="help.png" style="margin-left: 1em; width: 32px" />
+                                    <p:overlayPanel id="menuPanel" for="ayuda" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mousedown"
+                                        dismissable="false" showCloseIcon="true" style="width: 300px">
+                                        <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Da clic sobre el email, 
+                                                      para que contactes al Freelance #{perfilController.freelance.idUsuario.username}" />
+                                    </p:overlayPanel>
+                                </h:panelGrid>
                                 <h:outputText style="font-size: 1.2em !important" styleClass="label" value="Página web:" />
                                 <p:spacer width="10" height="30" />
                                 <h:commandLink style="font-size: 1.2em !important; color: blue"  target="_blank"
