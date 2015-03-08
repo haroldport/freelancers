@@ -286,11 +286,11 @@
                                 <p:column styleClass="wrap"
                                           headerText="Presupuesto">
                                     <h:outputText value="$ #{oferta.presupuesto}" />
-                                </p:column>
-
+                                </p:column>                                
+                         
                                 <p:column styleClass="wrap"
                                           headerText="Estado">
-                                    <h:outputText value="#{oferta.idEstado.nombre}" />
+                                    <h:outputText value="#{indexController.dentroDeRango(oferta.fechaInicioPublicacion, oferta.fechaFinPublicacion) ? oferta.idEstado.nombre : 'CADUCADA'}" />
                                 </p:column>
 
                                 <p:column styleClass="wrap"

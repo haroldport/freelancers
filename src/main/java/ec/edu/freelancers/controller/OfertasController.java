@@ -259,8 +259,13 @@ public class OfertasController extends Utilitario implements Serializable {
     }
 
     private double porcentajeHabilidades(int total, int cantidadObtenida) {
-        double resultado = (cantidadObtenida * 100) / total;
-        return resultado;
+        try{
+            double resultado = (cantidadObtenida * 100) / total;
+            return resultado;
+        }catch(ArithmeticException ae){
+            ae.printStackTrace();
+            return 0;
+        }
     }
 
     public void obtenerProvincias() {
