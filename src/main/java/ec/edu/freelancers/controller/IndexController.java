@@ -108,7 +108,13 @@ public class IndexController implements Serializable {
             setearRadio();
             estadoAplicado = estadoServicio.buscarPorNemonico(EstadoEnum.APLICADO.getNemonico());
             usuarioRegistro = usuarioServicio.obtenerUsuarioPorUsername("usuario_registro");
-            listaOfertas = ofertasServicio.listarTodas();
+            listaOfertas = new ArrayList<>();
+            List<Ofertas> listaOfertasTmp = ofertasServicio.listarTodas();
+            for(Ofertas o : listaOfertasTmp){
+                if(dentroDeRango(o.getFechaInicioPublicacion(), o.getFechaFinPublicacion())){
+                    listaOfertas.add(o);
+                }
+            }
             freelancersRankeados = opinionFreelanceServicio.buscarTotalesPorFreelance();
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);

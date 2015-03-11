@@ -126,23 +126,21 @@
                         ofertas ingresadas reciéntemente.</p>
                     <h:form id="formVerOferta">
                         <p:dataGrid id="verOferta" var="oferta" styleClass="oferta-panel" emptyMessage="No hay ofertas en este momento"
-                                    value="#{indexController.listaOfertas}" columns="2">                        
-                            <div class="oferta-item">
-                                <p:outputPanel rendered="#{indexController.dentroDeRango(oferta.fechaInicioPublicacion, oferta.fechaFinPublicacion)}"
-                                               style="font-family: 'Open Sans', sans-serif !important;
-                                               font-size: 16px !important;border-bottom: 3px solid #22BCE0 !important; height: 190px">
-                                    <div class="imagen-item">
-                                        <p:graphicImage id="image" styleClass="oferta-image"
-                                                        rendered="#{oferta.idImagen.idImagen > 1}"
-                                                        url="/image?id=#{oferta.idImagen.idImagen}" />
-                                    </div>
-                                    <h4 class="titulo-item">#{oferta.nombre}</h4>
-                                    <p>#{oferta.descripcion}</p>
-                                    <p:commandLink id="linkOferta" style="font-size: 1em" styleClass="buscar" 
-                                                   process="@this :formVerOferta:verOferta" update=":formRegistro"
-                                                   value="Ver oferta" action="#{indexController.verOferta(oferta)}" />
-                                </p:outputPanel>
-                            </div>
+                                    value="#{indexController.listaOfertas}" columns="2"> 
+                            <p:outputPanel rendered="#{indexController.dentroDeRango(oferta.fechaInicioPublicacion, oferta.fechaFinPublicacion)}"
+                                           style="font-family: 'Open Sans', sans-serif !important;
+                                           font-size: 16px !important;border-bottom: 3px solid #22BCE0 !important; height: 190px">
+                                <div class="imagen-item">
+                                    <p:graphicImage id="image" styleClass="oferta-image"
+                                                    rendered="#{oferta.idImagen.idImagen > 1}"
+                                                    url="/image?id=#{oferta.idImagen.idImagen}" />
+                                </div>
+                                <h4 class="titulo-item">#{oferta.nombre}</h4>
+                                <p>#{oferta.descripcion}</p>
+                                <p:commandLink id="linkOferta" style="font-size: 1em" styleClass="buscar" 
+                                               process="@this :formVerOferta:verOferta" update=":formRegistro"
+                                               value="Ver oferta" action="#{indexController.verOferta(oferta)}" />
+                            </p:outputPanel>
                         </p:dataGrid>  
                         <br />
                         <center>
@@ -583,34 +581,34 @@
 
             <script>
                 $(function () {
-                update_visit_count();
-                }); 
-                    $('#slider-top .rslides').responsiveSlides();
-                            function verificarRegistro(xhr, status, args) {
+                    update_visit_count();
+                });
+                $('#slider-top .rslides').responsiveSlides();
+                function verificarRegistro(xhr, status, args) {
                     if (args.validationFailed || !args.registro) {
                         dlg1.jq.effect("shake", {
-                times: 5
-                }, 100);
+                            times: 5
+                        }, 100);
                     } else {
-                    dlg1.hide();
+                        dlg1.hide();
                     }
                 }
-                            function handleLoginRequest(xhr, status, args) {
+                function handleLoginRequest(xhr, status, args) {
                     if (args.validationFailed || !args.clave) {
                         dlgClave.jq.effect("shake", {
-                    times: 5
-                }, 100);
+                            times: 5
+                        }, 100);
                     } else {
-                    dlgClave.hide();
-                        }
+                        dlgClave.hide();
+                    }
                 }
 
                 function update_visit_count() {
-                        if (localStorage.pagecount) {
-                    localStorage.pagecount = Number(localStorage.pagecount) + 1;
+                    if (localStorage.pagecount) {
+                        localStorage.pagecount = Number(localStorage.pagecount) + 1;
                     } else {
-                localStorage.pagecount = 1;
-        }
+                        localStorage.pagecount = 1;
+                    }
                     $("#counter").html("No. de Visitas: " + localStorage.pagecount);
                 }
             </script>

@@ -121,7 +121,9 @@
 
                                     <p:column styleClass="wrap"
                                               headerText="Nombre">
-                                        <h:outputText value="#{oferta.nombre}" />
+                                        <h:commandLink id="linkPerfilNombre" action="#{indexController.verOferta(oferta)}" target="_blank">
+                                            <h:outputText style="text-decoration: underline; color: blue" value="#{oferta.nombre}" />
+                                        </h:commandLink>
                                     </p:column>
 
                                     <p:column styleClass="wrap"
