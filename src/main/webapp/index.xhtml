@@ -302,6 +302,7 @@
                             <h:outputLabel styleClass="label" value="Email: " />
                             <p:outputPanel>
                                 <p:inputText id="email" styleClass="Login-input-l" size="30"
+                                             style="text-transform: lowercase" onchange="toLowerCase(this)"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.correo}"
                                              required="true" validatorMessage="Ingrese un correo válido"
                                              requiredMessage="El campo Email es requerido!">
@@ -322,7 +323,9 @@
                             <p:outputPanel>
                                 <p:inputText id="username" styleClass="Login-input-l" size="30"
                                              value="#{indexController.personaDemandanteController.nuevaPersonaDemandante.idUsuario.username}"
-                                             required="true" requiredMessage="El campo Username es requerido!" />
+                                             required="true" requiredMessage="El campo Username es requerido!">
+                                    <f:validator validatorId="userValidator" />
+                                </p:inputText>
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Password:" />
@@ -496,6 +499,7 @@
                             <h:outputLabel styleClass="label" value="Email: " />
                             <p:outputPanel>
                                 <p:inputText id="emailf" styleClass="Login-input-l" size="30"
+                                             style="text-transform: lowercase" onchange="toLowerCase(this)"
                                              value="#{indexController.freelanceController.nuevoFreelance.correo}"
                                              required="true" validatorMessage="Ingrese un correo válido"
                                              requiredMessage="El campo Email es requerido!">
@@ -516,7 +520,9 @@
                             <p:outputPanel>
                                 <p:inputText id="usernamef" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.idUsuario.username}"
-                                             required="true" requiredMessage="El campo Username es requerido!" />
+                                             required="true" requiredMessage="El campo Username es requerido!">
+                                    <f:validator validatorId="userValidator" />
+                                </p:inputText>
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Password:" />

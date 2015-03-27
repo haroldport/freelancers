@@ -141,7 +141,9 @@
 
                                     <p:column styleClass="wrap"
                                               headerText="Nombre">
-                                        <h:outputText value="#{freelance.nombres} #{freelance.apellidos}" />
+                                        <h:commandLink id="linkPerfilNombre" action="#{buscarFreelanceController.verPerfil(freelance)}" target="_blank">
+                                            <h:outputText value="#{freelance.nombres} #{freelance.apellidos}" />
+                                        </h:commandLink>
                                     </p:column>                                
 
                                     <p:column styleClass="wrap"

@@ -220,6 +220,7 @@
                             <h:outputLabel styleClass="label" value="Email: " />
                             <p:outputPanel>
                                 <p:inputText id="emailf" styleClass="Login-input" size="40"
+                                             style="text-transform: lowercase" onchange="toLowerCase(this)"
                                              value="#{infoPersonalController.freelance.correo}"
                                              required="true" validatorMessage="Ingrese un correo válido"
                                              requiredMessage="El campo Email es requerido!">
