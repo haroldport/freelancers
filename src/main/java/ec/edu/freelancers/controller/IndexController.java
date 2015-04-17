@@ -1,5 +1,6 @@
 package ec.edu.freelancers.controller;
 
+import ec.edu.freelancers.dao.VisitaDao;
 import ec.edu.freelancers.dto.RankingDto;
 import ec.edu.freelancers.enumerado.EstadoEnum;
 import ec.edu.freelancers.modelo.Acceso;
@@ -11,6 +12,7 @@ import ec.edu.freelancers.modelo.HabilidadesOferta;
 import ec.edu.freelancers.modelo.LogSistema;
 import ec.edu.freelancers.modelo.Ofertas;
 import ec.edu.freelancers.modelo.Usuario;
+import ec.edu.freelancers.modelo.Visita;
 import ec.edu.freelancers.servicio.AccesoServicio;
 import ec.edu.freelancers.servicio.AplicacionOfertaServicio;
 import ec.edu.freelancers.servicio.EstadoServicio;
@@ -78,6 +80,8 @@ public class IndexController implements Serializable {
     private FreelanceServicio freelanceServicio;
     @EJB
     private OpinionFreelanceServicio opinionFreelanceServicio;
+    @EJB
+    private VisitaDao visitaDao;
 
     private String username;
     private String password;
@@ -95,6 +99,7 @@ public class IndexController implements Serializable {
     private TagCloudModel model;
     private Estado estadoAplicado;
     private List<RankingDto> freelancersRankeados;
+    private Visita visita;
 
     @ManagedProperty(value = "#{personaDemandanteController}")
     private PersonaDemandanteController personaDemandanteController;
@@ -108,6 +113,7 @@ public class IndexController implements Serializable {
             setearRadio();
             estadoAplicado = estadoServicio.buscarPorNemonico(EstadoEnum.APLICADO.getNemonico());
             usuarioRegistro = usuarioServicio.obtenerUsuarioPorUsername("usuario_registro");
+            visita = visitaDao.buscarPorId(1);
             listaOfertas = new ArrayList<>();
             List<Ofertas> listaOfertasTmp = ofertasServicio.listarTodas();
             for(Ofertas o : listaOfertasTmp){
@@ -149,10 +155,9 @@ public class IndexController implements Serializable {
             Authentication result = am.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(result);
             Collection<GrantedAuthority> coll = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-            for (GrantedAuthority grantedAuthority : coll) {
-                System.out.println("ROL: " + grantedAuthority.getAuthority());
-            }
             setUsuario(usuarioServicio.obtenerUsuarioPorUsernameYClave(this.getUsername(), Crypt.encryptMD5(this.getPassword())));
+            visita.setNumeroVisitas(visita.getNumeroVisitas() + 1);
+            visitaDao.edit(visita);
             return "/index.xhtml?faces-redirect=true";
         } catch (Exception e) {
             System.out.println("No es valido");
@@ -476,6 +481,14 @@ public class IndexController implements Serializable {
 
     public void setFreelancersRankeados(List<RankingDto> freelancersRankeados) {
         this.freelancersRankeados = freelancersRankeados;
+    }
+
+    public Visita getVisita() {
+        return visita;
+    }
+
+    public void setVisita(Visita visita) {
+        this.visita = visita;
     }
     
 }

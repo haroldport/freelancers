@@ -432,3 +432,9 @@ ul.ui-menu-child {
     margin-bottom: 5px;
     letter-spacing: -1px;
 }
+
+.bienvenido{
+    font-size: 1.2em;
+    color: #0B2161;
+    text-shadow: 2px 4px 3px #000;
+}

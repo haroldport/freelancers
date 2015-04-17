@@ -230,15 +230,15 @@
                                           value="#{portfolio.idTipoContenido.idCatalogoDetalle eq 309 ? 'Artículo:' : 
                                                    portfolio.idTipoContenido.idCatalogoDetalle eq 310 ? 'Código:' : 'Descripción:'}" />
                             <p:spacer width="10" height="30" />
-                            <p:editor id="editor" widgetVar="editorWidget" value="#{portfolio.descripcion}" 
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{portfolio.descripcion}" controls="font" 
                                       disabled="true" width="600" style="font-size: 1.2em !important; margin-left: 2em"
                                       rendered="#{portfolio.idTipoContenido.idCatalogoDetalle eq 309}" />
                             <p:inputTextarea readonly="true" style="font-size: 1.2em !important; margin-left: 2em" 
                                              rendered="#{portfolio.idTipoContenido.idCatalogoDetalle eq 310}"
                                              value="#{portfolio.descripcion}" scrollHeight="200" cols="80" rows="25" />
                             <p:inputTextarea readonly="true" rendered="#{portfolio.idTipoContenido.idCatalogoDetalle eq 308}"
-                                             cols="80" rows="7" style="text-transform: uppercase;font-size: 1.1em !important; margin-left: 2em"
-                                             value="#{portfolio.descripcion}" />
+                                             style="text-transform: uppercase;font-size: 1.1em !important; margin-left: 2em"
+                                             value="#{portfolio.descripcion}" autoResize="true" cols="60" rows="#{2 + portfolio.descripcion.length()/100}" />
                         </h:panelGrid>
                         <h:panelGrid columns="3" style="font-size: 1.2em !important; margin-bottom: 2em; margin-left: 4em"
                                      rendered="#{portfolio.idTipoContenido.idCatalogoDetalle eq 308}">

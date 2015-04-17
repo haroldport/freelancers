@@ -32,7 +32,7 @@
                                     <p:commandLink onclick="PF('dlg').show();" rendered="#{indexController.usuario.username == null}"
                                                    styleClass="linkHeader" value="INGRESAR" />
                                     <h:outputLabel value="Bienvenid@ #{indexController.usuario.username}!" id="menuUsuario"
-                                                   rendered="#{indexController.usuario.username != null}" />
+                                                   rendered="#{indexController.usuario.username != null}" styleClass="bienvenido" />
                                     <p:overlayPanel id="menuPanel" for="menuUsuario" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mousedown"
                                                     dismissable="false" showCloseIcon="true" style="width: 520px; margin-right: 100px">
                                         <h:panelGrid columns="5">
@@ -91,7 +91,7 @@
                     </div>
                 </div>  
                 <div align="right">                 
-                    <span id="counter" class="buscar"></span>
+                    <span id="counter" class="buscar">No. de Visitas: #{indexController.visita.numeroVisitas}</span>
                 </div>
                 <br />
                 <div id="slider-top">
@@ -586,9 +586,6 @@
             </p:dialog>
 
             <script>
-                $(function () {
-                    update_visit_count();
-                });
                 $('#slider-top .rslides').responsiveSlides();
                 function verificarRegistro(xhr, status, args) {
                     if (args.validationFailed || !args.registro) {
@@ -607,15 +604,6 @@
                     } else {
                         dlgClave.hide();
                     }
-                }
-
-                function update_visit_count() {
-                    if (localStorage.pagecount) {
-                        localStorage.pagecount = Number(localStorage.pagecount) + 1;
-                    } else {
-                        localStorage.pagecount = 1;
-                    }
-                    $("#counter").html("No. de Visitas: " + localStorage.pagecount);
                 }
             </script>
 
