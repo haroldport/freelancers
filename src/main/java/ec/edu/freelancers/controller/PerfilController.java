@@ -105,8 +105,10 @@ public class PerfilController extends Utilitario implements Serializable {
         try {
             model = new DefaultTagCloudModel();
             List<Habilidades> listaHabilidades = habilidadesServicio.buscarPorFreelance(freelance);
-            for (Habilidades habilidad : listaHabilidades) {
-                model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random() * 5)));
+            if(listaHabilidades != null){
+                for (Habilidades habilidad : listaHabilidades) {
+                    model.addTag(new DefaultTagCloudItem(habilidad.getIdNombreHabilidad().getNombre(), (int) (Math.random() * 5)));
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);

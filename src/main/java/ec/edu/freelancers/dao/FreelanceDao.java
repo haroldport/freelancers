@@ -132,16 +132,16 @@ public class FreelanceDao extends Generico<Freelance> {
             params.put("idIdioma", idIdioma);
             first = false;
         }
-
-        Query query = em.createQuery(hql.toString());
-        Iterator<String> iter = params.keySet().iterator();
-        while (iter.hasNext()) {
-            String name = iter.next();
-            Object value = params.get(name);
-            query.setParameter(name, value);
-        }
         
-        if(hql.toString().contains("WHERE")){
+        if (hql.toString().contains("WHERE")) {
+            hql.append(" AND f.idEstado.idEstado = 1 AND f.idUsuario.idEstado.idEstado = 1");
+            Query query = em.createQuery(hql.toString());
+            Iterator<String> iter = params.keySet().iterator();
+            while (iter.hasNext()) {
+                String name = iter.next();
+                Object value = params.get(name);
+                query.setParameter(name, value);
+            }            
             result = query.getResultList();
         }
 

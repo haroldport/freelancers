@@ -391,11 +391,14 @@
                                 <p:calendar id="fecha" styleClass="Login-input-l" size="23"
                                             value="#{indexController.freelanceController.nuevoFreelance.fechaNacimiento}"
                                             required="true" navigator="true" pattern="yyyy-MM-dd" showOn="button"
-                                            requiredMessage="El campo Fecha de nacimiento es requerido!" />
+                                            requiredMessage="El campo Fecha de nacimiento es requerido!">
+                                    <p:ajax event="dateSelect" listener="#{indexController.calcularEdad}" 
+                                            update=":formRegistro:edad, :formRegistro:pnlEdad" />
+                                </p:calendar>
                                 <h:outputText value=" *" style="color: red" />
                             </p:outputPanel>
                             <h:outputLabel styleClass="label" value="Edad: " />
-                            <p:outputPanel>
+                            <p:outputPanel id="pnlEdad">
                                 <p:inputText id="edad" styleClass="Login-input-l" size="30"
                                              value="#{indexController.freelanceController.nuevoFreelance.edad}"
                                              onkeypress="return aceptarNumeros(event);" maxlength="10" />

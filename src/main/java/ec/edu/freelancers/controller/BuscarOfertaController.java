@@ -15,8 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -24,7 +26,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class BuscarOfertaController extends Utilitario implements Serializable{
+public class BuscarOfertaController implements Serializable{
     
     @EJB
     private CatalogoDetalleServicio catalogoDetalleServicio;
@@ -55,6 +57,11 @@ public class BuscarOfertaController extends Utilitario implements Serializable{
         }
     }
     
+    public void obtenerListaHabilidades(){
+        listaHabilidades = new ArrayList<>();
+        listaHabilidades = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.HABILIDAD.getNemonico());
+    }
+    
     public void obtenerProvincias() {
         provincias = new ArrayList<>();
         cantones = new ArrayList<>();
@@ -80,7 +87,7 @@ public class BuscarOfertaController extends Utilitario implements Serializable{
                     busqueda.getIdCanton(), busqueda.getIdNivelInstruccion(), busqueda.getNombre());
             ofertasPorHabilidades();
             if(ofertasEncontradas == null || ofertasEncontradas.isEmpty()){
-                ponerMensajeInfo("No se encontraron coincidencias!!!", "");
+                ponerMensajeInfoInterno("No se encontraron coincidencias!!!", "");
             }
         } catch (Exception ex) {
             Logger.getLogger(BuscarOfertaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,6 +129,14 @@ public class BuscarOfertaController extends Utilitario implements Serializable{
                 setOfertasEncontradas(ofertasEncontradasTemp);
             }
         }
+    }
+    
+    public void ponerMensajeInfoInterno(final String summary, final String detail) {
+        FacesMessage infoMessage = new FacesMessage();
+        infoMessage.setSummary(summary);
+        infoMessage.setDetail(detail);
+        infoMessage.setSeverity(FacesMessage.SEVERITY_INFO);
+        FacesContext.getCurrentInstance().addMessage("messages", infoMessage);
     }
 
     public List<CatalogoDetalle> getPaises() {

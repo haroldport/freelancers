@@ -24,6 +24,7 @@ import ec.edu.freelancers.servicio.UsuarioServicio;
 import ec.edu.freelancers.utilitario.Crypt;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -106,6 +108,12 @@ public class IndexController implements Serializable {
 
     @ManagedProperty(value = "#{freelanceController}")
     private FreelanceController freelanceController;
+    
+    @ManagedProperty(value = "#{buscarFreelanceController}")
+    private BuscarFreelanceController buscarFreelanceController;
+    
+    @ManagedProperty(value = "#{buscarOfertaController}")
+    private BuscarOfertaController buscarOfertaController;
 
     @PostConstruct
     public void init() {
@@ -116,8 +124,8 @@ public class IndexController implements Serializable {
             visita = visitaDao.buscarPorId(1);
             listaOfertas = new ArrayList<>();
             List<Ofertas> listaOfertasTmp = ofertasServicio.listarTodas();
-            for(Ofertas o : listaOfertasTmp){
-                if(dentroDeRango(o.getFechaInicioPublicacion(), o.getFechaFinPublicacion())){
+            for (Ofertas o : listaOfertasTmp) {
+                if (dentroDeRango(o.getFechaInicioPublicacion(), o.getFechaFinPublicacion())) {
                     listaOfertas.add(o);
                 }
             }
@@ -177,12 +185,14 @@ public class IndexController implements Serializable {
     public String perfil() {
         return "/faces/pages/perfil/perfil.xhtml?faces-redirect=true";
     }
-    
+
     public String busquedaFreelance() {
+        buscarFreelanceController.obtenerListaHabilidades();
         return "/faces/pages/busqueda/buscarFreelance.xhtml?faces-redirect=true";
     }
-    
+
     public String busquedaOferta() {
+        buscarOfertaController.obtenerListaHabilidades();
         return "/faces/pages/busqueda/buscarOferta.xhtml?faces-redirect=true";
     }
 
@@ -196,7 +206,7 @@ public class IndexController implements Serializable {
     public void aplicarAOferta() {
         FacesMessage msg = null;
         try {
-            Date fechaAplicado = new Date();            
+            Date fechaAplicado = new Date();
             AplicacionOferta nuevaAplicacion = null;
             Freelance freelance = freelanceServicio.buscarPorUsuario(this.getUsuario());
             nuevaAplicacion = aplicacionOfertaServicio.buscarPorFreelanceYOferta(freelance, ofertaSeleccionada);
@@ -205,10 +215,10 @@ public class IndexController implements Serializable {
                         ofertaSeleccionada, freelance, estadoAplicado);
                 aplicacionOfertaServicio.crear(nuevaAplicacion);
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Felicidades aplicaste correctamente a la oferta!!!", "");
-            }else{
+                        "Felicidades aplicaste correctamente a la oferta!!!", "");
+            } else {
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Usted ya aplicó a esta oferta!!!", "");
+                        "Usted ya aplicó a esta oferta!!!", "");
             }
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
@@ -337,6 +347,27 @@ public class IndexController implements Serializable {
         }
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("clave", clave);
+    }
+
+    public void calcularEdad(SelectEvent event) {
+        Calendar now = Calendar.getInstance();
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(freelanceController.getNuevoFreelance().getFechaNacimiento());
+        int year1 = now.get(Calendar.YEAR);
+        int year2 = dob.get(Calendar.YEAR);
+        int age = year1 - year2;
+        int month1 = now.get(Calendar.MONTH);
+        int month2 = dob.get(Calendar.MONTH);
+        if (month2 > month1) {
+            age--;
+        } else if (month1 == month2) {
+            int day1 = now.get(Calendar.DAY_OF_MONTH);
+            int day2 = dob.get(Calendar.DAY_OF_MONTH);
+            if (day2 > day1) {
+                age--;
+            }
+        }
+        freelanceController.getNuevoFreelance().setEdad(age);
     }
 
     public String getUsername() {
@@ -490,5 +521,21 @@ public class IndexController implements Serializable {
     public void setVisita(Visita visita) {
         this.visita = visita;
     }
-    
+
+    public BuscarFreelanceController getBuscarFreelanceController() {
+        return buscarFreelanceController;
+    }
+
+    public void setBuscarFreelanceController(BuscarFreelanceController buscarFreelanceController) {
+        this.buscarFreelanceController = buscarFreelanceController;
+    }
+
+    public BuscarOfertaController getBuscarOfertaController() {
+        return buscarOfertaController;
+    }
+
+    public void setBuscarOfertaController(BuscarOfertaController buscarOfertaController) {
+        this.buscarOfertaController = buscarOfertaController;
+    }
+
 }

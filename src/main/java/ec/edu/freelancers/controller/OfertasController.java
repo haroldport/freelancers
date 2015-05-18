@@ -1,5 +1,6 @@
 package ec.edu.freelancers.controller;
 
+import ec.edu.freelancers.dao.HabilidadesOfertaDao;
 import ec.edu.freelancers.enumerado.CatalogoEnum;
 import ec.edu.freelancers.enumerado.EstadoEnum;
 import ec.edu.freelancers.modelo.AplicacionOferta;
@@ -80,6 +81,8 @@ public class OfertasController extends Utilitario implements Serializable {
     private OpinionesServicio opinionesServicio;
     @EJB
     private OpinionFreelanceServicio opinionFreelanceServicio;
+    @EJB
+    private HabilidadesOfertaDao habilidadesOfertaDao;
 
     private PersonaDemandante personaDemandante;
     private Imagen imagenPorDefecto;
@@ -236,7 +239,8 @@ public class OfertasController extends Utilitario implements Serializable {
                             o.setFreelanceSeleccionado(a.getIdFreelance());
                         }
                         cont = 0;
-                        for (HabilidadesOferta ho : o.getHabilidadesOfertaList()) {
+                        List<HabilidadesOferta> listaHabilidadesOferta = habilidadesOfertaDao.listarHabilidadesPorOferta(o);
+                        for (HabilidadesOferta ho : listaHabilidadesOferta) {
                             List<Habilidades> habilidadesFreelance = habilidadesServicio.buscarPorFreelance(a.getIdFreelance());
                             if (habilidadesFreelance != null) {
                                 for (Habilidades h : habilidadesFreelance) {

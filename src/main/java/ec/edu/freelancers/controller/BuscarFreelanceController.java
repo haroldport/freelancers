@@ -7,7 +7,7 @@ import ec.edu.freelancers.modelo.Freelance;
 import ec.edu.freelancers.modelo.Habilidades;
 import ec.edu.freelancers.servicio.CatalogoDetalleServicio;
 import ec.edu.freelancers.servicio.FreelanceServicio;
-import ec.edu.freelancers.utilitario.Utilitario;
+import ec.edu.freelancers.servicio.HabilidadesServicio;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -24,12 +26,14 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class BuscarFreelanceController extends Utilitario implements Serializable {
+public class BuscarFreelanceController implements Serializable {
 
     @EJB
     private CatalogoDetalleServicio catalogoDetalleServicio;
     @EJB
     private FreelanceServicio freelanceServicio;
+    @EJB
+    private HabilidadesServicio habilidadesServicio;
 
     private List<CatalogoDetalle> paises;
     private List<CatalogoDetalle> provincias;
@@ -60,6 +64,11 @@ public class BuscarFreelanceController extends Utilitario implements Serializabl
             Logger.getLogger(BuscarFreelanceController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void obtenerListaHabilidades(){
+        listaHabilidades = new ArrayList<>();
+        listaHabilidades = catalogoDetalleServicio.obtenerPorCatalogoNemonico(CatalogoEnum.HABILIDAD.getNemonico());
+    }
 
     public void obtenerProvincias() {
         provincias = new ArrayList<>();
@@ -87,7 +96,7 @@ public class BuscarFreelanceController extends Utilitario implements Serializabl
                     busqueda.getIdAreaEstudio(), busqueda.getIdIdioma());
             freelancersPorHabilidades();
             if(freelancersEncontrados == null || freelancersEncontrados.isEmpty()){
-                ponerMensajeInfo("No se encontraron coincidencias!!!", "");
+                ponerMensajeInfoInterno("No se encontraron coincidencias!!!", "");
             }
         } catch (Exception ex) {
             Logger.getLogger(BuscarFreelanceController.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,15 +121,18 @@ public class BuscarFreelanceController extends Utilitario implements Serializabl
                 cont = 0;
                 total = 0;
                 for (CatalogoDetalle hs : listaHabilidadesSeleccionadas) {
-                    for (Habilidades h : f.getHabilidadesList()) {
-                        if (hs.equals(h.getIdNombreHabilidad())) {
-                            cont++;
+                    List<Habilidades> listaHabFreelance = habilidadesServicio.buscarPorFreelance(f);
+                    if(listaHabFreelance != null){
+                        for (Habilidades h : listaHabFreelance) {
+                            if (hs.equals(h.getIdNombreHabilidad())) {
+                                cont++;
+                            }
                         }
                     }
                 }
                 total = porcentajeHabilidades(listaHabilidadesSeleccionadas.size(), cont);
                 f.setPorcentajeHabilidades(total);
-                if (total > 50.0) {
+                if (total >= 50.0) {
                     freelancersEncontradosTemp.add(f);
                 }
             }
@@ -133,6 +145,14 @@ public class BuscarFreelanceController extends Utilitario implements Serializabl
 
     public String verPerfil(Freelance freelance) {
         return "/faces/pages/perfil/perfil.xhtml?faces-redirect=true&freelance=" + freelance.getIdFreelance();
+    }
+    
+    public void ponerMensajeInfoInterno(final String summary, final String detail) {
+        FacesMessage infoMessage = new FacesMessage();
+        infoMessage.setSummary(summary);
+        infoMessage.setDetail(detail);
+        infoMessage.setSeverity(FacesMessage.SEVERITY_INFO);
+        FacesContext.getCurrentInstance().addMessage("messages", infoMessage);
     }
 
     public List<CatalogoDetalle> getPaises() {
