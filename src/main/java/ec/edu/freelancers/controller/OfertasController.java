@@ -53,7 +53,7 @@ import org.primefaces.model.tagcloud.TagCloudModel;
 
 /**
  *
- * @author hportocarrero
+ * @author Luis Cordova
  */
 @ManagedBean
 @SessionScoped
@@ -250,7 +250,7 @@ public class OfertasController extends Utilitario implements Serializable {
                                 }
                             }
                         }
-                        a.getIdFreelance().setPorcentajeHabilidades(porcentajeHabilidades(o.getHabilidadesOfertaList().size(), cont));
+                        a.getIdFreelance().setPorcentajeHabilidades(porcentajeHabilidades(listaHabilidadesOferta.size(), cont));
                         aplicaciones.add(a);
                     }
                     o.setAplicacionOfertaList(aplicaciones);

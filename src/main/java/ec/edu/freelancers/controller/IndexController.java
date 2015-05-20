@@ -20,6 +20,7 @@ import ec.edu.freelancers.servicio.FreelanceServicio;
 import ec.edu.freelancers.servicio.LogSistemaServicio;
 import ec.edu.freelancers.servicio.OfertasServicio;
 import ec.edu.freelancers.servicio.OpinionFreelanceServicio;
+import ec.edu.freelancers.servicio.PersonaDemandanteServicio;
 import ec.edu.freelancers.servicio.UsuarioServicio;
 import ec.edu.freelancers.utilitario.Crypt;
 import java.io.Serializable;
@@ -84,6 +85,8 @@ public class IndexController implements Serializable {
     private OpinionFreelanceServicio opinionFreelanceServicio;
     @EJB
     private VisitaDao visitaDao;
+    @EJB
+    private PersonaDemandanteServicio personaDemandanteServicio;
 
     private String username;
     private String password;
@@ -122,18 +125,26 @@ public class IndexController implements Serializable {
             estadoAplicado = estadoServicio.buscarPorNemonico(EstadoEnum.APLICADO.getNemonico());
             usuarioRegistro = usuarioServicio.obtenerUsuarioPorUsername("usuario_registro");
             visita = visitaDao.buscarPorId(1);
-            listaOfertas = new ArrayList<>();
-            List<Ofertas> listaOfertasTmp = ofertasServicio.listarTodas();
-            for (Ofertas o : listaOfertasTmp) {
-                if (dentroDeRango(o.getFechaInicioPublicacion(), o.getFechaFinPublicacion())) {
-                    listaOfertas.add(o);
-                }
-            }
+            listarOfertas();
             freelancersRankeados = opinionFreelanceServicio.buscarTotalesPorFreelance();
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void listarOfertas() throws Exception{
+        listaOfertas = new ArrayList<>();
+        List<Ofertas> listaOfertasTmp = ofertasServicio.listarTodas();
+        for (Ofertas o : listaOfertasTmp) {
+           if (dentroDeRango(o.getFechaInicioPublicacion(), o.getFechaFinPublicacion())) {
+               Usuario userTmp = personaDemandanteServicio.buscarUsuarioPorPersonaDemandante(o.getIdPersonaDemandante().getIdPersonaDemandante());
+               if(userTmp.getIdEstado().getNemonico().equals(EstadoEnum.ACTIVO.getNemonico())){
+                   listaOfertas.add(o);
+               }
+           }
+        }
+    }
+    
 
     public boolean dentroDeRango(Date fechaInicio, Date fechaFin) {
         Date fechaActual = new Date();
@@ -177,7 +188,7 @@ public class IndexController implements Serializable {
     }
 
     public String inicio() throws Exception {
-        listaOfertas = ofertasServicio.listarTodas();
+        listarOfertas();
         freelancersRankeados = opinionFreelanceServicio.buscarTotalesPorFreelance();
         return "/index.xhtml?faces-redirect=true";
     }

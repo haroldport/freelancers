@@ -47,5 +47,25 @@ public class PersonaDemandanteDao extends Generico<PersonaDemandante> {
             return null;
         }
     }
+    
+    /**
+     * Buscar usuario por persona demandante
+     * @param idPersonaDemandante
+     * @return
+     * @throws Exception 
+     */
+    public Usuario buscarUsuarioPorPersonaDemandante(Integer idPersonaDemandante) throws Exception {
+        List<Usuario> result = new ArrayList<>();
+        String jpql = "SELECT p.idUsuario FROM PersonaDemandante p "
+                 + "WHERE p.idPersonaDemandante = :idPersonaDemandante";
+        Query query = em.createQuery(jpql);
+        query.setParameter("idPersonaDemandante", idPersonaDemandante);
+        result = query.getResultList();
+        if (result != null && !result.isEmpty()) {
+            return result.get(0);
+        } else {
+            return null;
+        }
+    }
 
 }

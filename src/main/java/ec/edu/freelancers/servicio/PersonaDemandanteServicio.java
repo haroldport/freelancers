@@ -57,5 +57,15 @@ public class PersonaDemandanteServicio {
     public PersonaDemandante buscarPorUsuario(Usuario usuario) throws Exception {
         return personaDemandanteDao.buscarPorUsuario(usuario);
     }
+    
+    /**
+     * Buscar usuario por persona demandante
+     * @param idPersonaDemandante
+     * @return
+     * @throws Exception 
+     */
+    public Usuario buscarUsuarioPorPersonaDemandante(Integer idPersonaDemandante) throws Exception {
+        return personaDemandanteDao.buscarUsuarioPorPersonaDemandante(idPersonaDemandante);
+    }
 
 }
