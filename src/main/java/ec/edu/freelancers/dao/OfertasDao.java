@@ -48,7 +48,9 @@ public class OfertasDao extends Generico<Ofertas> {
      * @return
      */
     public List<Ofertas> listarTodas() {
-        String sql = "SELECT o FROM Ofertas o WHERE o.idEstado.idEstado = 1 ORDER BY o.fechaInicioPublicacion DESC";
+        String sql = "SELECT o FROM Ofertas o WHERE o.idEstado.idEstado = 1 "
+                + "and o.idPersonaDemandante.idUsuario.idEstado.idEstado = 1 "
+                + "ORDER BY o.fechaInicioPublicacion DESC";
         return this.getEntityManager().createQuery(sql).setMaxResults(10).getResultList();
     }
     

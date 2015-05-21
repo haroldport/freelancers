@@ -137,10 +137,7 @@ public class IndexController implements Serializable {
         List<Ofertas> listaOfertasTmp = ofertasServicio.listarTodas();
         for (Ofertas o : listaOfertasTmp) {
            if (dentroDeRango(o.getFechaInicioPublicacion(), o.getFechaFinPublicacion())) {
-               Usuario userTmp = personaDemandanteServicio.buscarUsuarioPorPersonaDemandante(o.getIdPersonaDemandante().getIdPersonaDemandante());
-               if(userTmp.getIdEstado().getNemonico().equals(EstadoEnum.ACTIVO.getNemonico())){
-                   listaOfertas.add(o);
-               }
+                 listaOfertas.add(o);
            }
         }
     }
